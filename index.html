@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="/src/assets/images/logo/StepzFit-Logo-png.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StepzFit</title>
+    <script>
+      function updateTitle() {
+        const currentPath = window.location.pathname;
+    
+        if (currentPath === '/trainer' || currentPath.startsWith('/trainer/')) {
+          document.title = 'StepzFit - Trainer';
+        } else if (currentPath === '/admin' || currentPath.startsWith('/admin/')) {
+          document.title = 'StepzFit - Admin';
+        } else {
+          document.title = 'StepzFit';
+        }
+      }
+      window.addEventListener('load', updateTitle);
+      window.addEventListener('popstate', updateTitle);
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
