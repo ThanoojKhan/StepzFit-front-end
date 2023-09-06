@@ -1,30 +1,50 @@
 import React from "react"
-import { useCallback, useRef } from "react";
+import axiosInstance from '../../../api/axios';
+import { useCallback,useEffect, useRef,useState } from "react";
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import Image from "../atoms/Image"
 import HeroImg2 from "../../../assets/hero/2.jpeg"
 import HeroImg1 from "../../../assets/hero/1.jpeg"
 import HeroImg3 from "../../../assets/hero/3.jpeg"
-import HeroTexts from "../particles/Data";
 import Slider from "react-slick";
-import Text from "../atoms/Text";
 import Button from "../atoms/Button";
-import { ArrowCircleLeft, ArrowCircleRight, WhatsappLogo, YoutubeLogo } from "@phosphor-icons/react";
+import { ArrowCircleLeft, ArrowCircleRight, WhatsappLogo } from "@phosphor-icons/react";
 import StickyIcons from "../molecules/StickyIcons";
 import { Slide, Zoom } from "react-awesome-reveal";
 
 
 const HeroSection = () => {
 
+  const { token } = useSelector((state) => state.Admin);
+  const [plans, setPlans] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    axiosInstance
+      .get('/admin/plans', {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setPlans(res?.data?.plans);
+      })
+      .catch((err) => {
+        if (err?.response?.data?.errMsg) {
+          toast.error(err?.response?.data?.errMsg);
+        }
+      });
+  }, [token]);
+
   const sliderRef = useRef(null);
 
-  // Function for next button
   const next = () => {
     if (sliderRef.current) {
       sliderRef.current.slickNext();
 
     }
   };
-  // function for previous button
   const previous = () => {
     if (sliderRef.current) {
       sliderRef.current.slickPrev();
@@ -44,13 +64,11 @@ const HeroSection = () => {
   };
 
   const scrollToNextWindow = () => {
-    // Calculate the height of the viewport (window)
     const viewportHeight = window.innerHeight;
   
-    // Scroll down by the height of one window
     window.scrollTo({
       top: viewportHeight,
-      behavior: "smooth", // Add smooth scrolling behavior
+      behavior: "smooth", 
     });
   };
 
@@ -72,7 +90,7 @@ const HeroSection = () => {
         <Slider ref={(slider) => (sliderRef.current = slider)} {...settings} className="h-full">
           <main className="w-full lg:h-screen md:h-[50vh] h-screen relative bg-zinc-900 overflow-x-hidden" >
             <Zoom className="h-full">
-              <Image className="md:w-[60%] w-full md:h-full h-1/2" alt="HeroImg1" objectCover="object-cover" image={renderProfileImg(2)} />
+              <Image className="md:w-[60%] w-full md:h-full h-1/2" alt="HeroImg1" objectCover="object-cover" image={renderProfileImg(1)} />
             </Zoom>
 
             <div className="md:w-[50%] w-full md:h-full h-1/2 absolute md:top-0 top-1/2 right-0 bg-zinc-900 flex flex-col items-center justify-center px-4 overflow-x-hidden">
