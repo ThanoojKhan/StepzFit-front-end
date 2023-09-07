@@ -9,7 +9,7 @@ import Footer from "../../components/landingPageComponents/organs/Footer"
 import NavBar from "../../components/landingPageComponents/organs/NavBar"
 const Home = () => {
     return (
-        <>
+        <div className="scroll-smooth">
             <HeroSection />
             <NavBar />
             <About />
@@ -18,7 +18,7 @@ const Home = () => {
             <Calculator />
             <Contact />
             <Footer/>
-        </>
+        </div>
     )
 }
 
