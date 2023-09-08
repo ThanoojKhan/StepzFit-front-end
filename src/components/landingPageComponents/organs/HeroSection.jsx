@@ -84,7 +84,7 @@ const HeroSection = () => {
                 className="px-1 flex font-extralight text-lg text-zinc-100"
               >
                 <WhatsappLogo size={20} className="mt-1 bg-green-600 rounded-md" color="currentColor" weight="regular" />
-                <a href="https://wa.me/9846238136" className="ms-2 hover:font-normal" target="_blank">Chat With Us</a>
+                <a href={import.meta.env.VITE_WHATSAPP} className="ms-2 hover:font-normal" target="_blank">Chat With Us</a>
               </div>
               <a href="#scrollTarget" onClick={scrollToNextWindow} className="flex items-center gap-2 text-red-500 hover:text-amber-500 group cursor-pointer">
                 <h1 className="text-zinc-100 group-hover:text-amber-500 font-extralight text-lg animate-bounce">Learn More</h1>
