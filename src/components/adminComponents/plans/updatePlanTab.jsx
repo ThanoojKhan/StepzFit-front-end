@@ -3,6 +3,7 @@ import { Toaster, toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import axiosInstance from '../../../api/axios';
+import errorFunction from '../../../services/errorHandling';
 
 function UpdatePlanTab(props) {
     const { planId } = props;
@@ -32,9 +33,7 @@ function UpdatePlanTab(props) {
                 }
             })
             .catch((err) => {
-                if (err?.response?.data?.errMsg) {
-                    toast.error(err?.response?.data?.errMsg);
-                }
+                errorFunction(err,navigate)
             });
     }, [token, planId]);
 
@@ -79,11 +78,8 @@ function UpdatePlanTab(props) {
                     }
                 })
                 .catch((err) => {
-                    if (err) {
-                        console.log(err);
                         setButtonText('Update Plan'); 
-                        toast.error(err?.response?.data?.errMsg);
-                    }
+                        errorFunction(err,navigate)
                 });
         } else {
             toast.error('Add all details');

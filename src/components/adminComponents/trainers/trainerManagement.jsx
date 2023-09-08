@@ -5,6 +5,7 @@ import { toast } from 'react-hot-toast';
 import SearchBox from '../../traineeComponents/search';
 import { useNavigate } from 'react-router-dom';
 import ConfirmPopup from './confirmPopUp'; 
+import errorFunction from '../../../services/errorHandling';
 
 function TrainerManagement() {
   const { token } = useSelector((state) => state.Admin);
@@ -26,9 +27,7 @@ function TrainerManagement() {
         setTrainers(res?.data?.trainers);
       })
       .then((err) => {
-        if (err?.response?.data?.errMsg) {
-          toast.error(err?.response?.data?.errMsg);
-        }
+        errorFunction(err,navigate)
       });
   }, [reload]);
 
@@ -51,9 +50,7 @@ function TrainerManagement() {
           setReload(!reload);
         })
         .catch((err) => {
-          if (err?.response?.data?.errMsg) {
-            toast.error(err?.response?.data?.errMsg);
-          }
+          errorFunction(err,navigate)
         });
     }
     setConfirmOpen(false);

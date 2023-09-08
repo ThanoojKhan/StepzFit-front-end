@@ -3,6 +3,7 @@ import { Toaster, toast } from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import axiosInstance from "../../../api/axios"
+import errorFunction from '../../../services/errorHandling'
 
 
 function UpdateTrainer(props) {
@@ -54,12 +55,7 @@ function UpdateTrainer(props) {
         setAddedDate(res?.data?.details?.addedDate)
       })
       .catch((error) => {
-        console.log('dsgg' + error)
-        if (error.response.data) {
-          toast.error(error.response.data.errMsg)
-        } else {
-          toast.error(error.message)
-        }
+        errorFunction(error,navigate)
       });
   }, [change]);
 
@@ -73,16 +69,12 @@ function UpdateTrainer(props) {
           authorization: `Bearer ${token}`,
         },
       }).then((res) => {
-        console.log("dfgh");
         if (res.data.message) {
           toast.success(res.data.message)
           navigate('/admin/trainers')
         }
       }).catch((err) => {
-        if (err) {
-          console.log(err);
-          toast.error(err.response.data.errMsg)
-        }
+        errorFunction(err,navigate)
       })
     } catch (error) {
       console.log(error);
