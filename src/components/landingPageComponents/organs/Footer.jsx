@@ -61,9 +61,9 @@ const Footer = () => {
           </ul>
         </div>
       </main>
-      <div className="text-center py-3 bg-gradient-to-r from-red-500 to-amber-500">
-        <Text as="p" className="text-zinc-200 md:text-sm text-xs font-bold">
-          {FooterTexts.copyright}
+      <div className="text-center py-3 bg-gradient-to-r from-black to-gray-900">
+        <Text as="p" className="text-zinc-200 md:text-sm text-xs font-extralight">
+        We are more than just a gym; we are a passionate and supportive fitness family dedicated to helping you achieve your health and wellness goals. Our mission is to create a positive and empowering environment that inspires you to challenge yourself, embrace a healthy lifestyle, and discover the best version of yourself.
         </Text>
       </div>
     </footer>

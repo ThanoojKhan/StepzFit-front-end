@@ -3,7 +3,11 @@ export default {
   content: ["./index.html",
   "./src/**/*.{js,ts,jsx,tsx}",],
   theme: {
-    extend: {},
+    extend: {
+      animation: {
+        fadeIn: 'fadeIn 1s ease-in-out',
+      },
+    },
   },
   plugins: [require("daisyui")],
 }

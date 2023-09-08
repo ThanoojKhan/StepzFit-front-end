@@ -37,7 +37,7 @@ const Form = () => {
         <main className="w-full grid gap-6 pb-10 md:pb-0">
 
             <InputField className="w-full flex flex-col gap-2">
-                <label htmlFor="height" className="uppercase text-sm text-zinc-200 font-bold">Height</label>
+                <label htmlFor="height" className="text-md text-zinc-200 font-light">Height</label>
                 <div className="w-full relative">
                     <input
                         type="number"
@@ -51,7 +51,7 @@ const Form = () => {
             </InputField>
 
             <InputField className="w-full flex flex-col gap-2">
-                <label htmlFor="weight" className="uppercase text-sm text-zinc-200 font-bold">Weight</label>
+                <label htmlFor="weight" className="text-md text-zinc-200 font-light">Weight</label>
                 <div className="w-full relative">
                     <input
                         type="number"
@@ -68,7 +68,7 @@ const Form = () => {
                 <Button
                     onClick={calculateBmi}
                     type="button"
-                    className="px-6 py-3 bg-gradient-to-r from-red-500 to-amber-500 text-zinc-200 text-sm uppercase font-semibold"
+                    className="px-6 py-3 bg-gradient-to-r from-gray-800 to-gray-950 rounded-full text-zinc-200 text-sm uppercase font-semibold"
                 >
                     Calculate Now
                 </Button>

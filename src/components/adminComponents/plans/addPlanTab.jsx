@@ -10,8 +10,10 @@ function AddPlanTab() {
         name: '',
         description: '',
         imageSrc: '',
-        isNew: false,
+        price: '',
+        features: [],
     });
+
     const { token } = useSelector((state) => state.Admin)
     const navigate = useNavigate()
 
@@ -40,7 +42,7 @@ function AddPlanTab() {
     };
 
     const handleAddPlan = () => {
-        if (newPlan.name && newPlan.description && newPlan.imageSrc) {
+        if (newPlan.name && newPlan.description && newPlan.imageSrc && newPlan.price) {
             axiosInstance.post('/admin/addPlan', newPlan, {
                 headers: {
                     authorization: `Bearer ${token}`,
@@ -49,12 +51,14 @@ function AddPlanTab() {
                 .then((res) => {
                     if (res.data.message) {
                         toast.success(res.data.message);
-                        navigate('/admin/plans')
+                        navigate('/admin/plans');
                         setPlans([...plans, newPlan]);
                         setNewPlan({
                             name: '',
                             description: '',
                             imageSrc: '',
+                            price: '',
+                            features: [],
                         });
                     }
                 })
@@ -69,6 +73,8 @@ function AddPlanTab() {
         }
     };
 
+
+
     const handleNameChange = (event) => {
         setNewPlan({ ...newPlan, name: event.target.value });
     };
@@ -77,6 +83,10 @@ function AddPlanTab() {
     };
     const handleDescriptionChange = (event) => {
         setNewPlan({ ...newPlan, description: event.target.value });
+    };
+    const handleFeaturesChange = (event) => {
+        const features = event.target.value.split('\n');
+        setNewPlan({ ...newPlan, features });
     };
 
     return (
@@ -127,6 +137,13 @@ function AddPlanTab() {
                         placeholder=""
                         value={newPlan.description}
                         onChange={handleDescriptionChange}
+                    ></textarea>
+                    <label>Features (One per line)</label>
+                    <textarea
+                        className="textarea textarea-error"
+                        placeholder=""
+                        value={newPlan.features.join('\n')}
+                        onChange={handleFeaturesChange}
                     ></textarea>
                 </div>
                 <button
