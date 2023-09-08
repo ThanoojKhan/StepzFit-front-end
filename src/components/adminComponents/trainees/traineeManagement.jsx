@@ -3,6 +3,8 @@ import axiosInstance from '../../../api/axios'
 import { useSelector } from 'react-redux'
 import { toast } from 'react-hot-toast'
 import SearchBox from '../../traineeComponents/search'
+import errorFunction from '../../../services/errorHandling'
+import { useNavigate } from 'react-router-dom'
 
 function UserManagement() {
 
@@ -10,16 +12,15 @@ function UserManagement() {
     const [search,setSearch] = useState('')
     const [users,setUsers] = useState([])
     const [reload,setReload] = useState(false)
+    const navigate = useNavigate()
 
     useEffect(()=>{
         axiosInstance.get('/admin/users',{  headers: {
             authorization: `Bearer ${token}`
           }}).then((res)=>{
             setUsers(res?.data?.users)
-          }).then((err)=>{
-            if(err?.response?.data?.errMsg){
-                toast.error(err?.response?.data?.errMsg)
-            }
+          }).catch((err)=>{
+            errorFunction(err,navigate)
           })
     },[reload])
 
@@ -31,9 +32,7 @@ function UserManagement() {
             toast.success(res?.data?.message)
             setReload(!reload)
           }).catch((err)=>{
-            if(err?.response?.data?.errMsg){
-                toast.error(err?.response?.data?.errMsg)
-            }
+            errorFunction(err,navigate)
           })
     }
 
