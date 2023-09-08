@@ -8,7 +8,7 @@ function AddPlanTab() {
     const [plans, setPlans] = useState([]);
     const [newPlan, setNewPlan] = useState({
         name: '',
-        description: '',
+        description: [],
         imageSrc: '',
         price: '',
         features: [],
@@ -55,7 +55,7 @@ function AddPlanTab() {
                         setPlans([...plans, newPlan]);
                         setNewPlan({
                             name: '',
-                            description: '',
+                            description: [],
                             imageSrc: '',
                             price: '',
                             features: [],
@@ -82,7 +82,8 @@ function AddPlanTab() {
         setNewPlan({ ...newPlan, price: event.target.value });
     };
     const handleDescriptionChange = (event) => {
-        setNewPlan({ ...newPlan, description: event.target.value });
+        const description = event.target.value.split('\n');
+        setNewPlan({ ...newPlan, description });
     };
     const handleFeaturesChange = (event) => {
         const features = event.target.value.split('\n');
@@ -135,7 +136,7 @@ function AddPlanTab() {
                     <textarea
                         className="textarea textarea-error"
                         placeholder=""
-                        value={newPlan.description}
+                        value={newPlan.description.join('\n')}
                         onChange={handleDescriptionChange}
                     ></textarea>
                     <label>Features (One per line)</label>
