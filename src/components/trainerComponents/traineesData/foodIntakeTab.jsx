@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import axiosInstance from '../../../api/axios';
+import errorFunction from '../../../services/errorHandling';
+import { useNavigate } from 'react-router-dom';
 
 const FoodIntakeTab = ({traineeId}) => {
   const { token } = useSelector((state) => state.Trainer);
@@ -10,6 +12,7 @@ const FoodIntakeTab = ({traineeId}) => {
   const [selectedEntryDetails, setSelectedEntryDetails] = useState(null);
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   const [trainee, setTrainee] = useState()
+  const navigate = useNavigate()
 
   useEffect(() => {
     handleFetchFoodIntake();
@@ -27,9 +30,8 @@ const FoodIntakeTab = ({traineeId}) => {
         setTrainee(response?.data?.trainee)
         setReload(false);
       })
-      .catch((error) => {
-        console.error('Error fetching food intake:', error);
-        toast.error('An error occurred while fetching food intake.');
+      .catch((err) => {
+        errorFunction(err,navigate)
       });
   };
 
