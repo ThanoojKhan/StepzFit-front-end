@@ -31,7 +31,7 @@ function MyTaskTab() {
       setTasks(response?.data?.tasks);
     } catch (error) {
       console.error(error);
-      toast.error('An error occurred while fetching tasks.');
+      toast.error(error.response.data.errMsg);
     }
   };
 

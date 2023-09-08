@@ -70,7 +70,7 @@ const Membership = () => {
                                 </ul>
                             </div>
                             <div className="opacity-0 hover:opacity-100 absolute inset-0 flex items-center justify-center transition-opacity bg-gray-900 bg-opacity-75">
-                                <button className="bg-gray- text-white px-4 py-2 rounded-lg">
+                                <button className="bg-gray-700 text-white px-4 py-2 rounded-lg hover:bg-white hover:text-black">
                                     Explore More
                                 </button>
                             </div>
