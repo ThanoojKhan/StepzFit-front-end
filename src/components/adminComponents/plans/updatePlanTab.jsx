@@ -13,8 +13,9 @@ function UpdatePlanTab(props) {
     const [plan, setPlan] = useState({
         name: '',
         price: 0,
-        description: '',
+        description: [],
         imageSrc: '',
+        features: [],
     });
 
     useEffect(() => {
@@ -88,13 +89,28 @@ function UpdatePlanTab(props) {
             toast.error('Add all details');
         }
     };
-    
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setPlan((prevPlan) => ({
             ...prevPlan,
             [name]: value,
+        }));
+    };
+
+    const handleDescriptionChange = (event) => {
+        const value = event.target.value;
+        setPlan((prevPlan) => ({
+            ...prevPlan,
+            description: value.split('\n'),
+        }));
+    };
+
+    const handleFeaturesChange = (event) => {
+        const value = event.target.value;
+        setPlan((prevPlan) => ({
+            ...prevPlan,
+            features: value.split('\n'),
         }));
     };
 
@@ -139,8 +155,15 @@ function UpdatePlanTab(props) {
                     <textarea
                         name="description"
                         className="textarea textarea-error"
-                        value={plan.description}
-                        onChange={handleInputChange}
+                        value={plan.description.join('\n')}
+                        onChange={handleDescriptionChange}
+                    ></textarea>
+                    <label>Features (One per line)</label>
+                    <textarea
+                        className="textarea textarea-error"
+                        placeholder=""
+                        value={plan.features.join('\n')}
+                        onChange={handleFeaturesChange}
                     ></textarea>
                 </div>
                 <button className="btn btn-primary mt-4" onClick={handleUpdatePlan}>
