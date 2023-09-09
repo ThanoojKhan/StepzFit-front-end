@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import axiosInstance from '../../api/axios'
 import { useDispatch } from 'react-redux'
 import { adminLogin } from '../../store/slice/admin'
+import errorFunction from '../../services/errorHandling'
 
 function LoginAdmin() {
 
@@ -26,7 +27,7 @@ function LoginAdmin() {
                     navigate('/admin')
                 }
             }).catch((error) => {
-                toast.error(error?.response?.data?.errMsg)
+                errorFunction(error,navigate)
             })
         }
     }

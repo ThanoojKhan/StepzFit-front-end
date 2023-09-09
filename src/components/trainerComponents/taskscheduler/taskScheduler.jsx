@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import axiosInstance from '../../../api/axios';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import errorFunction from '../../../services/errorHandling';
 
 function TaskSchedulerTrainer() {
   const { traineeId } = useParams();
   const { token } = useSelector((state) => state.Trainer);
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   
   const [newTask, setNewTask] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
@@ -30,7 +32,7 @@ function TaskSchedulerTrainer() {
       setTasks(response?.data?.tasks);
       setTrainee(response?.data?.trainee);
     } catch (error) {
-      handleRequestError(error, 'An error occurred while fetching tasks.');
+      errorFunction(error,navigate)
     }
   };
 
@@ -64,7 +66,7 @@ function TaskSchedulerTrainer() {
       toast.success('Task added successfully');
       await fetchTasks();
     } catch (error) {
-      handleRequestError(error, 'An error occurred while adding a task.');
+      errorFunction(error,navigate)
     } finally {
       setIsLoading(false);
     }
@@ -97,7 +99,7 @@ function TaskSchedulerTrainer() {
       toast.success('Task updated successfully');
       await fetchTasks();
     } catch (error) {
-      handleRequestError(error, 'An error occurred while saving the edited task.');
+      errorFunction(error,navigate)
     } finally {
       setIsLoading(false);
     }
@@ -116,16 +118,7 @@ function TaskSchedulerTrainer() {
       setTasks((prevTasks) => prevTasks.filter((task) => task._id !== taskToDelete));
       toast.success('Task deleted successfully');
     } catch (error) {
-      handleRequestError(error, 'An error occurred while deleting the task.');
-    }
-  };
-
-  const handleRequestError = (error, errorMessage) => {
-    if (error?.response?.data?.errMsg) {
-      toast.error(error.response.data.errMsg);
-    } else {
-      console.error('An error occurred:', error);
-      toast.error(errorMessage);
+      errorFunction(error,navigate)
     }
   };
 

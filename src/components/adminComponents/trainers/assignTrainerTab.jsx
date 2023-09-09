@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axiosInstance from '../../../api/axios';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-hot-toast';
+import errorFunction from '../../../services/errorHandling';
+import { useNavigate } from 'react-router-dom';
 
 function AssignTrainerTab() {
   const { token } = useSelector((state) => state.Admin);
@@ -9,6 +11,7 @@ function AssignTrainerTab() {
   const [trainees, setTrainees] = useState([]);
   const [selectedTrainer, setSelectedTrainer] = useState('');
   const [selectedTrainee, setSelectedTrainee] = useState('');
+  const navigate = useNavigate()
 
   useEffect(() => {
     axiosInstance
@@ -22,9 +25,7 @@ function AssignTrainerTab() {
         setTrainees(res?.data?.trainees);
       })
       .catch((err) => {
-        if (err?.response?.data?.errMsg) {
-          toast.error(err?.response?.data?.errMsg);
-        }
+        errorFunction(err,navigate)
       });
   }, []);
 
@@ -65,9 +66,7 @@ function AssignTrainerTab() {
           setSelectedTrainee('');
         }
       }).catch((err) => {
-        if (err.response.data.errMsg) {
-          toast.error(err.response.data.errMsg);
-        }
+        errorFunction(err,navigate)
       });
     } catch (error) {
       console.error(error);

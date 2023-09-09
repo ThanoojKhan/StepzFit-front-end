@@ -3,6 +3,7 @@ import { Toaster, toast } from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import axiosInstance from '../../../api/axios'
+import errorFunction from '../../../services/errorHandling'
 
 
 function AddTrainer() {
@@ -36,23 +37,18 @@ function AddTrainer() {
   const regex_mobile = /^\d{10}$/
 
   const handleSubmit = () => {
-    console.log("dfgh");
     try {
       axiosInstance.post('/admin/addTrainer', { firstName, secondName, email, dob, gender, phone, department, certification, userName, password, addedDate }, {
         headers: {
           authorization: `Bearer ${token}`,
         },
       }).then((res) => {
-        console.log("dfgh");
         if (res.data.message) {
           toast.success(res.data.message)
           navigate('/admin/trainers')
         }
       }).catch((err) => {
-        if (err) {
-          console.log(err);
-          toast.error(err.response.data.errMsg)
-        }
+        errorFunction(err,navigate)
       })
     } catch (error) {
       console.log(error);

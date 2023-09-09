@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom'; 
+import { Link, useNavigate } from 'react-router-dom'; 
 import axiosInstance from '../../../api/axios';
 import { toast } from 'react-hot-toast';
+import errorFunction from '../../../services/errorHandling';
 
 function TraineesDataTab() {
   const { token } = useSelector((state) => state.Trainer);
   const [reload, setReload] = useState(false);
   const [trainees, setTrainees] = useState([{}]);
+  const navigate = useNavigate()
 
   useEffect(() => {
     axiosInstance
@@ -21,9 +23,7 @@ function TraineesDataTab() {
         setTrainees(res?.data?.trainee);
       })
       .catch((err) => {
-        if (err?.response?.data?.errMsg) {
-          toast.error(err?.response?.data?.errMsg);
-        }
+        errorFunction(err,navigate)
       });
   }, [reload]);
 
