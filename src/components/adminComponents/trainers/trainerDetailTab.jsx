@@ -4,6 +4,8 @@ import axiosInstance from '../../../api/axios'
 import { toast, Toaster } from 'react-hot-toast'
 import { CgSpinner } from 'react-icons/cg'
 import Loader from './loader'
+import errorFunction from '../../../services/errorHandling'
+import { useNavigate } from 'react-router-dom'
 
 
 
@@ -24,6 +26,7 @@ function TrainerDetailTab(props) {
   const [addedDate, setAddedDate] = useState('')
   const [profileImage, setProfileImage] = useState('')
   const [coverImage, setCoverImage] = useState('')
+  const navigate = useNavigate()
 
 
 
@@ -64,12 +67,7 @@ function TrainerDetailTab(props) {
 
       })
       .catch((error) => {
-        console.log(error.response.data);
-        if (error.response.data) {
-          toast.error(error.response.data.errMsg)
-          toast.error(error.message)
-        } else {
-        }
+        errorFunction(error,navigate)
       });
   }, [change]);
 

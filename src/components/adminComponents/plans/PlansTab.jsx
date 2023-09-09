@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { Toaster, toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import ConfirmPopup from '../plans/confirmPopUp'; 
+import errorFunction from '../../../services/errorHandling';
 
 function PlansTab() {
   const { token } = useSelector((state) => state.Admin);
@@ -24,9 +25,7 @@ function PlansTab() {
         setPlans(res?.data?.plans);
       })
       .catch((err) => {
-        if (err?.response?.data?.errMsg) {
-          toast.error(err?.response?.data?.errMsg);
-        }
+        errorFunction(err,navigate)
       });
   }, [token, reload]);
 
@@ -48,9 +47,7 @@ function PlansTab() {
           setReload(!reload);
         })
         .catch((err) => {
-          if (err?.response?.data?.errMsg) {
-            toast.error(err?.response?.data?.errMsg);
-          }
+          errorFunction(err,navigate)
         });
     }
     setConfirmOpen(false);
@@ -64,9 +61,7 @@ function PlansTab() {
         toast.success(res?.data?.message)
         setReload(!reload)
       }).catch((err)=>{
-        if(err?.response?.data?.errMsg){
-            toast.error(err?.response?.data?.errMsg)
-        }
+        errorFunction(err,navigate)
       })
 }
 

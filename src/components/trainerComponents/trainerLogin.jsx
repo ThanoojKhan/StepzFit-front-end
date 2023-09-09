@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../api/axios';
 import { useDispatch } from 'react-redux';
 import { trainerLogin } from '../../store/slice/trainer';
+import errorFunction from '../../services/errorHandling';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -15,7 +16,7 @@ function Login() {
   async function handleLogin() {
     if (email.trim().length == 0 || password.trim().length == 0) {
       toast.error('Fill all the fields')
-    } else {console.log('sdfgae');
+    } else {
       axiosInstance.post('/trainer/login', { email, password }).then((res) => {
         if (res.data) {
           console.log('dg');
@@ -28,12 +29,10 @@ function Login() {
           navigate('/')
         }
       }).catch((error) => {
-        console.log(error);
         if (error.response.status === 401) {
           setRemail(true)
-          toast.error(error.response.data.errMsg)
-        } else if (error.response.data.errMsg) {
-          toast.error(error.response.data.errMsg)
+        } else {
+          errorFunction(error,navigate)
         }
       })
     }

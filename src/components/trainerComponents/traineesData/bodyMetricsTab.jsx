@@ -3,12 +3,15 @@ import { Toaster } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import axiosInstance from '../../../api/axios';
 import { toast } from 'react-hot-toast';
+import errorFunction from '../../../services/errorHandling';
+import { useNavigate } from 'react-router-dom';
 
 function BodyMetricsTab({ traineeId }) {
   const { token } = useSelector((state) => state.Trainer);
   const [bodyMetrics, setBodyMetrics] = useState([]);
   const [loading, setLoading] = useState(true);
   const [trainee, setTrainee] = useState()
+  const navigate = useNavigate()
 
   useEffect(() => {
     setLoading(true);
@@ -24,9 +27,7 @@ function BodyMetricsTab({ traineeId }) {
         setTrainee(res?.data?.trainee)
       })
       .catch((err) => {
-        if (err?.res?.data?.errMsg) {
-          toast.error(err?.res?.data?.errMsg);
-        }
+        errorFunction(err,navigate)
       })
       .finally(() => {
         setLoading(false);

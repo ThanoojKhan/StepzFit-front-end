@@ -3,6 +3,7 @@ import { Toaster, toast } from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import axiosInstance from '../../../api/axios'
+import errorFunction from '../../../services/errorHandling'
 
 function AddPlanTab() {
     const [plans, setPlans] = useState([]);
@@ -63,10 +64,7 @@ function AddPlanTab() {
                     }
                 })
                 .catch((err) => {
-                    if (err) {
-                        console.log(err);
-                        toast.error(err?.response?.data?.errMsg);
-                    }
+                    errorFunction(err,navigate)
                 });
         } else {
             toast.error('Add All Details');

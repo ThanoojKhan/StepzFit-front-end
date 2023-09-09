@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import axiosInstance from '../../../api/axios';
+import errorFunction from '../../../services/errorHandling';
+import { useNavigate } from 'react-router-dom';
 
 function TrainerDetailTab() {
   const { token } = useSelector((state) => state.Trainer);
   const [trainerDetails, setTrainerDetails] = useState(null);
   const [err, setErr] = useState('');
+  const navigate = useNavigate()
 
   useEffect(() => {
     axiosInstance
@@ -19,12 +22,7 @@ function TrainerDetailTab() {
         setTrainerDetails(res?.data?.details);
       })
       .catch((error) => {
-        console.log(error?.response?.data);
-        if (error?.response?.data) {
-          toast.error(error?.response?.data?.errMsg);
-        } else {
-          toast.error(error?.message);
-        }
+        errorFunction(error,navigate)
       });
   }, [token]);
 
