@@ -7,6 +7,7 @@ import Membership from "../../components/landingPageComponents/organs/Membership
 import Offers from "../../components/landingPageComponents/organs/Trainers"
 import Footer from "../../components/landingPageComponents/organs/Footer"
 import NavBar from "../../components/landingPageComponents/organs/NavBar"
+import FooterLogo from "../../components/landingPageComponents/organs/FooterLogo"
 const Home = () => {
     return (
         <div className="scroll-smooth">
@@ -16,7 +17,6 @@ const Home = () => {
             <Offers />
             <Membership />
             <Calculator />
-            {/* <Contact /> */}
             <Footer/>
         </div>
     )

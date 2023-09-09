@@ -9,7 +9,11 @@ import AdminLogin from './pages/admin/mainPages/login'
 {/* TRAINER */ }
 import TrainerRoute from './routes/trainerRoute'
 import TrainerLogin from './pages/trainer/mainPages/login'
+{/* ERROR PAGES */ }
 import NotFound from './pages/errorPages/notFound'
+{/* HOME PAGES */ }
+import Home from './pages/landingPage/home'
+import Plans from './pages/planDetailsPage/planDetailsPage'
 
 function App() {
   const admin = useSelector((state) => state.Admin)
@@ -18,11 +22,9 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* ERROR PAGES */}
-
-        <Route path='/accessDenied' element = {<NotFound/>}/>
-        <Route path='/notFound' element = {<NotFound/>}/>
-        <Route path='/serverError' element = {<NotFound/>}/>
+        {/* HOME */}
+        <Route path='/home' element={<Home />} />
+        <Route path='/membershipPlans/:planId' element={<Plans />} />
 
         {/* USER */}
         <Route path='/*' element={<TraineeRoute />} />
@@ -34,6 +36,11 @@ function App() {
         {/* ADMIN */}
         <Route path='admin/login' element={admin?.token ? <Navigate to='/admin' /> : <AdminLogin />} />
         <Route path='/admin/*' element={<AdminRoute />} />
+
+        {/* ERROR PAGES */}
+        <Route path='/accessDenied' element={<NotFound />} />
+        <Route path='/notFound' element={<NotFound />} />
+        <Route path='/serverError' element={<NotFound />} />
       </Routes>
     </Router>
   )

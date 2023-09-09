@@ -1,11 +1,11 @@
+import { GoogleOAuthProvider } from '@react-oauth/google'
 import React, { useState } from 'react'
 import { Toaster, toast } from 'react-hot-toast'
-import { useNavigate, useParams } from 'react-router-dom'
-import axiosInstance from '../../api/axios'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import axiosInstance from '../../api/axios'
 import { userLogin } from '../../store/slice/user'
 import GoogleLoginComponent from './googleLogin'
-import { GoogleOAuthProvider } from '@react-oauth/google'
 
 function Login() {
 
@@ -42,7 +42,6 @@ function Login() {
   }
 
   const forgotPassword = ()=>{
-    console.log(email,'=====');
       axiosInstance.post('/user/forgottPassword',{email}).then((res)=>{
         toast.success(res.data.messasge)
       }).catch((error)=>{

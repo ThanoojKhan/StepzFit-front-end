@@ -1,10 +1,11 @@
 import { default as React, useEffect, useState } from "react";
 import { useSelector } from 'react-redux';
 import axiosInstance from '../../../api/axios';
+import { Link } from 'react-router-dom';
 import List from "../atoms/List";
 import Text from "../atoms/Text";
 import Card from "../molecules/Card";
-import MembershipPlans from "../particles/Data";
+import Plans from "../../../pages/planDetailsPage/planDetailsPage";
 
 const Membership = () => {
 
@@ -17,11 +18,7 @@ const Membership = () => {
     useEffect(() => {
         setShowLoader(true)
         axiosInstance
-            .get('/admin/plans', {
-                headers: {
-                    authorization: `Bearer ${token}`,
-                },
-            })
+            .get('/user/plans')
             .then((res) => {
                 setPlans(res?.data?.plans);
                 setShowLoader(false)
@@ -54,14 +51,14 @@ const Membership = () => {
                                     <span className="font-light text-5xl">{plan?.price}</span>
                                     <span className="font-light text-lg">/Month</span>
                                 </Text>
-                                <Text as="h3" className="capitalize text-base font-semibold w-full py-2 text-center text-zinc-100 my-3 bg-zinc-800">
+                                <Text as="h3" className="capitalize text-base font-normal w-full py-2 text-center text-zinc-100 my-3 bg-zinc-800">
                                     {plan?.name}
                                 </Text>
 
                                 <ul className="flex flex-col items-center">
                                     {plan.features.map((feature, index) => (
                                         <li
-                                            className="text-zinc-300 py-3 text-base capitalize"
+                                            className="text-zinc-300 py-3 font-light text-base capitalize"
                                             key={index}
                                         >
                                             {feature}
@@ -69,10 +66,12 @@ const Membership = () => {
                                     ))}
                                 </ul>
                             </div>
-                            <div className="opacity-0 hover:opacity-100 absolute inset-0 flex items-center justify-center transition-opacity bg-gray-900 bg-opacity-75">
-                                <button className="bg-gray-700 text-white px-4 py-2 rounded-lg hover:bg-white hover:text-black">
-                                    Explore More
-                                </button>
+                            <div className="opacity-0 hover:opacity-100 absolute inset-0 flex items-center justify-center transition-opacity bg-black bg-opacity-75">
+                                <Link to={`/membershipPlans/${plan._id}`}>
+                                    <button className="bg-none border text-white px-4 py-2 rounded-lg hover:bg-white hover:text-black">
+                                        Explore More
+                                    </button>
+                                </Link>
                             </div>
                         </div>
                     ))}

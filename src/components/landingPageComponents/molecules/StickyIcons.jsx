@@ -16,7 +16,7 @@ const StickyIcons = () => {
     return (
         <>
             {!isOpen && ( 
-                <button onClick={toggleIcons} className="fixed lg:bottom-20 bottom-1/2 left-0 transform rotate-90 text-zinc-100 hover:text-zinc-400 flex flex-col justify-center items-center">
+                <button onClick={toggleIcons} className="fixed lg:bottom-28 bottom-1/2 left-0 transform rotate-90 text-zinc-100 hover:text-zinc-400 flex flex-col justify-center items-center">
                 <span className=" font-light">Follow Us</span>
             </button>
             

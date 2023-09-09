@@ -9,7 +9,6 @@ import FoodTracker from '../pages/users/foodTracker'
 import EditBodyMetrics from '../components/traineeComponents/bodyMetrics/editBodyMetricsTab'
 import Register from '../pages/users/register'
 import Home from '../pages/users/dashBoard'
-import LandingPage from '../pages/landingPage/Home'
 import UserLogin from '../pages/users/login'
 import EmailVerify from '../components/traineeComponents/emailVerify'
 import OtpLogin from '../components/traineeComponents/otpLogin'
@@ -21,7 +20,6 @@ function TraineeRoute() {
     <div>
       <Routes>
         <Route path='/' element = {<Home/>}/>
-        <Route path='/home' element = {<LandingPage/>}/>
         <Route path='/register' element = {user.token!==null ?<Navigate to='/'/> :<Register/>} />
         <Route path='/login' element = {user.token!==null ?<Navigate to='/'/> :<UserLogin/>} />
         <Route path='/profile' element = {user.token!==null ?<MyProfile /> :<Navigate to='/login'/>}/>
