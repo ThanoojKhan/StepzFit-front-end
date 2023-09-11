@@ -3,14 +3,18 @@ import { useSelector } from 'react-redux'
 
 {/* TRAINEE */ }
 import TraineeRoute from './routes/traineeRoute'
+
 {/* ADMIN */ }
 import AdminRoute from './routes/adminRoute'
 import AdminLogin from './pages/admin/mainPages/login'
+
 {/* TRAINER */ }
 import TrainerRoute from './routes/trainerRoute'
 import TrainerLogin from './pages/trainer/mainPages/login'
+
 {/* ERROR PAGES */ }
 import NotFound from './pages/errorPages/notFound'
+
 {/* HOME PAGES */ }
 import Home from './pages/landingPage/home'
 import Plans from './pages/planDetailsPage/planDetailsPage'

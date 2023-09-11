@@ -8,7 +8,7 @@ import MyProfile from '../pages/users/myProfile'
 import FoodTracker from '../pages/users/foodTracker'
 import EditBodyMetrics from '../components/traineeComponents/bodyMetrics/editBodyMetricsTab'
 import Register from '../pages/users/register'
-import Home from '../pages/users/dashBoard'
+import Dashboard from '../pages/users/dashBoard'
 import UserLogin from '../pages/users/login'
 import EmailVerify from '../components/traineeComponents/emailVerify'
 import OtpLogin from '../components/traineeComponents/otpLogin'
@@ -17,6 +17,7 @@ import PaymentSuccess from '../components/traineeComponents/paySuccess'
 import PaymentFailed from '../components/traineeComponents/payFail'
 import MyPlan from '../pages/planDetailsPage/myPlan'
 import Plans from '../pages/planDetailsPage/plans'
+import Home from '../pages/landingPage/home'
 
 function TraineeRoute() {
   const user = useSelector((state)=>state.User)
@@ -24,8 +25,9 @@ function TraineeRoute() {
     <div>
       <Routes>
         <Route path='/' element = {<Home/>}/>
-        <Route path='/register' element = {user.token!==null ?<Navigate to='/'/> :<Register/>} />
-        <Route path='/login' element = {user.token!==null ?<Navigate to='/'/> :<UserLogin/>} />
+        <Route path='/dashboard' element = {<Dashboard/>}/>
+        <Route path='/register' element = {user.token!==null ?<Navigate to='/dashboard'/> :<Register/>} />
+        <Route path='/login' element = {user.token!==null ?<Navigate to='/dashboard'/> :<UserLogin/>} />
         <Route path='/profile' element = {user.token!==null ?<MyProfile /> :<Navigate to='/login'/>}/>
         <Route path="/emailVerify/:userId" element={<EmailVerify/>}/>
         <Route path="/resetPassword/:userId" element={<ResetPassword/>}/>
