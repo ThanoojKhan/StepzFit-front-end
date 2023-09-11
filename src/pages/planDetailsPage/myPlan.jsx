@@ -1,18 +1,26 @@
-import { WhatsappLogo } from "@phosphor-icons/react";
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../api/axios';
 import StickyIcons from '../../components/landingPageComponents/molecules/StickyIcons';
 import FooterLogo from '../../components/landingPageComponents/organs/FooterLogo';
 import NavBar from '../../components/landingPageComponents/organs/NavBar';
 
 function PlanDetailsPage() {
-    const { planId } = useParams();
     const { token } = useSelector((state) => state.User)
     const navigate = useNavigate();
     const [showLoader, setShowLoader] = useState();
+    const [subscription, setSubscription] = useState({
+        startDate: '',
+        endDate: '',
+        expired: '',
+    });
+
+    const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(dateString).toLocaleDateString(undefined, options);
+    };
     const [plan, setPlan] = useState({
         _id: '',
         name: '',
@@ -32,9 +40,14 @@ function PlanDetailsPage() {
     useEffect(() => {
         setShowLoader(true);
         axiosInstance
-            .get(`/user/planDetails/${planId}`)
+            .get(`/user/myPlan`, {
+                headers: {
+                    authorization: `Bearer ${token}`,
+                },
+            })
             .then((res) => {
-                setPlan(res?.data?.plan);
+                setPlan(res?.data?.plan?.plan);
+                setSubscription(res?.data?.plan);
                 setShowLoader(false);
             })
             .catch((err) => {
@@ -44,23 +57,6 @@ function PlanDetailsPage() {
             });
     }, []);
 
-    const handleBooking = async () => {
-        axiosInstance.post('/payment/subscribePlan', { planId }, {
-            headers: {
-                authorization: `Bearer ${token}`,
-            },
-        }).then((res) => {
-            if (res.data.url) {
-                window.location.href = res.data.url
-            }
-        }).catch((err) => {
-            if (err.response.data.errMsg) {
-                toast.error(err.response.data.errMsg);
-            }
-        });
-    };
-
-
     return (
         <>
             <section className="w-full h-auto relative overflow-x-hidden">
@@ -68,29 +64,25 @@ function PlanDetailsPage() {
                     <NavBar></NavBar>
                     <div className="w-full h-full absolute bg-black bg-opacity-75 flex flex-col items-center justify-center px-4 overflow-x-hidden">
                         <div className="items-start justify-center">
-                            <h1 className="lg:text-6xl md:text-4xl mb-10 pl-4 text-4xl text-center text-white font-extralight ">{plan.name}</h1>
+                            <h1 className="lg:text-6xl md:text-4xl  pl-4 text-4xl text-center text-white font-extralight ">{plan?.name}</h1>
                         </div>
-                        {plan.description.map((description, index) => (
+                        <div className="items-start justify-center">
+                            <h1 className="font-extralight mb-10  pl-4 text-md text-center text-white">
+                                <p> {subscription.expired ? `Plan Expired on : ${formatDate(subscription?.endDate)}` : `Subscribed Till : ${formatDate(subscription?.endDate)}`}</p></h1>
+                        </div>
+                        {plan?.description?.map((description, index) => (
                             <p key={index} className="lg:text-lg text-base text-center text-white font-extralight px-20 w-auto">{description}</p>
                         ))}
                         <div className="items-start justify-center">
                             <h1 className="lg:text-2xl md:text-xl mb-2 mt-10 pl-4 text-md text-center text-white font-normal">Plan Features</h1>
                         </div>
-                        {plan.features.map((description, index) => (
+                        {plan?.features?.map((description, index) => (
                             <p key={index} className="lg:text-lg text-base text-center text-white font-extralight px-20 w-auto">{description}</p>
                         ))}
-                        {token ? (<button onClick={() => handleBooking()} type="button" className=" mt-10 text-white bg-[#050708] hover:bg-[#050708]/90 focus:ring-4 focus:outline-none focus:ring-[#050708]/50 font-normal rounded-lg text- px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#050708]/50 dark:hover:bg-[#050708]/30 mr-2 mb-2">
-                            Buy This Plan
-                        </button>) : (<button onClick={() => navigate('/register')} type="button" className=" mt-10 text-white bg-[#050708] hover:bg-[#050708]/90 focus:ring-4 focus:outline-none focus:ring-[#050708]/50 font-normal rounded-lg text- px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#050708]/50 dark:hover:bg-[#050708]/30 mr-2 mb-2">
-                            Join StepzFit
-                        </button>)}
+                        <button onClick={() => navigate('/dashboard')} type="button" className=" mt-10 text-white bg-[#050708] hover:bg-[#050708]/90 focus:ring-4 focus:outline-none focus:ring-[#050708]/50 font-normal rounded-lg text- px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#050708]/50 dark:hover:bg-[#050708]/30 mr-2 mb-2">
+                            Go to App
+                        </button>
 
-                        <div className="flex items-center hover:scale-100 transition ease-in-out delay-75 gap-8 mt-10">
-                            <div className="px-1 flex font-extralight text-lg text-white">
-                                <WhatsappLogo size={20} className="mt-1 bg-green-600 rounded-md" color="currentColor" weight="regular" />
-                                <a href={import.meta.env.VITE_WHATSAPP} className="ms-2 hover:font-normal" target="_blank">Chat With Us</a>
-                            </div>
-                        </div>
                         <div className='bottom-0 fixed'>
                             <FooterLogo ></FooterLogo></div>
                     </div>

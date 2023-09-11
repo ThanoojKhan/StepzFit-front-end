@@ -13,6 +13,10 @@ import UserLogin from '../pages/users/login'
 import EmailVerify from '../components/traineeComponents/emailVerify'
 import OtpLogin from '../components/traineeComponents/otpLogin'
 import ResetPassword from '../components/traineeComponents/resetPassword'
+import PaymentSuccess from '../components/traineeComponents/paySuccess'
+import PaymentFailed from '../components/traineeComponents/payFail'
+import MyPlan from '../pages/planDetailsPage/myPlan'
+import Plans from '../pages/planDetailsPage/plans'
 
 function TraineeRoute() {
   const user = useSelector((state)=>state.User)
@@ -33,6 +37,10 @@ function TraineeRoute() {
         <Route path='/editBodyMetrics/:bodyMetricsId' element = {user?.token ? <EditBodyMetrics/> : <Navigate to='/login'/>}/>
         <Route path='/foodTracker' element = {user?.token ? <FoodTracker/> : <Navigate to='/login'/>}/>
         <Route path='/myProfile' element = {user?.token ? <MyProfile/> : <Navigate to='/login'/>}/>
+        <Route path='/paymentSuccess' element = {user?.token ? <PaymentSuccess/> : <Navigate to='/login'/>}/>
+        <Route path='/paymentFailed' element = {user?.token ? <PaymentFailed/> : <Navigate to='/login'/>}/>
+        <Route path='/myPlan' element = {user?.token ? <MyPlan/> : <Navigate to='/login'/>}/>
+        <Route path='/plans' element = {user?.token ?<Plans/> : <Navigate to='/login'/>}/>
       </Routes>
       </div>
   )

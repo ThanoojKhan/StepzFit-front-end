@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import axiosInstance from '../../../api/axios'
 import { Toaster, toast } from 'react-hot-toast'
-import EmojiPicker from 'emoji-picker-react';
 import io from 'socket.io-client'
 
 const END_POINT = 'http://localhost:4000'
@@ -199,7 +198,7 @@ function MessagesTab() {
                                                 placeholder="Type your message..."
                                             />{selectedEmoji && (
                                                 <span className="absolute top-1/2 transform -translate-y-1/2 right-8">{selectedEmoji}</span>
-                                                )}
+                                            )}
                                         </div>
                                     </div>
                                     <div className="ml-4">
@@ -208,11 +207,6 @@ function MessagesTab() {
                                         </button>
                                     </div>
 
-                                    {showEmojiPicker && (
-                                        <div style={{ position: 'absolute', bottom: '70px', right: '10px' }}>
-                                            <EmojiPicker onSelect={handleEmojiClick} />
-                                        </div>
-                                    )}
 
                                     <div className="ml-4">
                                         <button
