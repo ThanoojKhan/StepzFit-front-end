@@ -9,7 +9,7 @@ const Calculator = () => {
     <section className="w-full h-auto flex items-center bg-zinc-900 delay-75 w3-animate-bottom">
       <main className="w-full grid md:grid-cols-2 items-center gap-20 md:gap-0 lg:gap-8 ">
         <div className="h-full w-full md:order-1 order-2 pt-12 md:pt-0 lg:px-8 px-4 flex flex-col lg:justify-center justify-center items-start lg:gap-20 gap-16">
-          <Fade className="w-full">
+          <Fade className="w-full mb-32">
             <div className="w-full flex flex-col mt-10 items-center relative z-10">
 
               <h1 as="h1" className="text-zinc-200 font-light lg:text-5xl md:text-4xl text-3xl">

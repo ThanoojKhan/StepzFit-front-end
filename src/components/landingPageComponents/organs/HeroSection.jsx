@@ -64,7 +64,7 @@ const HeroSection = () => {
     <>
       <section className="w-full h-screen bg-gradient-to-r from-black to-yellow-900 relative overflow-x-hidden" >
       <main className="w-full h-screen relative bg-zinc-900 overflow-x-hidden" >
-        <div className="h-screen absolute" >
+        <div className="h-screen relative" >
           <div className="w-full">
             <img src={renderProfileImg()} className="w-full h-screen object-cover w3-animate-top" alt="Profile" />
           </div>
@@ -87,16 +87,15 @@ const HeroSection = () => {
               </button>
             </div>
 
-            <a href="#scrollTarget" onClick={scrollToNextWindow} className="flex items-center gap-2 text-red-500 hover:text-amber-500 group cursor-pointer">
+            <p href="#scrollTarget" onClick={scrollToNextWindow} className="flex items-center gap-2 text-red-500 hover:text-amber-500 group cursor-pointer">
               <h1 className="text-zinc-100 group-hover:text-amber-500 font-extralight text-lg animate-bounce">Learn More</h1>
-            </a>
+            </p>
 
           </div>
         </div>
       </main>
       <StickyIcons />
       <div id="scrollTarget" ref={scrollTargetRef}>
-        {/* Content to scroll to */}
       </div>
     </section >
     </>

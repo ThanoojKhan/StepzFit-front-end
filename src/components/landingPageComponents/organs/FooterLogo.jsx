@@ -10,7 +10,9 @@ function FooterLogo() {
     const windowHeight = window.innerHeight;
     const documentHeight = document.documentElement.scrollHeight;
 
-    if (scrollY-1 + windowHeight < documentHeight) {
+    const bottomThreshold = documentHeight - windowHeight - 5;
+
+    if (scrollY > bottomThreshold) {
       setNavBarColor(true);
     } else {
       setNavBarColor(false);
@@ -25,7 +27,7 @@ function FooterLogo() {
     };
   }, []);
 
-  const headerClasses = `w-full h-auto ${navBarColor ? "bg-gradient-to-b from-transparent to-black w3-animate-opacity" : "bg-transparent w3-animate-bottom"} overflow-x-hidden z-50 bottom-0 `;
+  const headerClasses = `w-full  h-auto ${!navBarColor ? "" : "fixed bg-gradient-to-b from-transparent to-black w3-animate-bottom"} overflow-x-hidden z-50 bottom-0 `;
 
   return (
     <header className={headerClasses}>
