@@ -25,7 +25,7 @@ function FooterLogo() {
     };
   }, []);
 
-  const headerClasses = `w-full h-auto ${navBarColor ? "bg-gradient-to-b from-transparent to-black" : "bg-transparent"} overflow-x-hidden z-50 bottom-0`;
+  const headerClasses = `w-full h-auto ${navBarColor ? "bg-gradient-to-b from-transparent to-black w3-animate-opacity" : "bg-transparent w3-animate-bottom"} overflow-x-hidden z-50 bottom-0 `;
 
   return (
     <header className={headerClasses}>

@@ -25,7 +25,7 @@ function TraineeRoute() {
     <div>
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/dashboard' element={user.token !== null ? <Navigate to='/dashboard' /> : <Navigate to='/home' />} />
+        <Route path='/dashboard' element={user.token !== null ? <Dashboard /> : <Navigate to='/home' />} />
         <Route path='/register' element={user.token !== null ? <Navigate to='/home' /> : <Register />} />
         <Route path='/login' element={user.token !== null ? <Navigate to='/home' /> : <UserLogin />} />
         <Route path='/profile' element={user.token !== null ? <MyProfile /> : <Navigate to='/login' />} />

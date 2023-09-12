@@ -5,8 +5,8 @@ function ServerError() {
   const navigate = useNavigate()
   return (
     <><div id="notfound">
-		<div class="notfound cursor-default">
-			<div class="notfound-404">
+		<div className="notfound cursor-default">
+			<div className="notfound-404">
 				<h1>Oops!</h1>
 				<h2>500 - Server Error</h2>
 			</div>
