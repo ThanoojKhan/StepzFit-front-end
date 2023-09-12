@@ -1,23 +1,22 @@
 import React from "react"
 import About from "../../components/landingPageComponents/organs/About"
 import Calculator from "../../components/landingPageComponents/organs/Calculator"
-import Contact from "../../components/landingPageComponents/organs/Contact"
+import Footer from "../../components/landingPageComponents/organs/Footer"
 import HeroSection from "../../components/landingPageComponents/organs/HeroSection"
 import Membership from "../../components/landingPageComponents/organs/Membership"
-import Offers from "../../components/landingPageComponents/organs/Trainers"
-import Footer from "../../components/landingPageComponents/organs/Footer"
 import NavBar from "../../components/landingPageComponents/organs/NavBar"
-import FooterLogo from "../../components/landingPageComponents/organs/FooterLogo"
+import Offers from "../../components/landingPageComponents/organs/Trainers"
+
 const Home = () => {
     return (
-        <div className="scroll-smooth">
+        <div className="scroll-smooth delay-100">
             <HeroSection />
             <NavBar />
             <About />
             <Offers />
             <Membership />
             <Calculator />
-            <Footer/>
+            <Footer />
         </div>
     )
 }

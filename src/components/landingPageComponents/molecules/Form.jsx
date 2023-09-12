@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Button from "../atoms/Button";
 import InputField from "../atoms/InputField";
-import Text from "../atoms/Text";
 
 const Form = () => {
     const [heightValue, setHeightValue] = useState('');
@@ -46,7 +45,7 @@ const Form = () => {
                         value={heightValue}
                         onChange={(event) => setHeightValue(event.target.value)}
                     />
-                    <Text as="span" className="absolute text-zinc-200 font-bold top-3 right-4">cm</Text>
+                    <h1 as="span" className="absolute text-zinc-200 font-bold top-3 right-4">cm</h1>
                 </div>
             </InputField>
 
@@ -60,15 +59,16 @@ const Form = () => {
                         value={weightValue}
                         onChange={(event) => setWeightValue(event.target.value)}
                     />
-                    <Text as="span" className="absolute text-zinc-200 font-bold top-3 right-4">kg</Text>
+                    <h1 as="span" className="absolute text-zinc-200 font-bold top-3 right-4">kg</h1>
                 </div>
             </InputField>
 
-            <div className="w-full mt-4">
+            <div className="w-full mt-4 flex items-center justify-center">
+                
                 <Button
                     onClick={calculateBmi}
                     type="button"
-                    className="px-6 py-3 bg-gradient-to-r from-gray-800 to-gray-950 rounded-full text-zinc-200 text-sm uppercase font-semibold"
+                    className="px-6 py-3 bg-none border text-white rounded-lg hover:bg-white hover:text-black text-sm uppercase font-semibold"
                 >
                     Calculate Now
                 </Button>
@@ -76,8 +76,8 @@ const Form = () => {
 
             {bmiValue && (
                 <div className="w-full flex flex-col p-4 bg-zinc-700">
-                    <Text as="h2" className="text-zinc-200 text-lg">Your BMI is <span className="font-extrabold">{bmiValue}</span></Text>
-                    <Text as="p" className="text-amber-500">{bmiMessage}</Text>
+                    <h1 as="h2" className="text-zinc-200 text-lg">Your BMI is <span className="font-extrabold">{bmiValue}</span></h1>
+                    <h1 as="p" className="text-amber-500">{bmiMessage}</h1>
                 </div>
             )}
 

@@ -1,4 +1,4 @@
-import { Routes ,Route,Navigate} from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import Messages from '../pages/users/messages'
 import MyTasks from '../pages/users/myTasks'
@@ -20,31 +20,31 @@ import Plans from '../pages/planDetailsPage/plans'
 import Home from '../pages/landingPage/home'
 
 function TraineeRoute() {
-  const user = useSelector((state)=>state.User)
+  const user = useSelector((state) => state.User)
   return (
     <div>
       <Routes>
-        <Route path='/' element = {<Home/>}/>
-        <Route path='/dashboard' element = {<Dashboard/>}/>
-        <Route path='/register' element = {user.token!==null ?<Navigate to='/dashboard'/> :<Register/>} />
-        <Route path='/login' element = {user.token!==null ?<Navigate to='/dashboard'/> :<UserLogin/>} />
-        <Route path='/profile' element = {user.token!==null ?<MyProfile /> :<Navigate to='/login'/>}/>
-        <Route path="/emailVerify/:userId" element={<EmailVerify/>}/>
-        <Route path="/resetPassword/:userId" element={<ResetPassword/>}/>
-        <Route path='/otpLogin' element={<OtpLogin/>}/>
-        <Route path='/messages' element = {user?.token ? <Messages/> : <Navigate to='/login'/>}/>
-        <Route path='/myTasks' element = {user?.token ? <MyTasks/> : <Navigate to='/login'/>}/>
-        <Route path='/bodyMetrics' element = {user?.token ? <BodyMetrics/> : <Navigate to='/login'/>}/>
-        <Route path='/addBodyMetrics' element = {user?.token ? <AddBodyMetrics/> : <Navigate to='/login'/>}/>
-        <Route path='/editBodyMetrics/:bodyMetricsId' element = {user?.token ? <EditBodyMetrics/> : <Navigate to='/login'/>}/>
-        <Route path='/foodTracker' element = {user?.token ? <FoodTracker/> : <Navigate to='/login'/>}/>
-        <Route path='/myProfile' element = {user?.token ? <MyProfile/> : <Navigate to='/login'/>}/>
-        <Route path='/paymentSuccess' element = {user?.token ? <PaymentSuccess/> : <Navigate to='/login'/>}/>
-        <Route path='/paymentFailed' element = {user?.token ? <PaymentFailed/> : <Navigate to='/login'/>}/>
-        <Route path='/myPlan' element = {user?.token ? <MyPlan/> : <Navigate to='/login'/>}/>
-        <Route path='/plans' element = {user?.token ?<Plans/> : <Navigate to='/login'/>}/>
+        <Route path='/' element={<Home />} />
+        <Route path='/dashboard' element={user.token !== null ? <Navigate to='/dashboard' /> : <Navigate to='/home' />} />
+        <Route path='/register' element={user.token !== null ? <Navigate to='/home' /> : <Register />} />
+        <Route path='/login' element={user.token !== null ? <Navigate to='/home' /> : <UserLogin />} />
+        <Route path='/profile' element={user.token !== null ? <MyProfile /> : <Navigate to='/login' />} />
+        <Route path="/emailVerify/:userId" element={user.token !== null ? <Navigate to='/home' /> : <EmailVerify />} />
+        <Route path="/resetPassword/:userId" element={user.token !== null ? <Navigate to='/home' /> : <ResetPassword />} />
+        <Route path='/otpLogin' element={user.token !== null ? <Navigate to='/home' /> : <OtpLogin />} />
+        <Route path='/messages' element={user?.token ? <Messages /> : <Navigate to='/login' />} />
+        <Route path='/myTasks' element={user?.token ? <MyTasks /> : <Navigate to='/login' />} />
+        <Route path='/bodyMetrics' element={user?.token ? <BodyMetrics /> : <Navigate to='/login' />} />
+        <Route path='/addBodyMetrics' element={user?.token ? <AddBodyMetrics /> : <Navigate to='/login' />} />
+        <Route path='/editBodyMetrics/:bodyMetricsId' element={user?.token ? <EditBodyMetrics /> : <Navigate to='/login' />} />
+        <Route path='/foodTracker' element={user?.token ? <FoodTracker /> : <Navigate to='/login' />} />
+        <Route path='/myProfile' element={user?.token ? <MyProfile /> : <Navigate to='/login' />} />
+        <Route path='/paymentSuccess' element={user?.token ? <PaymentSuccess /> : <Navigate to='/login' />} />
+        <Route path='/paymentFailed' element={user?.token ? <PaymentFailed /> : <Navigate to='/login' />} />
+        <Route path='/myPlan' element={user?.token ? <MyPlan /> : <Navigate to='/login' />} />
+        <Route path='/plans' element={user?.token ? <Plans /> : <Navigate to='/login' />} />
       </Routes>
-      </div>
+    </div>
   )
 }
 
