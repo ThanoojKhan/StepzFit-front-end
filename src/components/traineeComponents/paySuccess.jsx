@@ -34,7 +34,7 @@ function PaymentSuccess() {
           <p className="text-gray-600 my-2">
             Thank you for completing your secure online payment.
           </p>
-          <p>Redirecting in {countdown} seconds...</p>
+          <p className='text-red-800'>Redirecting in {countdown} seconds...</p>
           <div className="py-10 text-center">
             <p onClick={() => navigate('/myPlan')}
               className="px-12 bg-black hover:bg-gray-600 text-white font-semibold py-3 rounded-full inline-block"

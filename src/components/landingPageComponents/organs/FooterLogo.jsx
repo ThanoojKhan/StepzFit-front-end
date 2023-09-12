@@ -10,7 +10,7 @@ function FooterLogo() {
     const windowHeight = window.innerHeight;
     const documentHeight = document.documentElement.scrollHeight;
 
-    if (scrollY + windowHeight < documentHeight) {
+    if (scrollY-1 + windowHeight < documentHeight) {
       setNavBarColor(true);
     } else {
       setNavBarColor(false);

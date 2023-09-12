@@ -32,17 +32,17 @@ function TraineeRoute() {
         <Route path="/emailVerify/:userId" element={user.token !== null ? <Navigate to='/home' /> : <EmailVerify />} />
         <Route path="/resetPassword/:userId" element={user.token !== null ? <Navigate to='/home' /> : <ResetPassword />} />
         <Route path='/otpLogin' element={user.token !== null ? <Navigate to='/home' /> : <OtpLogin />} />
-        <Route path='/messages' element={user?.token ? <Messages /> : <Navigate to='/login' />} />
-        <Route path='/myTasks' element={user?.token ? <MyTasks /> : <Navigate to='/login' />} />
-        <Route path='/bodyMetrics' element={user?.token ? <BodyMetrics /> : <Navigate to='/login' />} />
-        <Route path='/addBodyMetrics' element={user?.token ? <AddBodyMetrics /> : <Navigate to='/login' />} />
+        <Route path='/messages' element={user.token ? <Messages /> : <Navigate to='/login' />} />
+        <Route path='/myTasks' element={user.token ? <MyTasks /> : <Navigate to='/login' />} />
+        <Route path='/bodyMetrics' element={user.token ? <BodyMetrics /> : <Navigate to='/login' />} />
+        <Route path='/addBodyMetrics' element={user.token ? <AddBodyMetrics /> : <Navigate to='/login' />} />
         <Route path='/editBodyMetrics/:bodyMetricsId' element={user?.token ? <EditBodyMetrics /> : <Navigate to='/login' />} />
-        <Route path='/foodTracker' element={user?.token ? <FoodTracker /> : <Navigate to='/login' />} />
-        <Route path='/myProfile' element={user?.token ? <MyProfile /> : <Navigate to='/login' />} />
-        <Route path='/paymentSuccess' element={user?.token ? <PaymentSuccess /> : <Navigate to='/login' />} />
-        <Route path='/paymentFailed' element={user?.token ? <PaymentFailed /> : <Navigate to='/login' />} />
-        <Route path='/myPlan' element={user?.token ? <MyPlan /> : <Navigate to='/login' />} />
-        <Route path='/plans' element={user?.token ? <Plans /> : <Navigate to='/login' />} />
+        <Route path='/foodTracker' element={user.token ? <FoodTracker /> : <Navigate to='/login' />} />
+        <Route path='/myProfile' element={user.token ? <MyProfile /> : <Navigate to='/login' />} />
+        <Route path='/paymentSuccess' element={user.token ? <PaymentSuccess /> : <Navigate to='/login' />} />
+        <Route path='/paymentFailed' element={user.token ? <PaymentFailed /> : <Navigate to='/login' />} />
+        <Route path='/myPlan' element={user.token ? <MyPlan /> : <Navigate to='/login' />} />
+        <Route path='/plans' element={user.token ? <Plans /> : <Navigate to='/login' />} />
       </Routes>
     </div>
   )

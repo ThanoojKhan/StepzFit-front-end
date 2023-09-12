@@ -7,11 +7,11 @@ import {
 import {
   PowerIcon, CogIcon
 } from "@heroicons/react/24/solid";
+import { userLogout } from '../../store/slice/user';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { TfiAngleDoubleLeft } from 'react-icons/tfi';
 import { FaBars } from 'react-icons/fa';
-import { userLogout } from '../../store/slice/user';
 
 
 function SideBar() {
@@ -24,7 +24,7 @@ function SideBar() {
 
   const handleLogout = () => {
     dispatch(userLogout());
-    navigate('/login');
+    navigate('/home');
   };
 
   useEffect(() => {

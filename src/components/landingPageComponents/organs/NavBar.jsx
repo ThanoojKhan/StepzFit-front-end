@@ -1,17 +1,20 @@
 import { ArrowCircleRight, CirclesFour } from "@phosphor-icons/react";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { userLogout } from '../../../store/slice/user';
 import List from "../atoms/List";
 
 const NavBar = () => {
     const { token } = useSelector((state) => state.User);
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     const [open, setOpen] = useState(false);
     const [navBarColor, setNavBarColor] = useState(false);
     const [isHidden, setIsHidden] = useState(false);
 
     const handleLogout = () => {
+        console.log('hii');
         dispatch(userLogout());
         navigate('/');
     };
@@ -50,13 +53,22 @@ const NavBar = () => {
                 </Link>
                 <div className={`lg:flex hidden items-center delay-100 h-full gap-5 ${navBarColor ? '' : "w3-animate-right"}`}>
                     {token ?
-                        <ul className="flex items-center justify-center h-full relative ">
-                            <List className="w-full text-base">
-                                <small className="flex items-center gap-2 text-red-500 hover:text-amber-500 group cursor-pointer">
-                                    <NavLink to='/dashboard' as="span" className="text-zinc-100 group-hover:text-amber-500 text-sm hover:scale-110 transition ease-in-out delay-150">My StepzFit</NavLink>
-                                </small>
-                            </List>
-                        </ul>
+                        <>
+                            <ul className="flex items-center justify-center h-full relative ">
+                                <List className="w-full text-base">
+                                    <small className="flex items-center gap-2 text-red-500 hover:text-amber-500 group cursor-pointer">
+                                        <NavLink to='/dashboard' as="span" className="text-zinc-100 group-hover:text-amber-500 text-sm hover:scale-110 transition ease-in-out delay-150">My StepzFit</NavLink>
+                                    </small>
+                                </List>
+                            </ul>
+                            <ul className="flex items-center justify-center h-full relative ">
+                                <List className="w-full text-base">
+                                    <small className="flex items-center gap-2 text-red-500 hover:text-amber-500 group cursor-pointer">
+                                        <h1 onClick={handleLogout} as="span" className="text-zinc-100 group-hover:text-amber-500 text-sm hover:scale-110 transition ease-in-out delay-150">Log Out</h1>
+                                    </small>
+                                </List>
+                            </ul>
+                        </>
                         :
                         <>
                             <ul className="flex items-center justify-center h-full relative ">
