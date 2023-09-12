@@ -14,6 +14,8 @@ import TrainerLogin from './pages/trainer/mainPages/login'
 
 {/* ERROR PAGES */ }
 import NotFound from './pages/errorPages/notFound'
+import AccessDenied from './pages/errorPages/accessDenied'
+import ServerError from './pages/errorPages/serverError'
 
 {/* HOME PAGES */ }
 import Home from './pages/landingPage/home'
@@ -42,9 +44,9 @@ function App() {
         <Route path='/admin/*' element={<AdminRoute />} />
 
         {/* ERROR PAGES */}
-        <Route path='/accessDenied' element={<NotFound />} />
-        <Route path='/notFound' element={<NotFound />} />
-        <Route path='/serverError' element={<NotFound />} />
+        <Route path='/accessDenied' element={<AccessDenied />} />
+        <Route path='/notFound' element={<NotFound/>} />
+        <Route path='/serverError' element={<ServerError />} />
       </Routes>
     </Router>
   )
