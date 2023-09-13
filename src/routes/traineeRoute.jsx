@@ -18,6 +18,7 @@ import PaymentFailed from '../components/traineeComponents/payFail'
 import MyPlan from '../pages/planDetailsPage/myPlan'
 import Plans from '../pages/planDetailsPage/plans'
 import Home from '../pages/landingPage/home'
+import NotFound from '../pages/errorPages/notFound'
 
 function TraineeRoute() {
   const user = useSelector((state) => state.User)
@@ -43,6 +44,7 @@ function TraineeRoute() {
         <Route path='/paymentFailed' element={user.token ? <PaymentFailed /> : <Navigate to='/login' />} />
         <Route path='/myPlan' element={user.token ? <MyPlan /> : <Navigate to='/login' />} />
         <Route path='/plans' element={user.token ? <Plans /> : <Navigate to='/login' />} />
+        <Route path='*' element ={<NotFound/>}/>
       </Routes>
     </div>
   )

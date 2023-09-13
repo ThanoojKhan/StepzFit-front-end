@@ -11,6 +11,7 @@ import TrainerDetails from '../pages/admin/trainerRelated/trainerDetails'
 import AssignTrainer from '../pages/admin/trainerRelated/assignTrainer'
 import AddPlan from '../pages/admin/planPages/addPlan'
 import UpdatePlan from '../pages/admin/planPages/updatePlan'
+import NotFound from '../pages/errorPages/notFound'
 
 
 
@@ -30,6 +31,7 @@ function AdminRoute() {
         <Route path='/assignTrainer' element = {admin?.token  ? <AssignTrainer/> : <Navigate to='/admin/login'/>}/>
         <Route path='/updateTrainer/:trainerId' element = {admin?.token  ? <UpdateTrainer/> : <Navigate to='/admin/login'/>}/>
         <Route path='/trainerDetails/:trainerId' element = {admin?.token  ? <TrainerDetails/> : <Navigate to='/admin/login'/>}/>
+        <Route path='*' element ={<NotFound/>}/>
         </Routes>
     </div>
   )

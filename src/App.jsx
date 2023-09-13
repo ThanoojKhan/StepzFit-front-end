@@ -31,7 +31,7 @@ function App() {
         {/* HOME */}
         <Route path='/home' element={<Home />} />
         <Route path='/membershipPlans/:planId' element={<Plans />} />
-
+        
         {/* USER */}
         <Route path='/*' element={<TraineeRoute />} />
 
@@ -47,6 +47,7 @@ function App() {
         <Route path='/accessDenied' element={<AccessDenied />} />
         <Route path='/notFound' element={<NotFound/>} />
         <Route path='/serverError' element={<ServerError />} />
+
       </Routes>
     </Router>
   )

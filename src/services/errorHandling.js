@@ -1,6 +1,7 @@
 import toast from "react-hot-toast"
 
 function errorFunction(error,navigate){
+    console.log(error,'[[[[[[');
     if(error?.response?.status==403){
         navigate('/accessDenied')
     }else if(error?.response?.status==404){

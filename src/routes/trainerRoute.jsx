@@ -8,6 +8,7 @@ import MyProfile from '../pages/trainer/mainPages/myProfile'
 import BodyMetrics from '../pages/trainer/traineeData/bodyMetrics'
 import FoodIntake from '../pages/trainer/traineeData/foodIntake'
 import ScheduleTask from '../pages/trainer/taskScheduler/scheduleTask'
+import NotFound from '../pages/errorPages/notFound'
 
 
 function TrainerRoute() {
@@ -23,6 +24,7 @@ function TrainerRoute() {
         <Route path='/bodyMetrics/:traineeId' element = {trainer?.token ? <BodyMetrics/>:<Navigate to='/trainer/login'/>}/>
         <Route path='/foodIntake/:traineeId' element = {trainer?.token ? <FoodIntake/>:<Navigate to='/trainer/login'/>}/>
         <Route path='/scheduleTask/:traineeId' element = {trainer?.token ? <ScheduleTask/>:<Navigate to='/trainer/login'/>}/>
+        <Route path='*' element ={<NotFound/>}/> 
       </Routes>
     </div>
   )
