@@ -32,7 +32,7 @@ function Login() {
         if (error.response.status === 401) {
           setRemail(true)
         } else {
-          errorFunction(error,navigate)
+          errorFunction(error, navigate)
         }
       })
     }

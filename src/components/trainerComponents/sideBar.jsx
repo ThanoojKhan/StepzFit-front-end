@@ -46,14 +46,15 @@ function SideBar() {
               </ListItem>
 
               <ListItem className='hover:scale-105 transition-transform' onClick={() => navigate('/trainer/traineesData')} >
-               Trainees Data
+                Trainees Data
               </ListItem>
 
               <ListItem className='hover:scale-105 transition-transform' onClick={() => navigate('/trainer/myProfile')} >
-               My Profile
+                My Profile
               </ListItem>
 
-              <ListItem className='hover:scale-105 transition-transform' onClick={() => { dispatch(trainerLogout())
+              <ListItem className='hover:scale-105 transition-transform' onClick={() => {
+                dispatch(trainerLogout())
                 navigate('/trainer/login')
               }} >
                 <ListItemPrefix>
@@ -61,7 +62,7 @@ function SideBar() {
                 </ListItemPrefix>
                 Log Out
               </ListItem>
-              
+
             </List>
           </Card>
         </div>

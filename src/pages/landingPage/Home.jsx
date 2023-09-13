@@ -9,7 +9,7 @@ import Offers from "../../components/landingPageComponents/organs/Trainers"
 
 const Home = () => {
     return (
-        <div className="scroll-smooth delay-100">
+        <>
             <HeroSection />
             <NavBar />
             <About />
@@ -17,7 +17,7 @@ const Home = () => {
             <Membership />
             <Calculator />
             <Footer />
-        </div>
+        </>
     )
 }
 

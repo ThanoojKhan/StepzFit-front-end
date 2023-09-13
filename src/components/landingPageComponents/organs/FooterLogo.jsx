@@ -29,23 +29,25 @@ function FooterLogo() {
   const headerClasses = `w-full h-auto ${navBarColor ? "" : "bg-gradient-to-b from-transparent to-black"} overflow-x-hidden z-50 bottom-0`;
 
   return (
-    <header className={headerClasses}>
-      <nav className="w-full lg:h-20 md:h-20 h-20 lg:px-16 md:px-9 px-8 flex justify-center items-center">
-        <div className="flex-r justify-center items-center gap-6 w-screen">
+    <>
+      <header className={headerClasses}>
+        <nav className="w-full lg:h-20 md:h-20 h-20 lg:px-16 md:px-9 px-8 flex justify-center items-center">
+          <div className="flex-r justify-center items-center gap-6 w-screen">
 
-          <Link to={'/home'} className="flex justify-center items-center h-8 mb-1">
-            <img
-              src={footerLogo}
-              alt=""
-              className="max-h-full max-w-full"
-              style={{ width: 'auto', height: 'auto', maxHeight: '100%', maxWidth: '100%' }}
-            />
-          </Link>
+            <Link to={'/home'} className="flex justify-center items-center h-8 mb-1">
+              <img
+                src={footerLogo}
+                alt=""
+                className="max-h-full max-w-full"
+                style={{ width: 'auto', height: 'auto', maxHeight: '100%', maxWidth: '100%' }}
+              />
+            </Link>
 
-          <div className="flex justify-center text-xs font-light items-center">Copyright @ StepzFit Wellness</div>
-        </div>
-      </nav>
-    </header>
+            <div className="flex justify-center text-xs font-light items-center">Copyright @ StepzFit Wellness</div>
+          </div>
+        </nav>
+      </header>
+    </>
   );
 }
 

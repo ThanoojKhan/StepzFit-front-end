@@ -21,7 +21,7 @@ const InputField = ({ label, name, type, value, onChange }) => (
 function EditBodyMetrics() {
   const { bodyMetricsId } = useParams();
   const { token } = useSelector((state) => state.User);
-  
+
 
   const [formData, setFormData] = useState({
     bodyWeight: '',
@@ -88,42 +88,42 @@ function EditBodyMetrics() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (formData.bodyWeight=='') {
+    if (formData.bodyWeight == '') {
       toast.error('Add Body Weight.');
       return;
     }
-    if (formData.height=='') {
+    if (formData.height == '') {
       toast.error('Add Height');
       return;
     }
-    if (formData.waist=='') {
+    if (formData.waist == '') {
       toast.error('Add Waist Measurement');
       return;
     }
-    if (formData.hip=='') {
+    if (formData.hip == '') {
       toast.error('Add Hip Measurement');
       return;
     }
-    if (formData.chest=='') {
+    if (formData.chest == '') {
       toast.error('Add Chest Measurement');
       return;
     }
-    if (formData.arm=='') {
+    if (formData.arm == '') {
       toast.error('Add Arm Measurement');
       return;
-    }if (formData.forearm=='') {
+    } if (formData.forearm == '') {
       toast.error('Add Forearm Measurement');
       return;
-    }if (formData.calf=='') {
+    } if (formData.calf == '') {
       toast.error('Add Calf Measurement');
       return;
     }
-    if (formData.thighs=='') {
+    if (formData.thighs == '') {
       toast.error('Add Thighs Measurement');
       return;
     }
     try {
-      const response = await axiosInstance.patch(`/user/editBodyMetrics/${bodyMetricsId}`, formData ,{
+      const response = await axiosInstance.patch(`/user/editBodyMetrics/${bodyMetricsId}`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

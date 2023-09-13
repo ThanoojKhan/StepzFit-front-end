@@ -41,25 +41,27 @@ const FoodIntakeDetailsModal = ({ isOpen, onRequestClose, selectedEntryDetails }
     return null;
   }
   return (
-    <div className="modal-overlay " style={modalStyles.overlay}>
-      <div className="modal-content " style={modalStyles.content}>
-        {selectedEntryDetails && (
-          <div>
-            <h1 className='text-lg text-white'>Nutrient Facts</h1>
-            <div className='text-sm'>Per <span className='text-xl'> {selectedEntryDetails?.food?.serving}</span>mg Serving </div>
-            <div className='mt-6'>Food Name: <span className='text-lg'> {selectedEntryDetails?.food?.name}</span></div>
-            <div className=''>Calories: <span className='text-lg'>{selectedEntryDetails?.food?.calories*100}</span> cal</div>
-            <div className=''>Protein: <span className='text-lg'>{selectedEntryDetails?.food?.proteins/10000}</span> gm</div>
-            <div className=''>Carbohydrate: <span className='text-lg'>{selectedEntryDetails?.food?.carbohydrates/10000}</span> gm</div>
-            <div className=''>Fat: <span className='text-lg'>{selectedEntryDetails?.food?.fat/10000}</span> gm </div>
-            <div className=' mt-6 flex justify-center'>
-            <button className='text-red-600' onClick={onRequestClose}>Close</button>
-          </div>
-          </div>
+    <>
+      <div className="modal-overlay " style={modalStyles.overlay}>
+        <div className="modal-content " style={modalStyles.content}>
+          {selectedEntryDetails && (
+            <div>
+              <h1 className='text-lg text-white'>Nutrient Facts</h1>
+              <div className='text-sm'>Per <span className='text-xl'> {selectedEntryDetails?.food?.serving}</span>mg Serving </div>
+              <div className='mt-6'>Food Name: <span className='text-lg'> {selectedEntryDetails?.food?.name}</span></div>
+              <div className=''>Calories: <span className='text-lg'>{selectedEntryDetails?.food?.calories * 100}</span> cal</div>
+              <div className=''>Protein: <span className='text-lg'>{selectedEntryDetails?.food?.proteins / 10000}</span> gm</div>
+              <div className=''>Carbohydrate: <span className='text-lg'>{selectedEntryDetails?.food?.carbohydrates / 10000}</span> gm</div>
+              <div className=''>Fat: <span className='text-lg'>{selectedEntryDetails?.food?.fat / 10000}</span> gm </div>
+              <div className=' mt-6 flex justify-center'>
+                <button className='text-red-600' onClick={onRequestClose}>Close</button>
+              </div>
+            </div>
 
-        )}
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

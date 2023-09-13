@@ -10,7 +10,7 @@ function TaskSchedulerTrainer() {
   const { token } = useSelector((state) => state.Trainer);
   const dispatch = useDispatch();
   const navigate = useNavigate()
-  
+
   const [newTask, setNewTask] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -32,7 +32,7 @@ function TaskSchedulerTrainer() {
       setTasks(response?.data?.tasks);
       setTrainee(response?.data?.trainee);
     } catch (error) {
-      errorFunction(error,navigate)
+      errorFunction(error, navigate)
     }
   };
 
@@ -66,7 +66,7 @@ function TaskSchedulerTrainer() {
       toast.success('Task added successfully');
       await fetchTasks();
     } catch (error) {
-      errorFunction(error,navigate)
+      errorFunction(error, navigate)
     } finally {
       setIsLoading(false);
     }
@@ -99,7 +99,7 @@ function TaskSchedulerTrainer() {
       toast.success('Task updated successfully');
       await fetchTasks();
     } catch (error) {
-      errorFunction(error,navigate)
+      errorFunction(error, navigate)
     } finally {
       setIsLoading(false);
     }
@@ -118,7 +118,7 @@ function TaskSchedulerTrainer() {
       setTasks((prevTasks) => prevTasks.filter((task) => task._id !== taskToDelete));
       toast.success('Task deleted successfully');
     } catch (error) {
-      errorFunction(error,navigate)
+      errorFunction(error, navigate)
     }
   };
 
@@ -138,142 +138,144 @@ function TaskSchedulerTrainer() {
   };
 
   return (
-    <div className="min-h-screen w-full">
-      <header className="bg-white ps-5 shadow">
-        <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold text-gray-900">Task Scheduler</h1>
-        </div>
-      </header>
-      <main>
-        <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-          <div className="mt-8 bg-white overflow-hidden shadow rounded-lg">
-            <div className="px-4 py-5 sm:p-6">
-              <h2 className="text-xl font-bold text-gray-900">Scheduler</h2>
-              <div className="mt-4">
-                <div className="flex items-center">
-                  <input
-                    type="date"
-                    className="border rounded-md p-2 mr-2"
-                    value={selectedDate}
-                    onChange={(e) => setSelectedDate(e.target.value)}
-                  />
-                  <input
-                    type="text"
-                    placeholder="Enter task..."
-                    className="border rounded-md p-2 flex-grow"
-                    value={newTask}
-                    onChange={(e) => setNewTask(e.target.value)}
-                  />
-                  <button
-                    className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700"
-                    onClick={handleAddTask}
-                    disabled={isLoading}
-                  >
-                    {isLoading ? 'Adding...' : 'Add Task'}
-                  </button>
+    <>
+      <div className="min-h-screen w-full">
+        <header className="bg-white ps-5 shadow">
+          <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <h1 className="text-3xl font-bold text-gray-900">Task Scheduler</h1>
+          </div>
+        </header>
+        <main>
+          <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+            <div className="mt-8 bg-white overflow-hidden shadow rounded-lg">
+              <div className="px-4 py-5 sm:p-6">
+                <h2 className="text-xl font-bold text-gray-900">Scheduler</h2>
+                <div className="mt-4">
+                  <div className="flex items-center">
+                    <input
+                      type="date"
+                      className="border rounded-md p-2 mr-2"
+                      value={selectedDate}
+                      onChange={(e) => setSelectedDate(e.target.value)}
+                    />
+                    <input
+                      type="text"
+                      placeholder="Enter task..."
+                      className="border rounded-md p-2 flex-grow"
+                      value={newTask}
+                      onChange={(e) => setNewTask(e.target.value)}
+                    />
+                    <button
+                      className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+                      onClick={handleAddTask}
+                      disabled={isLoading}
+                    >
+                      {isLoading ? 'Adding...' : 'Add Task'}
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </main>
-      <main className="min-h-screen bg-gray-100">
-        <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-          <div className="mt-8 bg-white overflow-hidden shadow rounded-lg">
-            <div className="px-4 py-5 sm:p-6">
-              <h2 className="text-xl font-bold text-gray-900">{trainee.name}'s Tasks List</h2>
-              {tasks.length === 0 ? (
-                <p className="text-gray-900">No tasks scheduled for today.</p>
-              ) : (
-                <ul className="space-y-4">
-                  {tasks
-                    .slice()
-                    .sort((a, b) => new Date(b.date) - new Date(a.date))
-                    .map((task, index) => (
-                      <li
-                        key={index}
-                        className="border border-gray-300 p-4 rounded-md shadow-md flex justify-between items-center"
-                      >
-                        <div className="flex-grow">
-                          <p className="text-lg font-semibold">{formatDateString(task.date)}</p>
-                          <p className="text-gray-900 mt-2">Task: {task.task}</p>
-                          <p className="text-gray-900 mt-2">
-                            Status: {task.isDone ? 'Task Completed' : 'Task Pending'}
-                          </p>
-                        </div>
-                        {!isPastDate(task.date) && (
-                          <div className="flex items-center">
-                            <button
-                              className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 mr-2"
-                              onClick={() => handleEditTask(task._id, task.task)}
-                            >
-                              Edit
-                            </button>
-                            <button
-                              className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-700"
-                              onClick={() => handleDeleteTask(task._id)}
-                            >
-                              Delete
-                            </button>
+        </main>
+        <main className="min-h-screen bg-gray-100">
+          <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+            <div className="mt-8 bg-white overflow-hidden shadow rounded-lg">
+              <div className="px-4 py-5 sm:p-6">
+                <h2 className="text-xl font-bold text-gray-900">{trainee.name}'s Tasks List</h2>
+                {tasks.length === 0 ? (
+                  <p className="text-gray-900">No tasks scheduled for today.</p>
+                ) : (
+                  <ul className="space-y-4">
+                    {tasks
+                      .slice()
+                      .sort((a, b) => new Date(b.date) - new Date(a.date))
+                      .map((task, index) => (
+                        <li
+                          key={index}
+                          className="border border-gray-300 p-4 rounded-md shadow-md flex justify-between items-center"
+                        >
+                          <div className="flex-grow">
+                            <p className="text-lg font-semibold">{formatDateString(task.date)}</p>
+                            <p className="text-gray-900 mt-2">Task: {task.task}</p>
+                            <p className="text-gray-900 mt-2">
+                              Status: {task.isDone ? 'Task Completed' : 'Task Pending'}
+                            </p>
                           </div>
-                        )}
-                      </li>
-                    ))}
-                </ul>
-              )}
+                          {!isPastDate(task.date) && (
+                            <div className="flex items-center">
+                              <button
+                                className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 mr-2"
+                                onClick={() => handleEditTask(task._id, task.task)}
+                              >
+                                Edit
+                              </button>
+                              <button
+                                className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-700"
+                                onClick={() => handleDeleteTask(task._id)}
+                              >
+                                Delete
+                              </button>
+                            </div>
+                          )}
+                        </li>
+                      ))}
+                  </ul>
+                )}
+              </div>
             </div>
           </div>
-        </div>
-      </main>
-      {editingTask && (
-        <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg">
-            <h3 className="text-lg font-semibold mb-3">Edit Task</h3>
-            <textarea
-              className="border rounded-md p-2 w-full"
-              value={editingTask.task}
-              onChange={(e) => setEditingTask({ ...editingTask, task: e.target.value })}
-            />
-            <div className="mt-3 flex justify-end">
-              <button
-                className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 mr-2"
-                onClick={handleSaveEdit}
-              >
-                Save
-              </button>
-              <button
-                className="bg-gray-300 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-400"
-                onClick={handleCancelEdit}
-              >
-                Cancel
-              </button>
+        </main>
+        {editingTask && (
+          <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50">
+            <div className="bg-white p-6 rounded-lg shadow-lg">
+              <h3 className="text-lg font-semibold mb-3">Edit Task</h3>
+              <textarea
+                className="border rounded-md p-2 w-full"
+                value={editingTask.task}
+                onChange={(e) => setEditingTask({ ...editingTask, task: e.target.value })}
+              />
+              <div className="mt-3 flex justify-end">
+                <button
+                  className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 mr-2"
+                  onClick={handleSaveEdit}
+                >
+                  Save
+                </button>
+                <button
+                  className="bg-gray-300 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-400"
+                  onClick={handleCancelEdit}
+                >
+                  Cancel
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
-      {showDeleteConfirmation && (
-        <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg">
-            <h3 className="text-lg font-semibold mb-3">Confirm Deletion</h3>
-            <p className="mb-3">Are you sure you want to delete this task?</p>
-            <div className="flex justify-end">
-              <button
-                className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-700 mr-2"
-                onClick={handleConfirmDelete}
-              >
-                Delete
-              </button>
-              <button
-                className="bg-gray-300 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-400"
-                onClick={() => setShowDeleteConfirmation(false)}
-              >
-                Cancel
-              </button>
+        )}
+        {showDeleteConfirmation && (
+          <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50">
+            <div className="bg-white p-6 rounded-lg shadow-lg">
+              <h3 className="text-lg font-semibold mb-3">Confirm Deletion</h3>
+              <p className="mb-3">Are you sure you want to delete this task?</p>
+              <div className="flex justify-end">
+                <button
+                  className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-700 mr-2"
+                  onClick={handleConfirmDelete}
+                >
+                  Delete
+                </button>
+                <button
+                  className="bg-gray-300 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-400"
+                  onClick={() => setShowDeleteConfirmation(false)}
+                >
+                  Cancel
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   );
 }
 

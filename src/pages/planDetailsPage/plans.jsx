@@ -6,12 +6,12 @@ import Footer from '../../components/landingPageComponents/organs/Footer'
 
 function plans() {
   return (
-    <div>
+    <>
       <NavBar></NavBar>
       <Membership></Membership>
       <StickyIcons></StickyIcons>
       <Footer/>
-    </div>
+    </>
   )
 }
 

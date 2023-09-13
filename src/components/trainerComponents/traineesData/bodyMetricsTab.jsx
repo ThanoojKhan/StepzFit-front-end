@@ -37,6 +37,7 @@ function BodyMetricsTab({ traineeId }) {
   
 
   return (
+    <>
     <div className="min-h-screen w-full">
       <Toaster toastOptions={3000} />
       <main>
@@ -76,6 +77,7 @@ function BodyMetricsTab({ traineeId }) {
         </div>
       </main>
     </div>
+    </>
   );
 }
 

@@ -68,7 +68,7 @@ function PlanDetailsPage() {
                         </div>
                         <div className="items-start justify-center">
                             <h1 className="font-extralight mb-10  pl-4 text-md text-center text-white w3-animate-zoom">
-                                <p> {subscription.expired ? `Subscribed Till : ${formatDate(subscription?.endDate)}`: `Plan Expired on : ${formatDate(subscription?.endDate)}` }</p></h1>
+                                <p> {subscription.expired ? `Subscribed Till : ${formatDate(subscription?.endDate)}` : `Plan Expired on : ${formatDate(subscription?.endDate)}`}</p></h1>
                         </div>
                         {plan?.description?.map((description, index) => (
                             <p key={index} className="lg:text-lg text-base text-center text-white font-extralight px-20 w-auto w3-animate-zoom">{description}</p>

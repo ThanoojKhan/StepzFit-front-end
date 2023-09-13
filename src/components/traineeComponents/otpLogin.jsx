@@ -3,7 +3,7 @@ import Otp from './Otp'
 
 function OtpLogin() {
   return (
-    <div><Otp/></div>
+    <><Otp /></>
   )
 }
 

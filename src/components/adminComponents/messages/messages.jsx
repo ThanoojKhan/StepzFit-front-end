@@ -303,7 +303,7 @@ function MessagesTab() {
                         <div className="flex flex-col h-full">
                           {messages?.map((message) => (
                             <div key={message?._id} className="grid grid-cols-12 gap-y-2">
-                              {( message?.sender) == userId ?
+                              {(message?.sender) == userId ?
                                 <div className="col-start-7 col-end-13 p-3 rounded-lg">
                                   <div className="flex items-center justify-start flex-row-reverse">
                                     <div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">

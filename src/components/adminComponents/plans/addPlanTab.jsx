@@ -64,7 +64,7 @@ function AddPlanTab() {
                     }
                 })
                 .catch((err) => {
-                    errorFunction(err,navigate)
+                    errorFunction(err, navigate)
                 });
         } else {
             toast.error('Add All Details');
@@ -90,70 +90,71 @@ function AddPlanTab() {
 
     return (
 
-        <div className="flex lg:w-3/4 p-10 mx-auto">
-            <div className="mt-4 card bg-base-100 shadow-xl m-auto">
-                <figure>
-                    <img
-                        src={newPlan.imageSrc || '/src/assets/images/images/plan-1.jpg'}
-                        alt="Plan"
+        <>
+            <div className="flex lg:w-3/4 p-10 mx-auto">
+                <div className="mt-4 card bg-base-100 shadow-xl m-auto">
+                    <figure>
+                        <img
+                            src={newPlan.imageSrc || '/src/assets/images/images/plan-1.jpg'}
+                            alt="Plan"
+                        />
+                    </figure>
+                    <input
+                        type="file"
+                        name="photo"
+                        className="file-input file-input-ghost justify-center w-full max-w-xs"
+                        acceptedfiles=".jpg,.jpeg,.png"
+                        onChange={handleImageChange}
                     />
-                </figure>
-                <input
-                    type="file"
-                    name="photo"
-                    className="file-input file-input-ghost justify-center w-full max-w-xs"
-                    acceptedfiles=".jpg,.jpeg,.png"
-                    onChange={handleImageChange}
-                />
-                <div className="card-body">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <div className="card-body">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
 
-                        <div className="grid">
-                            <label>Plan Name</label>
-                            <input
-                                type="text"
-                                placeholder=""
-                                className="input input-error w-full max-w-xl"
-                                value={newPlan.name}
-                                onChange={handleNameChange}
-                            />
-                        </div>
-                        <div className="grid">
-                            <label>Price</label>
-                            <input
-                                type="number"
-                                placeholder=""
-                                className="input input-error w-full max-w-xl"
-                                value={newPlan.price}
-                                onChange={handlePriceChange}
-                            />
-                        </div>
+                            <div className="grid">
+                                <label>Plan Name</label>
+                                <input
+                                    type="text"
+                                    placeholder=""
+                                    className="input input-error w-full max-w-xl"
+                                    value={newPlan.name}
+                                    onChange={handleNameChange}
+                                />
+                            </div>
+                            <div className="grid">
+                                <label>Price</label>
+                                <input
+                                    type="number"
+                                    placeholder=""
+                                    className="input input-error w-full max-w-xl"
+                                    value={newPlan.price}
+                                    onChange={handlePriceChange}
+                                />
+                            </div>
 
+                        </div>
+                        <label>Description</label>
+                        <textarea
+                            className="textarea textarea-error"
+                            placeholder=""
+                            value={newPlan.description.join('\n')}
+                            onChange={handleDescriptionChange}
+                        ></textarea>
+                        <label>Features (One per line)</label>
+                        <textarea
+                            className="textarea textarea-error"
+                            placeholder=""
+                            value={newPlan.features.join('\n')}
+                            onChange={handleFeaturesChange}
+                        ></textarea>
                     </div>
-                    <label>Description</label>
-                    <textarea
-                        className="textarea textarea-error"
-                        placeholder=""
-                        value={newPlan.description.join('\n')}
-                        onChange={handleDescriptionChange}
-                    ></textarea>
-                    <label>Features (One per line)</label>
-                    <textarea
-                        className="textarea textarea-error"
-                        placeholder=""
-                        value={newPlan.features.join('\n')}
-                        onChange={handleFeaturesChange}
-                    ></textarea>
+                    <button
+                        className="btn btn-primary mt-4"
+                        onClick={handleAddPlan}
+                    >
+                        Add Plan
+                    </button>
                 </div>
-                <button
-                    className="btn btn-primary mt-4"
-                    onClick={handleAddPlan}
-                >
-                    Add Plan
-                </button>
             </div>
-        </div>
-
+        </>
 
     );
 }

@@ -6,7 +6,8 @@ import { Toaster } from 'react-hot-toast'
 function DashBoard() {
 
   return (
-    <div className='flex'><Toaster toastOptions={3000} />
+    <div className='flex'>
+      <Toaster toastOptions={3000} />
         <SideBar/>
         <Dashboard/>
     </div>

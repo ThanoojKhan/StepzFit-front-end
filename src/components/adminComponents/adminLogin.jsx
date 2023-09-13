@@ -1,4 +1,4 @@
-import React, { useState , useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Toaster, toast } from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import axiosInstance from '../../api/axios'
@@ -27,7 +27,7 @@ function LoginAdmin() {
                     navigate('/admin')
                 }
             }).catch((error) => {
-                errorFunction(error,navigate)
+                errorFunction(error, navigate)
             })
         }
     }

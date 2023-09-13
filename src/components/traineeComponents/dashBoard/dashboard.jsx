@@ -5,12 +5,14 @@ import 'react-image-crop/dist/ReactCrop.css';
 const HomeBody = () => {
   // const navigate = useNavigate()
   return (
-    <div className='bg-[url()] bg-cover text-white'>
-      <div className='flex justify-center'>
-      dashBoard
-      
+    <>
+      <div className=' bg-white flex justify-center text-black'>
+        <div className='flex justify-center'>
+          dashBoard
+
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 export default HomeBody;

@@ -86,7 +86,7 @@ function OtpPage() {
   const countdownIntervalRef = useRef(null);
 
   useEffect(() => {
-    if(showOTP){
+    if (showOTP) {
       setSeconds(60)
       if (seconds > 0) {
         const decrementSeconds = () => {
@@ -94,10 +94,10 @@ function OtpPage() {
         }
         countdownIntervalRef.current = setInterval(decrementSeconds, 1000);
       }
-  
+
       return () => clearInterval(countdownIntervalRef.current);
     }
-  }, [resend,showOTP]);
+  }, [resend, showOTP]);
 
   useEffect(() => {
     if (seconds <= 0) {
@@ -107,36 +107,38 @@ function OtpPage() {
   }, [seconds]);
 
   return (
-    <div style={{ 'height': '100vh' }} className='bg-black flex justify-center items-center'>
-      <div id='recaptcha-container'></div>
-      <div className=' bg-emerald-600 p-5 rounded'>
-        <Toaster toastOptions={3000} /><div className='bg-white text-emarald-500 w-fit mx-auto p-4 rounded-full'>
-          <BsFillShieldLockFill size={30} />
-        </div>
-        {showOTP ? <h1 className='text-white font-bold text-center mt-2'>Enter OTP</h1> : <h1 className='text-white font-bold text-center mt-2'>Enter Mobile No.</h1>}
-        <div className='p-5'>
-          {showOTP ? <OtpInput
-            className='ms-3'
-            OTPLength={6}
-            value={otp}
-            onChange={setOtp}
-            otpType='number'
-            disabled={false}
-            autoFocus
-          /> : <input
-            type="text"
-            onChange={(e) => setPhone(e.target.value)}
-            className="block border border-grey-light w-full p-3 rounded mb-4"
-            name="phone"
-            placeholder="Mobile No" />}
-         {showOTP&&<div className='flex justify-center'>
-            <span className='text-center text-white'>{seconds}</span>
-          </div>}
-          {!showOTP ? <button className='text-white mt-3 bg-green-800 w-full flex gap-1 items-center justify-center py-2.5 rounded' onClick={checkMob}><span>Send Otp</span></button> : resend ? <button className='text-white mt-3 bg-green-800 w-full flex gap-1 items-center justify-center py-2.5 rounded' onClick={checkMob}>{clicked ? <CgSpinner size={20} className='animate-spin' /> : ''}<span>Resend Otp</span></button> : <button className='text-white mt-3 bg-green-800 w-full flex gap-1 items-center justify-center py-2.5 rounded' onClick={otpVerify}>{clicked ? <CgSpinner size={20} className='animate-spin' /> : ''}<span>Verify OTP</span></button>}
-        </div>
+    <>
+      <div style={{ 'height': '100vh' }} className='bg-black flex justify-center items-center'>
+        <div id='recaptcha-container'></div>
+        <div className=' bg-emerald-600 p-5 rounded'>
+          <Toaster toastOptions={3000} /><div className='bg-white text-emarald-500 w-fit mx-auto p-4 rounded-full'>
+            <BsFillShieldLockFill size={30} />
+          </div>
+          {showOTP ? <h1 className='text-white font-bold text-center mt-2'>Enter OTP</h1> : <h1 className='text-white font-bold text-center mt-2'>Enter Mobile No.</h1>}
+          <div className='p-5'>
+            {showOTP ? <OtpInput
+              className='ms-3'
+              OTPLength={6}
+              value={otp}
+              onChange={setOtp}
+              otpType='number'
+              disabled={false}
+              autoFocus
+            /> : <input
+              type="text"
+              onChange={(e) => setPhone(e.target.value)}
+              className="block border border-grey-light w-full p-3 rounded mb-4"
+              name="phone"
+              placeholder="Mobile No" />}
+            {showOTP && <div className='flex justify-center'>
+              <span className='text-center text-white'>{seconds}</span>
+            </div>}
+            {!showOTP ? <button className='text-white mt-3 bg-green-800 w-full flex gap-1 items-center justify-center py-2.5 rounded' onClick={checkMob}><span>Send Otp</span></button> : resend ? <button className='text-white mt-3 bg-green-800 w-full flex gap-1 items-center justify-center py-2.5 rounded' onClick={checkMob}>{clicked ? <CgSpinner size={20} className='animate-spin' /> : ''}<span>Resend Otp</span></button> : <button className='text-white mt-3 bg-green-800 w-full flex gap-1 items-center justify-center py-2.5 rounded' onClick={otpVerify}>{clicked ? <CgSpinner size={20} className='animate-spin' /> : ''}<span>Verify OTP</span></button>}
+          </div>
 
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

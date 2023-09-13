@@ -55,7 +55,7 @@ function UpdateTrainer(props) {
         setAddedDate(res?.data?.details?.addedDate)
       })
       .catch((error) => {
-        errorFunction(error,navigate)
+        errorFunction(error, navigate)
       });
   }, [change]);
 
@@ -74,7 +74,7 @@ function UpdateTrainer(props) {
           navigate('/admin/trainers')
         }
       }).catch((err) => {
-        errorFunction(err,navigate)
+        errorFunction(err, navigate)
       })
     } catch (error) {
       console.log(error);
@@ -96,7 +96,7 @@ function UpdateTrainer(props) {
   return (
     <>
       <Toaster toastOptions={{ duration: 4000 }} />
-      <div className="fixed top-0 left-0 w-screen h-screen bg-gray-800 bg-opacity-50 flex justify-center items-center">
+      <div className="fixed top-0 left-0 w-screen h-screen flex justify-center items-center">
         <div className="bg-white w-full max-w-md mx-auto px-6 py-8 rounded shadow-md text-black">
           <button
             className="absolute top-4 right-4 text-gray-600 hover:text-gray-800 focus:outline-none"
