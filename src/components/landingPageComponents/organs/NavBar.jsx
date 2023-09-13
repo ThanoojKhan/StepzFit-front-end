@@ -117,14 +117,14 @@ const NavBar = () => {
                             {token ?
                                 <>
                                     <List className="w-full text-base">
-                                        <NavLink to='/' onClick={handleToggle} className={`relative overflow-hidden inline-block text-white before:w-full before:h-0.5 before:bg-color2 before:absolute before:bottom-0 before:-left-full before:rounded-full before:transition-all before:duration-200 hover:scale-110 transition ease-in-out delay-50 before:ease-in hover:before:left-0 `}>
+                                        <NavLink to='/dashboard' onClick={handleToggle} className={`relative overflow-hidden inline-block text-white before:w-full before:h-0.5 before:bg-color2 before:absolute before:bottom-0 before:-left-full before:rounded-full before:transition-all before:duration-200 hover:scale-110 transition ease-in-out delay-50 before:ease-in hover:before:left-0 `}>
                                             My StepzFit
                                         </NavLink>
                                     </List>
                                     <List className="w-full text-base">
-                                        <NavLink to='/' onClick={(e) => { e.preventDefault(); handleToggle(); handleLogout() }} className={`relative overflow-hidden inline-block text-white before:w-full before:h-0.5 before:bg-color2 before:absolute before:bottom-0 before:-left-full before:rounded-full before:transition-all before:duration-200 hover:scale-110 transition ease-in-out delay-50 before:ease-in hover:before:left-0 `}>
+                                        <h1 onClick={(e) => { e.preventDefault(); handleToggle(); handleLogout() }} className={`relative overflow-hidden inline-block text-white before:w-full before:h-0.5 before:bg-color2 before:absolute before:bottom-0 before:-left-full before:rounded-full before:transition-all before:duration-200 hover:scale-110 transition ease-in-out delay-50 before:ease-in hover:before:left-0 `}>
                                             Logout
-                                        </NavLink>
+                                        </h1>
                                     </List>
                                 </>
                                 :

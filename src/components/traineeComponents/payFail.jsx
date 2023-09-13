@@ -22,7 +22,7 @@ function PayFail() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-950">
-      <div className="bg-white p-6 rounded-md md:w-96">
+      <div className="bg-white p-6 rounded-md md:w-96 w3-animate-zoom">
         <div className="text-center">
           <div className='h-28'>
             <img
@@ -35,17 +35,17 @@ function PayFail() {
           <h3 className="text-2xl text-gray-900 font-semibold">
             Payment Failed
           </h3>
-          <p className="text-gray-600 my-2">
+          <p className="text-gray-600 mt-3">
             We're sorry, but there was an issue with your payment.
           </p>
           <p>Please try again or contact customer support for assistance.</p>
-          <div className="py-6">
-            <p className="text-gray-600 mb-4">
+          <div className="">
+            <p className="text-red-800 w3-animate-zoom mb-5">
               Redirecting in {countdown} seconds...
             </p>
             <p
               onClick={() => navigate('/plans')}
-              className="px-12 bg-black hover:bg-gray-600 cursor-pointer text-white font-semibold py-3 rounded-full inline-block"
+              className="px-12 bg-black w3-animate-zoom hover:bg-gray-600 cursor-pointer text-white font-semibold py-3 rounded-full inline-block"
             >
               GO BACK
             </p>

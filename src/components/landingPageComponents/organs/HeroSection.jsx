@@ -62,7 +62,7 @@ const HeroSection = () => {
 
   return (
     <>
-      <section className="w-full h-screen bg-gradient-to-r from-black to-yellow-900 relative overflow-x-hidden" >
+      <section className="w-full h-screen relative overflow-x-hidden" >
       <main className="w-full h-screen relative bg-zinc-900 overflow-x-hidden" >
         <div className="h-screen relative" >
           <div className="w-full">
