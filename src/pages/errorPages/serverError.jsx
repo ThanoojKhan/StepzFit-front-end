@@ -7,10 +7,9 @@ function ServerError() {
     <><div id="notfound">
 		<div className="notfound cursor-default">
 			<div className="notfound-404">
-				<h1>Oops!</h1>
-				<h2>500 - Server Error</h2>
+				<h1 className='!important animate-pulse' >Oops!</h1>
+				<h2 className='!important w3-animate-bottom'>500 - Server Error</h2>
 			</div>
-			<p className='cursor-pointer' onClick={()=>navigate('/home')}>Go To Homepage</p>
 		</div>
 	</div></>
   )
