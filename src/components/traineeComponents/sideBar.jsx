@@ -22,7 +22,6 @@ function SideBar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const location = useLocation()
-  console.log(location.pathname,'====');
 
   const handleLogout = () => {
     dispatch(userLogout());
@@ -64,23 +63,23 @@ function SideBar() {
             </div>
 
             <List className='text-white my-10'>
-              <ListItem className={`hover:scale-105 hover:bg-zinc-800 transition-transform ${location.pathname=='/dashboard'? 'scale-110 ml-2 bg-zinc-800 font-semibold w3-animate-left hover:scale-110' :''}`} onClick={() => navigate('/dashboard')}>
+              <ListItem className={`hover:scale-105 hover:bg-zinc-800 transition-transform ${location.pathname == '/dashboard' ? 'scale-110 ml-2 bg-zinc-800 font-semibold w3-animate-left hover:scale-110' : ''}`} onClick={() => navigate('/dashboard')}>
                 Dashboard
               </ListItem>
 
-              <ListItem className={`hover:scale-105 hover:bg-zinc-800 transition-transform ${location.pathname=='/messages'? 'scale-110 ml-2 bg-zinc-800 font-semibold w3-animate-left hover:scale-110' :''}`} onClick={() => navigate('/messages')}>
+              <ListItem className={`hover:scale-105 hover:bg-zinc-800 transition-transform ${location.pathname == '/messages' ? 'scale-110 ml-2 bg-zinc-800 font-semibold w3-animate-left hover:scale-110' : ''}`} onClick={() => navigate('/messages')}>
                 Messages
               </ListItem>
 
-              <ListItem className={`hover:scale-105 hover:bg-zinc-800 transition-transform ${location.pathname=='/foodTracker'? 'scale-110 ml-2 bg-zinc-800 font-semibold w3-animate-left hover:scale-110' :''}`} onClick={() => navigate('/foodTracker')}>
+              <ListItem className={`hover:scale-105 hover:bg-zinc-800 transition-transform ${location.pathname == '/foodTracker' ? 'scale-110 ml-2 bg-zinc-800 font-semibold w3-animate-left hover:scale-110' : ''}`} onClick={() => navigate('/foodTracker')}>
                 Food Tracker
               </ListItem>
 
-              <ListItem className={`hover:scale-105 hover:bg-zinc-800 transition-transform ${location.pathname=='/myTasks'? 'scale-110 ml-2 bg-zinc-800 font-semibold w3-animate-left hover:scale-110' :''}`} onClick={() => navigate('/myTasks')}>
+              <ListItem className={`hover:scale-105 hover:bg-zinc-800 transition-transform ${location.pathname == '/myTasks' ? 'scale-110 ml-2 bg-zinc-800 font-semibold w3-animate-left hover:scale-110' : ''}`} onClick={() => navigate('/myTasks')}>
                 My Tasks
               </ListItem>
 
-              <ListItem className={`hover:scale-105 hover:bg-zinc-800 transition-transform ${location.pathname=='/bodyMetrics'? 'scale-110 ml-2 bg-zinc-800 font-semibold w3-animate-left hover:scale-110' :''}`} onClick={() => navigate('/bodyMetrics')}>
+              <ListItem className={`hover:scale-105 hover:bg-zinc-800 transition-transform ${location.pathname == '/bodyMetrics' ? 'scale-110 ml-2 bg-zinc-800 font-semibold w3-animate-left hover:scale-110' : ''}`} onClick={() => navigate('/bodyMetrics')}>
                 Body Metrics
               </ListItem>
             </List>
