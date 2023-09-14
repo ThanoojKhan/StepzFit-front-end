@@ -81,15 +81,15 @@ const HeroSection = () => {
             </p>
             <div className="flex items-center gap-8 mt-10 mb-28 w3-animate-bottom">
               <div className="px-1 flex font-extralight text-lg text-zinc-100 border-white rounded-full">
-                <button type="button" class="text-white bg-zinc-800 hover:bg-[#050708]/90 focus:ring-4 focus:outline-none focus:ring-[#050708]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#050708]/50 dark:hover:bg-[#050708]/30 mr-2 mb-2">
+                <button type="button" className="text-white bg-[#050708]/90 hover:bg-zinc-800 focus:ring-4 focus:outline-none focus:ring-[#050708]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#050708]/50 dark:hover:bg-[#050708]/30 mr-2 mb-2">
                   <WhatsappLogo size={20} className=" bg-green-600 rounded-md" color="currentColor" weight="regular" />
                   <a href={import.meta.env.VITE_WHATSAPP} className="ms-3" target="_blank">Chat With Us</a>
                 </button>
               </div>
 
-              <p href="#scrollTarget" onClick={scrollToNextWindow} className="flex items-center gap-2 text-red-500 hover:text-amber-500 group cursor-pointer">
+              <div href="#scrollTarget" onClick={scrollToNextWindow} className="flex items-center gap-2 text-red-500 hover:text-amber-500 group cursor-pointer">
                 <h1 className="text-zinc-100 group-hover:text-amber-500 font-extralight text-lg animate-bounce">Learn More</h1>
-              </p>
+              </div>
 
             </div>
           </div>

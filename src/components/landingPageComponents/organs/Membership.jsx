@@ -53,7 +53,7 @@ const Membership = () => {
                     </div>
                     <div className="opacity-0 hover:opacity-100 absolute inset-0 flex items-center justify-center transition-opacity bg-black bg-opacity-75">
                         <Link to={`/membershipPlans/${plan._id}`}>
-                            <button className="bg-none border text-white px-4 py-2 rounded-lg hover:bg-white hover:text-black">
+                            <button className="text-white bg-[#050708]/90 border hover:bg-zinc-800 focus:ring-4 focus:outline-none focus:ring-[#050708]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#050708]/50 dark:hover:bg-[#050708]/30 mr-2 mb-2">
                                 Explore More
                             </button>
                         </Link>

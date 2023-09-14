@@ -1,6 +1,6 @@
 import { WhatsappLogo } from "@phosphor-icons/react";
 import React, { useEffect, useState } from 'react';
-import { toast } from 'react-hot-toast';
+import { Toaster, toast } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import axiosInstance from '../../api/axios';
@@ -63,6 +63,7 @@ function PlanDetailsPage() {
 
     return (
         <>
+            <Toaster toastOptions={{ duration: 1000 }} />
             <section className="w-full h-auto relative overflow-x-hidden">
                 <main className="w-full lg:h-screen h-screen relative bg-zinc-900 overflow-x-hidden " style={backgroundStyle} >
                     <NavBar></NavBar>

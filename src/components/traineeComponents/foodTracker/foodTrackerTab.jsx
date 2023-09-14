@@ -285,7 +285,7 @@ const FoodTrackerTab = () => {
             <tfoot>
               <tr>
                 <th colSpan="2" className='text-lg text-white' >Total Calories</th>
-                <td className='text-lg text-white' c>{totalCaloriesSum}</td>
+                <td className='text-lg text-white'>{totalCaloriesSum}</td>
                 <td></td>
               </tr>
             </tfoot>
