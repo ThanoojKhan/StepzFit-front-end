@@ -34,15 +34,15 @@ const NavBar = () => {
     return (
         <>
             <header className="w-full h-auto bg-transparent overflow-x-hidden fixed z-50 top-0 left-0  delay-75">
-                <nav className={`w-full lg:h-20 md:h-20 h-20 ${navBarColor ? "bg-gradient-to-b from-black w3-animate-top" : ""} bg-gradient-to-b from-zinc-900 to-bg-transparent lg:px-16 md:px-9 px-8 flex justify-between items-center`}>
-                    <Link to={`/home`} className={`font-extrabold flex items-center relative md:text-2xl text-lg ${navBarColor ? '' : "w3-animate-left"} delay-100`}>
-                        <div as="span" className="animate-pulse ">
+                <nav className={`w-full lg:h-20 md:h-20 h-20 ${navBarColor ? "bg-gradient-to-b from-black to-transparent w3-animate-top" : "bg-zinc-900 md:bg-transparent"} lg:px-16 md:px-9 px-8 flex justify-between items-center`}>
+                    <Link >
+                        <div>
                         </div>
                     </Link>
                     <Link to={`/home`} className={`font-extralight flex items-center relative md:text-2xl text-lg ${navBarColor ? '' : "w3-animate-top"} delay-100`}>
-                        <div as="span" className="lg:hidden w3-animate-top capitalize">
+                        <h5 className="lg:hidden self-center w3-animate-top capitalize">
                             {location.pathname.replace(/\//g, ' ').replace(/([A-Z])/g, ' $1')}
-                        </div>
+                        </h5>
 
                     </Link>
                     <div className={`lg:flex hidden items-center delay-100 h-full gap-5 `}>

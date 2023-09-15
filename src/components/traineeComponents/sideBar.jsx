@@ -53,7 +53,7 @@ function SideBar() {
       ) : (
         ''
       )}
-      <div className={`${show ? '' : 'fixed w-screen h-screen '} flex flex-wrap z-50 lg:w-96 lg:-mr-6 xl:-mr-10 lg:h-screen`} onClick={closeSidebar}>
+      <div className={`${show ? '' : 'fixed w-screen h-screen '} flex flex-wrap z-50 lg:w-96 lg:-mr-20 xl:-mr-20 h-screen`} onClick={closeSidebar}>
         <Card
           style={{ position: 'fixed' }}
           className={`rounded-none lg:flex z-50 ${show ? 'hidden' : 'flex w3-animate-left w-screen bg-opacity-75 bg-black backdrop-blur-[2px]'
@@ -106,6 +106,9 @@ function SideBar() {
                 </ListItem>
                 <ListItem className="hover:scale-105  hover:bg-slate-900 transition-transform px-4" onClick={() => navigate('/myPlan')}>
                   My Plan
+                </ListItem>
+                <ListItem className="hover:scale-105  hover:bg-slate-900 transition-transform px-4" onClick={() => navigate('/myPlan')}>
+                  My Trainer
                 </ListItem>
                 <ListItem className="hover:scale-105  hover:bg-slate-900 transition-transform px-4" onClick={handleLogout}>
                   <ListItemPrefix>

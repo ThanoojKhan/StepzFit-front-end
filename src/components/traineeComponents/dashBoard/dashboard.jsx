@@ -1,45 +1,132 @@
-// import React, { useState } from 'react';
+// HomeBody.js
+
+import React, { useEffect, useState } from 'react';
 import 'react-image-crop/dist/ReactCrop.css';
-// import { useNavigate } from 'react-router-dom';
+import Cards from './cards';
+import { Fade } from 'react-awesome-reveal';
+import Tabs from './tabs';
+import { useSelector } from 'react-redux';
+import toast from 'react-hot-toast';
+import axiosInstance from '../../../api/axios';
+import ImageUpdatePopup from './ImageUpdatePopup'; // Import the ImageUpdatePopup component
 
 const HomeBody = () => {
-  // const navigate = useNavigate()
+  const { token } = useSelector((state) => state.User);
+  const [user, setUser] = useState([]);
+  const [plan, setPlan] = useState([]);
+  const [tasks, setTasks] = useState([]);
+  const [foodIntake, setFoodIntake] = useState([]);
+  const [weight, setWeight] = useState([]);
+  const [isPopupOpen, setPopupOpen] = useState(false); // State to control the image update popup
+  const [existingImage, setExistingImage] = useState('/src/assets/gym/4.jpeg');
+  const link1 = '/myTasks';
+  const link2 = '/foodTracker';
+
+  const fetchDashboard = async () => {
+    try {
+      const response = await axiosInstance.get('/user/dashBoard', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setUser(response?.data?.user);
+      setPlan(response?.data?.plan);
+      setWeight(response?.data?.weight?.bodyWeight);
+      setTasks(response?.data?.tasks);
+      setFoodIntake(response?.data?.foodIntake);
+    } catch (error) {
+      console.error(error);
+      toast.error(error?.response?.data?.errMsg);
+    }
+  };
+
+  useEffect(() => {
+    fetchDashboard();
+  }, [token]);
+
+  const handleUpdatePictureClick = () => {
+    setPopupOpen(true);
+  };
+
+  const handleUpdateImage = (newImage) => {
+    // You can implement the logic to update the user's image here
+    console.log('New image selected:', newImage);
+    // Close the popup
+    setPopupOpen(false);
+  };
+
   return (
     <>
-
-<div className="min-h-screen w-full">
-        <main>
-          <div className="max-w-full mx-auto px-2 mt-10 py-8 sm:px-6 lg:px-8">
-            <div className="py-6 px-1 bg-white overflow-hidden shadow rounded-lg">
-              <div className="px-4 py-5 sm:p-6">
-                <h2 className="text-xl py-4 font-bold text-gray-900">My Tasks</h2>
-                <ul className="space-y-4">
-                 
-                      <li
-                        className="border border-gray-300 p-4 rounded-md shadow-md flex justify-between items-center"
-                      >
-                        <div className="flex-grow">
-                          <p className="text-lg font-semibold">
-                          </p>
-                          <p className="text-gray-900">Task: </p>
-                          <p className="text-gray-900 mt-2">
-                            Status: 
-                              'Task Completed'
-                            
-                          </p>
+      <div className="min-h-screen w-full">
+        <div className="mx-auto px-4 mt-24 py-8 sm:px-6 lg:px-8 ">
+          <div className="py-6 px-1 overflow-hidden">
+            <div className="px-4 sm:p-6">
+              <div className="space-y-4">
+                <div className="text-white flex flex-col md:flex-row lg:gap-10 h-3/4 justify-center items-center">
+                  <div className="w-full md:w-1/2 flex-g m-3 text-left">
+                    <div className="flex-col w3-animate-top">
+                      <Fade className="w-full mb-10">
+                        <div className="w-full flex flex-col mt-10 items-center relative z-10">
+                          <h1 className="text-zinc-100 font-light cursor-default lg:text-5xl md:text-4xl self-start ms-20 md:ms-0 md:self-center text-3xl w3-animate-top">
+                            {user.name}
+                          </h1>
+                          <h1 className="absolute cursor-default text-zinc-500/10 lg:left-52 md:left-32 left-36 lg:text-9xl md:text-7xl text-6xl font-extralight lg:-top-32 md:-top-20 -top-16 -z-10 w3-animate-zoom">
+                            Heyy !!!
+                          </h1>
                         </div>
-                            <span className="text-green-600">Task Completed</span>
-                              
-                      </li>
-
-                </ul>
+                      </Fade>
+                    </div>
+                    <div className="md:hidden md:w-1/2 h-3/5 w3-aniamte-zoom ">
+                      <span className="m-4 flex-col justify-center text-center">
+                        <img
+                          src={existingImage ? existingImage : "/src/assets/gym/4.jpeg"}
+                          alt=""
+                          className="w-full h-full object-cover rounded-2xl shadow-2xl+"
+                        />
+                        {/* Add an onClick event to open the popup */}
+                        <h5 onClick={handleUpdatePictureClick} className='mt-5 cursor-pointer hover:scale-105 transition-transform text-zinc-200'>Update Picture</h5>
+                      </span>
+                    </div>
+                    <div className="align-bottom my-6 w3-animate-left">
+                      <Fade>
+                        <div className="flex flex-col mt-10 items-start relative before:absolute before:-bottom-6 before:left-0 before:w-20 before:h-1 before:rounded-lg z-10">
+                          <h1 className="absolute cursor-default text-zinc-500/20 md:-left-3 left-0 lg:text-8xl md:text-7xl text-6xl font-light lg:-top-36 md:-top-20 -top-16 -z-10 ">Heyy !!!</h1>
+                        </div>
+                        <h1 className="text-zinc-200 mt-16 mb-4 cursor-default text-xl">Monitor all your data in the easiest way</h1>
+                      </Fade>
+                    </div>
+                    <Cards weight={weight} trainer={user.trainerId} />
+                  </div>
+                  <div className="hidden md:flex items-center md:w-1/2 h-2/5 max-h-96 max-w-xl w3-animate-zoom">
+                    <span className="m-4 flex-col justify-center text-center">
+                      <img
+                        src={existingImage ? existingImage : "/src/assets/gym/4.jpeg"}
+                        alt=""
+                        className="w-full h-full object-cover rounded-2xl shadow-2xl+"
+                      />
+                      <div className="relative">
+                        <h5 onClick={() => setPopupOpen(true)} className='mt-5 cursor-pointer hover:scale-105 transition-transform text-zinc-200'>Update Picture</h5>
+                      </div>
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </main>
+          {/* Render the ImageUpdatePopup component */}
+          <ImageUpdatePopup isOpen={isPopupOpen} existingImage={existingImage} onClose={() => setPopupOpen(false)} onUpdate={handleUpdateImage} />
+          <div className="px-5 mx-1 flex flex-col xl:flex-row">
+            <div className="px-4 flex-col w-full my-5">
+              <Tabs title="Tasks" items={tasks} link={link1} />
+            </div>
+            <div className="px-4 flex-col w-full my-5">
+              <Tabs title="Food Intake" items={foodIntake} link={link2} />
+            </div>
+          </div>
+        </div>
       </div>
-
     </>
-  )
-}
+  );
+};
+
 export default HomeBody;
