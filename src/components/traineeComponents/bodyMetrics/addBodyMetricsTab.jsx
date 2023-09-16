@@ -127,7 +127,6 @@ function addBodyMetricsTab() {
   return (
     <>
       <div className="capitalize min-h-screen w-full">
-        <Toaster toastOptions={3000} />
         <main className="overflow-y-auto">
           <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
             <div className="mt-8 bg-white overflow-hidden shadow rounded-lg">

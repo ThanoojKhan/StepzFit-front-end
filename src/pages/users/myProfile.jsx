@@ -8,7 +8,7 @@ import NavBar from '../../components/traineeComponents/NavBar'
 function MyProfile() {
 
   return (
-    <div className='flex'><Toaster toastOptions={3000} />
+    <div className='flex'>
       <NavBar />
       <SideBar />
       <MyProfileTab />

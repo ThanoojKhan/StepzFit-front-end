@@ -8,7 +8,6 @@ function DashBoard() {
 
   return (
     <div className='flex'>
-      <Toaster toastOptions={3000} />
       <NavBar />
       <SideBar />
       <Dashboard />

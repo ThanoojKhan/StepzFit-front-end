@@ -114,7 +114,6 @@ function MessagesTab() {
 
     return (
         <>
-            <Toaster toastOptions={3000} />
             <div className="flex h-screen antialiased text-gray-800">
                 <div className="sm:flex sm:flex-row h-full w-full overflow-x-hidden">
                     <div className="flex sm:flex sm:flex-col py-8 pl-6 overflow-x-scroll sm:overflow-y-scroll pr-2 gap-2 sm:w-64 bg-white flex-shrink-0">

@@ -7,7 +7,7 @@ import NavBar from '../../components/traineeComponents/NavBar'
 function MyTasks() {
 
   return (
-    <div className='flex'><Toaster toastOptions={3000} />
+    <div className='flex'>
       <NavBar />
       <SideBar />
       <MyTasksTab />

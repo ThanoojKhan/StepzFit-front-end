@@ -97,7 +97,7 @@ function MyProfileTab() {
   return (
     <>
       <div className="capitalize bg-[url('')] min-h-screen bg-cover bg-fixed">
-        <Toaster toastOptions={{ duration: 1000 }} />{loader ? <Loader /> :
+        {loader ? <Loader /> :
           edit ?
             <>
               <div className="justify-center bg-transparent items-center flex overflow-x-hidden overflow-y-auto disableBar fixed inset-0 z-50 outline-none focus:outline-none">
