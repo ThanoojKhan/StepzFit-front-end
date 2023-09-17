@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import axiosInstance from '../../../api/axios'
 import { toast, Toaster } from 'react-hot-toast'
 import UserDetail from '../userDetail'
-import Loader from '../loader'
+import Loader from '../../loader'
 import { CgSpinner } from 'react-icons/cg'
 
 

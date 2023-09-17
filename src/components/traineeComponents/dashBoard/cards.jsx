@@ -1,8 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Fade } from 'react-awesome-reveal'
 import { useNavigate } from 'react-router-dom'
+import MyTrainerPopup from './myTrainer'
 function cards({ weight, trainer }) {
     const navigate = useNavigate()
+    const [isPopupOpen, setPopupOpen] = useState(false);
+
+    const handlePopup=()=>{
+        setPopupOpen(!isPopupOpen)
+    }
+
     return (
         <div>
             <div className="flex gap-6">
@@ -15,13 +22,12 @@ function cards({ weight, trainer }) {
                             <div className="text-5xl text-center md:me-6 sm:text-5xl md:text-4xl lg:text-4xl xl:text-6xl 2xl:text-6xl font-extralight my-4"><h5 className='md:me-6'> {weight}</h5>
                                 <h5 className="text-4xl sm:text-4xl text-right md:me-6 md:text-3xl lg:text-3xl xl:text-5xl 2xl:text-5xl font-extralight self-end">Kilogram</h5></div>
                             <Fade>
-
                                 <h1 className="text-zinc-200 mt-5 mb-4 font-light text-lg">Keep Up with the Pace. Track Body Metrics weekly </h1>
                             </Fade>
                         </div>
                     </div>
                 </div>
-                <div className="flex w-1/2 hover:scale-105 transition-transform cursor-pointer w3-animate-zoom">
+                <div onClick={handlePopup} className="flex w-1/2 hover:scale-105 transition-transform cursor-pointer w3-animate-zoom">
                     <div className="flex flex-col  items-center w-full p-4">
                         <div className="text-center">
                             <h5 className="mb-2 text-xl font-light text-neutral-800 dark:text-neutral-50">
@@ -35,6 +41,7 @@ function cards({ weight, trainer }) {
                             <p className="text-neutral-500 dark:text-neutral-400">{trainer?.department}</p>
                         </div>
                     </div>
+                    <MyTrainerPopup isOpen={isPopupOpen} trainer={trainer} onClose={handlePopup} />
                 </div>
             </div>
         </div>

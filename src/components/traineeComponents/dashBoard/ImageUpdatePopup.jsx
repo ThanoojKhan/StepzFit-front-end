@@ -5,6 +5,7 @@ import axiosInstance from '../../../api/axios';
 import { useSelector } from 'react-redux';
 import { Toaster, toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
+import Loader from '../../loader';
 
 Modal.setAppElement('#root');
 
@@ -12,6 +13,7 @@ const ImageUpdatePopup = ({ isOpen, onClose, onUpdate, existingImage }) => {
   const [selectedImage, setSelectedImage] = useState(existingImage);
   const { token } = useSelector((state) => state.User);
   const fileInputRef = useRef(null);
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleImageClick = () => {
     if (fileInputRef.current) {
@@ -26,17 +28,20 @@ const ImageUpdatePopup = ({ isOpen, onClose, onUpdate, existingImage }) => {
 
   const handleImageUpdate = async () => {
     try {
+      setIsLoading(true)
       await axiosInstance.post('/user/setDashImage', { selectedImage }, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       onUpdate(selectedImage);
+      setIsLoading(false)
       onClose();
       toast.success('Image updated successfully', {
-        duration: 1000,
+        duration: 2000,
       });
     } catch (error) {
+      setIsLoading(false)
       toast.error(error?.response?.data?.errMsg, {
         duration: 1000,
       })
@@ -71,6 +76,7 @@ const ImageUpdatePopup = ({ isOpen, onClose, onUpdate, existingImage }) => {
   return (
     <div>
       <Toaster position="top-center" reverseOrder={false} />
+      {isLoading ? <Loader /> : ''}
       <Modal
         isOpen={isOpen}
         onRequestClose={handleClose}
@@ -78,7 +84,7 @@ const ImageUpdatePopup = ({ isOpen, onClose, onUpdate, existingImage }) => {
           overlay: {
             backgroundColor: 'rgba(0, 0, 0, 0.4)',
             backdropFilter: 'blur(5px)',
-            zIndex: 1000,
+            zIndex: 990,
           },
           content: {
             maxWidth: '800px',
@@ -89,10 +95,13 @@ const ImageUpdatePopup = ({ isOpen, onClose, onUpdate, existingImage }) => {
             boxShadow: '0 2px 5px rgba(0, 0, 0, 0.2)',
             background: 'black',
             overflowY: 'auto',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
           },
         }}
       >
-        <h4 className="text-white my-5 w3-animate-top">Update Image</h4>
+        <h4 className="text-zinc-300 ms-5 my-10 w3-animate-top">Update Dash Image</h4>
         <div className="relative">
           <img
             src={selectedImage}
@@ -111,17 +120,17 @@ const ImageUpdatePopup = ({ isOpen, onClose, onUpdate, existingImage }) => {
           </div>
         </div>
 
-        <div className="flex-col justi">
+        <div className="flex-col">
           <div className="flex justify-center gap-5 my-10">
             <button
               onClick={handleImageUpdate}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-full"
+              className="bg-zinc-400 hover:bg-blue-700 text-black font-semibold py-2 px-4 rounded-lg"
             >
               Update
             </button>
             <button
               onClick={handleClose}
-              className="bg-gray-400 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-full"
+              className="bg-transparent hover:text-red-700 text-zinc-300 font-semibold py-2 px-4 rounded-full"
             >
               Close
             </button>

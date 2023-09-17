@@ -24,33 +24,44 @@ function OtpPage() {
 
 
   const checkMob = () => {
-    setResend(false)
-    if ((regex_mobile.test(phone) == false)) {
-      toast.error('Enter valid mobile number')
+    setResend(false);
+    
+    if (!regex_mobile.test(phone)) {
+      toast.error('Enter a valid mobile number');
     } else {
-      axiosInstance.post('/user/otpLogin', { phone }).then((res) => {
-        if (res.status == 200) {
-          setData(res.data.data)
-          console.log('=======');
-          onCaptchaVerify()
-          const appVerifier = window.recaptchaVerifier
-          const phoneNo = '+91' + phone
-          signInWithPhoneNumber(auth, phoneNo, appVerifier)
-            .then((confirmationResult) => {
-              console.log('asdfsdfsdfsdf');
-              window.confirmationResult = confirmationResult;
-              setShowOTP(true)
-              toast.success('OTP send')
-            }).catch((error) => {
-              console.log(error);
-              if (error?.response?.data?.errMsg) {
-                toast.error(error?.response?.data?.errMsg)
-              }
-            });
-        }
-      })
+      axiosInstance.post('/user/otpLogin', { phone })
+        .then((res) => {
+          if (res.status === 200) {
+            setData(res.data.data);
+            onCaptchaVerify();
+            const appVerifier = window.recaptchaVerifier;
+            const phoneNo = '+91' + phone;
+            
+            signInWithPhoneNumber(auth, phoneNo, appVerifier)
+              .then((confirmationResult) => {
+                window.confirmationResult = confirmationResult;
+                setShowOTP(true);
+                toast.success('OTP sent');
+              })
+              .catch((error) => {
+                console.error("Error while sending OTP:", error);
+                if (error.response && error.response.data && error.response.data.errMsg) {
+                  toast.error(error.response.data.errMsg);
+                } 
+              });
+          }
+        })
+        .catch((error) => {
+          console.error("Error in checkMob:", error);
+          if (error.response && error.response.data && error.response.data.errMsg) {
+            toast.error(error.response.data.errMsg);
+          } else {
+            toast.error('An error occurred while checking the mobile number');
+          }
+        });
     }
-  }
+  };
+  
 
   function onCaptchaVerify() {
 

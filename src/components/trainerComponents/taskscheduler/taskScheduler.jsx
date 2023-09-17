@@ -202,7 +202,7 @@ function TaskSchedulerTrainer() {
                               Status: {task.isDone ? 'Task Completed' : 'Task Pending'}
                             </p>
                           </div>
-                          {!isPastDate(task.date) && (
+                          {!isPastDate(task.date) && !task.isDone && (
                             <div className="flex items-center">
                               <button
                                 className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 mr-2"
@@ -218,6 +218,7 @@ function TaskSchedulerTrainer() {
                               </button>
                             </div>
                           )}
+
                         </li>
                       ))}
                   </ul>

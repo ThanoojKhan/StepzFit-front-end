@@ -4,13 +4,14 @@ import { useSelector } from 'react-redux';
 import axiosInstance from '../../../api/axios';
 import FoodIntakeDetailsModal from '../foodTracker/foodTrackerDetailPopup';
 import Modal from 'react-modal';
+import Loader from '../../loader';
 
 const FoodTrackerTab = () => {
   const { token } = useSelector((state) => state.User);
   const [selectedFood, setSelectedFood] = useState('');
   const [selectedQuantity, setSelectedQuantity] = useState('');
-  const [selectedHour, setSelectedHour] = useState('');
-  const [selectedMinute, setSelectedMinute] = useState('');
+  const [selectedHour, setSelectedHour] = useState('0');
+  const [selectedMinute, setSelectedMinute] = useState('0');
   const [selectedAmPm, setSelectedAmPm] = useState('AM');
   const [foodOptions, setFoodOptions] = useState([]);
   const [foodIntake, setFoodIntake] = useState([]);
@@ -21,6 +22,7 @@ const FoodTrackerTab = () => {
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [entryToDelete, setEntryToDelete] = useState(null);
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -38,17 +40,19 @@ const FoodTrackerTab = () => {
   }, [reload]);
 
   const fetchFoodOptions = () => {
-    axiosInstance
-      .get('/user/foodDB', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+    setIsLoading(true)
+    axiosInstance.get('/user/foodDB', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((response) => {
         setFoodOptions(response?.data?.foods);
+        setIsLoading(false)
       })
       .catch((error) => {
         console.error('Error fetching food options:', error);
+        setIsLoading(false)
       });
   };
 
@@ -78,16 +82,16 @@ const FoodTrackerTab = () => {
     const selectedTime = `${selectedHourWithZero}:${selectedMinuteWithZero} ${selectedAmPm}`;
 
     if (selectedFood && selectedQuantity && selectedTime) {
-      axiosInstance
-        .post('/user/addFood', {
-          food: selectedFood,
-          quantity: selectedQuantity,
-          time: selectedTime,
-        }, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
+      setIsLoading(true)
+      axiosInstance.post('/user/addFood', {
+        food: selectedFood,
+        quantity: selectedQuantity,
+        time: selectedTime,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
         .then(() => {
           toast.success('Food added successfully');
           setReload(true);
@@ -96,9 +100,11 @@ const FoodTrackerTab = () => {
           setSelectedHour('')
           setSelectedMinute('')
           setSelectedDate(new Date().toISOString().split('T')[0])
+          setIsLoading(false)
         })
         .catch((error) => {
           console.error('Error adding food:', error);
+          setIsLoading(false)
           toast.error('An error occurred while adding food.');
         });
     } else {
@@ -107,19 +113,21 @@ const FoodTrackerTab = () => {
   };
 
   const handleFetchFoodIntake = () => {
-    axiosInstance
-      .get('/user/getFoodIntake', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+    setIsLoading(true)
+    axiosInstance.get('/user/getFoodIntake', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((response) => {
         setFoodIntake(response?.data?.foodIntake);
         setReload(false);
+        setIsLoading(false)
       })
       .catch((error) => {
         console.error('Error fetching food intake:', error);
         toast.error('An error occurred while fetching food intake.');
+        setIsLoading(false)
       });
   };
 
@@ -155,99 +163,113 @@ const FoodTrackerTab = () => {
   );
 
   const handleDeleteEntry = () => {
-    axiosInstance
-      .delete(`/user/deleteFoodIntake/${entryToDelete._id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+    setIsLoading(true)
+    axiosInstance.delete(`/user/deleteFoodIntake/${entryToDelete._id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then(() => {
         toast.success('Food intake entry deleted successfully');
         setIsDeleteModalOpen(false);
-
+        setIsLoading(false)
         setFoodIntake((prevFoodIntake) =>
           prevFoodIntake.filter((entry) => entry?._id !== entryToDelete?._id)
         );
       })
       .catch((error) => {
         toast.error(error);
+        setIsLoading(false)
       });
   };
 
   return (
     <>
+      {isLoading ? <Loader /> : ''}
       <div style={{ width: '95%' }} className=" mt-40 mx-10 md:mx-25 sm:w-auto">
         <Toaster toastOptions={3000} />
-
         <div className='flex-col justify-center items-center'>
-          <h2 className="text-2xl font-semibold mb-4">Add Food to your Food Tracker</h2>
-          <div className="grid grid-cols-1  gap-4">
-            <div>
-              <label className="block font-medium mb-1">Select Food</label>
-              <select
-                value={selectedFood}
-                onChange={handleFoodChange}
-                className="block w-1/2 p-2  rounded"
-              >
-                <option value="">Select food</option>
-                {foodOptions?.map((foodOption, index) => (
-                  <option key={index} value={foodOption._id}>
-                    {foodOption.name}
-                  </option>
-                ))}
-              </select>
+          <h1 className="text-zinc-200 mb-4 cursor-default text-xl">Simplify your food tracking with our user-friendly interface, making it effortless to monitor your daily nutrition intake.</h1>
+          <p className="text-3xl font-extralight mt-2 border-b-2 mb-8 border-zinc-500"></p>
+          <div className="w-full flex justify-center flex-col my-10 gap-4">
+
+            <div className='flex justify-center items-center'>
+              <div className="mt-4 w-full mx-4 md:w-1/3 flex-col justify-center items-center">
+                <label className="block font-medium mb-1">Select Food</label>
+                <select
+                  value={selectedFood}
+                  onChange={handleFoodChange}
+                  className="block w-full p-2 my-4 rounded"
+                >
+                  <option value="">Select food</option>
+                  {foodOptions?.map((foodOption, index) => (
+                    <option key={index} value={foodOption._id}>
+                      {foodOption.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
-            <div>
-              <label className="block font-medium mb-1">Enter Quantity (gms)</label>
-              <input
-                type="number"
-                min="50"
-                step="50"
-                value={selectedQuantity}
-                onChange={handleQuantityChange}
-                className="block w-1/2 p-2 rounded"
-                placeholder="Quantity (gms)"
-              />
+
+
+            <div className='flex justify-center items-center'>
+
+              <div className="mt-4 ">
+                <label className="block font-medium mb-1">Enter Quantity (gms)</label>
+                <input
+                  type="number"
+                  min="50"
+                  step="50"
+                  value={selectedQuantity}
+                  onChange={handleQuantityChange}
+                  className="p-2 my-4  rounded"
+                  placeholder="Quantity (gms)"
+                />
+              </div>
+
+              <div className="mt-4 mx-5">
+                <label className="font-medium mb-1">Select Time</label>
+                <div className="flex">
+                  <input
+                    type="number"
+                    min="01"
+                    max="12"
+                    value={selectedHour}
+                    onChange={handleHourChange}
+                    className="w-16 p-2 my-4 rounded-l"
+                    placeholder="HH"
+                  />
+                  <span className="w-8 flex justify-center items-center">:</span>
+                  <input
+                    type="number"
+                    min="01"
+                    max="59"
+                    value={selectedMinute}
+                    onChange={handleMinuteChange}
+                    className="w-16 p-2 my-4 rounded-r"
+                    placeholder="MM"
+                  />
+                  <select
+                    value={selectedAmPm}
+                    onChange={handleAmPmChange}
+                    className="w-16 p-2 my-4 rounded ml-2"
+                  >
+                    <option value="AM">AM</option>
+                    <option value="PM">PM</option>
+                  </select>
+                </div>
+              </div>
+
+            </div>
+            <div className='flex justify-center'>
+              <button
+                onClick={handleAddFood}
+                className="mt-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 focus:outline-none"
+              >
+                Add to Tracker
+              </button>
             </div>
           </div>
-          <div className="mt-4">
-            <label className="block font-medium mb-1">Select Time</label>
-            <div className="flex">
-              <input
-                type="number"
-                min="01"
-                max="12"
-                value={selectedHour}
-                onChange={handleHourChange}
-                className="w-16 p-2  rounded-l"
-                placeholder="HH"
-              />
-              <span className="w-8 flex justify-center items-center">:</span>
-              <input
-                type="number"
-                min="01"
-                max="59"
-                value={selectedMinute}
-                onChange={handleMinuteChange}
-                className="w-16 p-2  rounded-r"
-                placeholder="MM"
-              />
-              <select
-                value={selectedAmPm}
-                onChange={handleAmPmChange}
-                className="w-16 p-2 rounded ml-2"
-              >
-                <option value="AM">AM</option>
-                <option value="PM">PM</option>
-              </select>
-            </div>
-          </div>
-          <button
-            onClick={handleAddFood}
-            className="mt-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 focus:outline-none"
-          >
-            Add Food
-          </button>
         </div>
 
         <div className="overflow-x-auto mt-10 mb-5">
@@ -361,7 +383,7 @@ const FoodTrackerTab = () => {
         contentLabel="Delete Confirmation"
       >
         <div className="fixed top-0 left-0 px-10 w-full h-full flex items-center justify-center z-50">
-          <div className="bg-transparent p-10 rounded-lg shadow-md">
+          <div className="bg-transparent p-10 rounded-lg border border-zinc-800 shadow-md">
             <h2 className="text-white text-2xl mb-4">Confirm Deletion</h2>
             {entryToDelete && (
               <p className="text-white">

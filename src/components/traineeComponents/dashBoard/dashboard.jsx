@@ -2,40 +2,44 @@ import React, { useEffect, useState } from 'react';
 import 'react-image-crop/dist/ReactCrop.css';
 import Cards from './cards';
 import { Fade } from 'react-awesome-reveal';
-import Tabs from './tabs';
+import TaskTab from './taskTab';
+import FoodTab from './foodTab';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-hot-toast';
 import axiosInstance from '../../../api/axios';
 import ImageUpdatePopup from './ImageUpdatePopup';
+import Loader from '../../loader';
 
 const HomeBody = () => {
   const { token } = useSelector((state) => state.User);
   const [user, setUser] = useState([]);
-  const [plan, setPlan] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [foodIntake, setFoodIntake] = useState([]);
   const [weight, setWeight] = useState([]);
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [existingImage, setExistingImage] = useState('');
+  const [isLoading, setIsLoading] = useState(false)
 
   const link1 = '/myTasks';
   const link2 = '/foodTracker';
 
   const fetchDashboard = async () => {
     try {
+      setIsLoading(true)
       const response = await axiosInstance.get('/user/dashBoard', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       setUser(response?.data?.user);
-      setPlan(response?.data?.plan);
       setWeight(response?.data?.weight?.bodyWeight);
       setTasks(response?.data?.tasks);
       setFoodIntake(response?.data?.foodIntake);
       setExistingImage(response?.data?.user?.dashImage)
+      setIsLoading(false)
     } catch (error) {
       toast.error(error?.response?.data?.errMsg);
+      setIsLoading(false)
     }
   };
 
@@ -53,6 +57,8 @@ const HomeBody = () => {
 
   return (
     <>
+
+      {isLoading ? <Loader /> : ''}
       <div className="min-h-screen w-full">
         <div className="mx-auto px-4 mt-24 py-8 sm:px-6 lg:px-8 ">
           <div className="py-6 px-1 overflow-hidden">
@@ -72,22 +78,24 @@ const HomeBody = () => {
                         </div>
                       </Fade>
                     </div>
-                    <div className="md:hidden md:w-1/2 h-3/5 w3-aniamte-zoom ">
-                      <span className="m-4 flex-col justify-center text-center">
-                        <img
-                          src={existingImage}
-                          alt=""
-                          className="w-full h-full object-cover rounded-2xl shadow-2xl"
-                        />
-                        <h5 onClick={handleUpdatePictureClick} className='mt-5 cursor-pointer hover:scale-105 transition-transform text-zinc-200'>Update Picture</h5>
-                      </span>
-                    </div>
                     <div className="align-bottom my-6 w3-animate-left">
                       <Fade>
                         <div className="flex flex-col mt-10 items-start relative before:absolute before:-bottom-6 before:left-0 before:w-20 before:h-1 before:rounded-lg z-10">
                           <h1 className="absolute cursor-default text-zinc-500/20 md:-left-3 left-0 lg:text-8xl md:text-7xl text-6xl font-light lg:-top-36 md:-top-20 -top-16 -z-10 ">Heyy !!!</h1>
                         </div>
+                        <div className="md:hidden md:w-1/2 h-3/5 w3-aniamte-zoom ">
+                          <span className="m-4 flex-col justify-center text-center">
+                            <img
+                              src={existingImage}
+                              alt=""
+                              className="w-full h-full object-cover rounded-2xl shadow-2xl"
+                            />
+                            <h5 onClick={handleUpdatePictureClick} className='mt-5 cursor-pointer hover:scale-105 transition-transform text-zinc-200'>Update Picture</h5>
+                          </span>
+                        </div>
                         <h1 className="text-zinc-200 mt-16 mb-4 cursor-default text-xl">Monitor all your data in the easiest way</h1>
+                        <p className="text-3xl font-extralight mt-2 border-b-2 border-zinc-500"></p>
+
                       </Fade>
                     </div>
                     <Cards weight={weight} trainer={user.trainerId} />
@@ -111,10 +119,10 @@ const HomeBody = () => {
           <ImageUpdatePopup isOpen={isPopupOpen} existingImage={existingImage} onClose={() => setPopupOpen(false)} onUpdate={handleImageUpdateInHomeBody} />
           <div className="px-5 mx-1 flex flex-col xl:flex-row">
             <div className="px-4 flex-col w-full my-5">
-              <Tabs title="Tasks" items={tasks} link={link1} />
+              <TaskTab title="Tasks" items={tasks} link={link1} />
             </div>
             <div className="px-4 flex-col w-full my-5">
-              <Tabs title="Food Intake" items={foodIntake} link={link2} />
+              <FoodTab title="Food Intake" items={foodIntake} link={link2} />
             </div>
           </div>
         </div>

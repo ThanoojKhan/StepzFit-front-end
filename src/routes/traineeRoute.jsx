@@ -44,7 +44,7 @@ function TraineeRoute() {
         <Route path='/paymentFailed' element={user.token ? <PaymentFailed /> : <Navigate to='/login' />} />
         <Route path='/myPlan' element={user.token ? <MyPlan /> : <Navigate to='/login' />} />
         <Route path='/plans' element={user.token ? <Plans /> : <Navigate to='/login' />} />
-        <Route path='*' element ={<NotFound/>}/>
+        <Route path='*' element={<NotFound />} />
       </Routes>
     </div>
   )
