@@ -16,6 +16,7 @@ function MyTaskTab() {
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   const [showAllTasks, setShowAllTasks] = useState(true);
   const [isLoading, setIsLoading] = useState(false)
+  const [showToaster, setShowToaster] = useState(false)
 
   const handleShowDetails = (task) => {
     setSelectedEntryDetails(task);
@@ -33,6 +34,11 @@ function MyTaskTab() {
     const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
     const day = dateObj.getDate().toString().padStart(2, '0');
     return `${year}-${month}-${day}`;
+  };
+
+  const handleDateChange = (event) => {
+    setSelectedDate(event.target.value);
+    setShowAllTasks(false)
   };
 
   const fetchTasks = async () => {
@@ -65,13 +71,16 @@ function MyTaskTab() {
           },
         }
       );
+      setShowToaster(true)
       toast.success('Task marked as done.');
       fetchTasks();
       setIsLoading(false)
     } catch (error) {
       console.error(error);
+      setShowToaster(true)
       toast.error('An error occurred while marking the task as done.');
       setIsLoading(false)
+
     } finally {
       setTaskIdToMarkAsDone('');
       setShowConfirmation(false);
@@ -89,7 +98,7 @@ function MyTaskTab() {
 
   return (
     <>
-        <Toaster toastOptions={3000} />
+      {showToaster && <Toaster toastOptions={3000} />}
       {isLoading ? <Loader /> : ''}
       <div style={{ width: '95%' }} className="mt-40 mx-10 md:mx-25 sm:w-auto">
         <h1 className="text-zinc-200 mb-4 cursor-default text-xl">Daily fitness and nutrition tasks are essential components of a well-rounded and healthy lifestyle. These tasks focus on promoting physical activity, balanced eating, and overall well-being.</h1>
@@ -99,7 +108,7 @@ function MyTaskTab() {
               <input
                 type="date"
                 value={selectedDate}
-                onChange={(event) => setSelectedDate(event.target.value)}
+                onChange={handleDateChange}
                 className="p-3 me-4 rounded"
               />
               <button
@@ -117,7 +126,7 @@ function MyTaskTab() {
               <th>Date</th>
               <th>Task</th>
               <th>Status</th>
-              <th>Details</th>
+              <th></th>
             </tr>
           </thead>
           {showAllTasks ? (
@@ -160,7 +169,7 @@ function MyTaskTab() {
                         </div>
                       </td>
                       <th>
-                        <div className='flex '>
+                        <div className='w3-animate-zoom'>
                           <button className="btn btn-ghost btn-xs" onClick={() => handleShowDetails(task)}>Details</button>
                           {new Date(task.date).toDateString() === new Date().toDateString() && (!task.isDone) && (
                             <button
@@ -237,7 +246,6 @@ function MyTaskTab() {
             )
           )}
         </table>
-
         {isModalOpen && (
           <TaskDetailsModal
             isOpen={isModalOpen}
@@ -265,12 +273,17 @@ function MyTaskTab() {
         contentLabel="Delete Confirmation"
       >
         <div className="fixed top-0 left-0 px-10 w-full h-full flex items-center justify-center z-50">
-          <div className="bg-transparent w3-animate-zoom p-10 rounded-lg border border-zinc-800 shadow-md">
+          <div className="bg-transparent flex-col justify-center items-center w3-animate-zoom p-10 rounded-lg border border-zinc-800 shadow-md">
             <h2 className="text-white text-2xl mb-4">Confirm Completion of Task.</h2>
             {taskIdToMarkAsDone && (
-              <div className="text-white">
-                Are you sure you want to mark the task:<h4 className='font-bold capitalize my-3'>'{taskIdToMarkAsDone.task}'</h4> as Task completed ?
-              </div>
+              <div className="text-white flex flex-col gap-4 items-center justify-center">
+              Are you sure you want to mark the task:
+              <h4 className='font-bold capitalize'>
+                ' {taskIdToMarkAsDone.task} '
+              </h4>
+              as Task completed ?
+            </div>
+            
             )}
             <div className="flex justify-center mt-4">
               <button
@@ -280,7 +293,7 @@ function MyTaskTab() {
                 Cancel
               </button>
               <button className="btn btn-green" onClick={markTaskAsDone}>
-                Confirm Delete
+                Mark as Done
               </button>
             </div>
           </div>

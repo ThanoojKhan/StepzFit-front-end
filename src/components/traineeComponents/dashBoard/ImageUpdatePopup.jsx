@@ -14,6 +14,8 @@ const ImageUpdatePopup = ({ isOpen, onClose, onUpdate, existingImage }) => {
   const { token } = useSelector((state) => state.User);
   const fileInputRef = useRef(null);
   const [isLoading, setIsLoading] = useState(false)
+  const [showToaster, setShowToaster] = useState(false)
+
 
   const handleImageClick = () => {
     if (fileInputRef.current) {
@@ -37,10 +39,12 @@ const ImageUpdatePopup = ({ isOpen, onClose, onUpdate, existingImage }) => {
       onUpdate(selectedImage);
       setIsLoading(false)
       onClose();
+      setShowToaster(true)
       toast.success('Image updated successfully', {
         duration: 2000,
       });
     } catch (error) {
+      setShowToaster(true)
       setIsLoading(false)
       toast.error(error?.response?.data?.errMsg, {
         duration: 1000,
@@ -65,6 +69,7 @@ const ImageUpdatePopup = ({ isOpen, onClose, onUpdate, existingImage }) => {
         setSelectedImage(reader.result);
       };
     } else {
+      setShowToaster(true)
       toast.error('Unsupported Format');
     }
   };
@@ -75,7 +80,7 @@ const ImageUpdatePopup = ({ isOpen, onClose, onUpdate, existingImage }) => {
 
   return (
     <div>
-      <Toaster position="top-center" reverseOrder={false} />
+      {showToaster && <Toaster toastOptions={3000} />}
       {isLoading ? <Loader /> : ''}
       <Modal
         isOpen={isOpen}

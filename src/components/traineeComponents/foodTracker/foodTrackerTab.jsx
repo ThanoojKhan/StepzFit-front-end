@@ -5,6 +5,7 @@ import axiosInstance from '../../../api/axios';
 import FoodIntakeDetailsModal from '../foodTracker/foodTrackerDetailPopup';
 import Modal from 'react-modal';
 import Loader from '../../loader';
+import RoundProgressBar from '../roundProgress';
 
 const FoodTrackerTab = () => {
   const { token } = useSelector((state) => state.User);
@@ -23,6 +24,7 @@ const FoodTrackerTab = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [entryToDelete, setEntryToDelete] = useState(null);
   const [isLoading, setIsLoading] = useState(false)
+  const [showToaster, setShowToaster] = useState(false)
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -78,10 +80,10 @@ const FoodTrackerTab = () => {
 
   const handleAddFood = () => {
     const selectedHourWithZero = selectedHour < 10 ? `0${selectedHour}` : selectedHour;
-    const selectedMinuteWithZero = selectedMinute < 10 ? `0${selectedMinute}` : selectedMinute;
+    const selectedMinuteWithZero = selectedMinute == 0 ? "00" : selectedMinute < 10 ? `0${selectedMinute}` : selectedMinute;
     const selectedTime = `${selectedHourWithZero}:${selectedMinuteWithZero} ${selectedAmPm}`;
 
-    if (selectedFood && selectedQuantity && selectedTime) {
+    if (selectedFood && selectedQuantity && selectedHourWithZero != 0 && selectedHourWithZero < 13 && selectedMinuteWithZero < 60) {
       setIsLoading(true)
       axiosInstance.post('/user/addFood', {
         food: selectedFood,
@@ -93,6 +95,7 @@ const FoodTrackerTab = () => {
         },
       })
         .then(() => {
+          setShowToaster(true)
           toast.success('Food added successfully');
           setReload(true);
           setSelectedFood('')
@@ -105,10 +108,12 @@ const FoodTrackerTab = () => {
         .catch((error) => {
           console.error('Error adding food:', error);
           setIsLoading(false)
+          setShowToaster(true)
           toast.error('An error occurred while adding food.');
         });
     } else {
-      toast.error('Please select food, quantity, and time.');
+      setShowToaster(true)
+      toast.error('Please select food, quantity, and proper time of intake.');
     }
   };
 
@@ -126,6 +131,7 @@ const FoodTrackerTab = () => {
       })
       .catch((error) => {
         console.error('Error fetching food intake:', error);
+        setShowToaster(true)
         toast.error('An error occurred while fetching food intake.');
         setIsLoading(false)
       });
@@ -170,6 +176,7 @@ const FoodTrackerTab = () => {
       },
     })
       .then(() => {
+        setShowToaster(true)
         toast.success('Food intake entry deleted successfully');
         setIsDeleteModalOpen(false);
         setIsLoading(false)
@@ -178,6 +185,7 @@ const FoodTrackerTab = () => {
         );
       })
       .catch((error) => {
+        setShowToaster(true)
         toast.error(error);
         setIsLoading(false)
       });
@@ -186,16 +194,17 @@ const FoodTrackerTab = () => {
   return (
     <>
       {isLoading ? <Loader /> : ''}
+      {showToaster && <Toaster toastOptions={3000} />}
       <div style={{ width: '95%' }} className=" mt-40 mx-10 md:mx-25 sm:w-auto">
-        <Toaster toastOptions={3000} />
         <div className='flex-col justify-center items-center'>
           <h1 className="text-zinc-200 mb-4 cursor-default text-xl">Simplify your food tracking with our user-friendly interface, making it effortless to monitor your daily nutrition intake.</h1>
           <p className="text-3xl font-extralight mt-2 border-b-2 mb-8 border-zinc-500"></p>
+
           <div className="w-full flex justify-center flex-col my-10 gap-4">
 
             <div className='flex justify-center items-center'>
-              <div className="mt-4 w-full mx-4 md:w-1/3 flex-col justify-center items-center">
-                <label className="block font-medium mb-1">Select Food</label>
+              <div className="mt-4 mx-5 w-full md:w-1/3">
+                <label className="font-medium mb-1">Select Food</label>
                 <select
                   value={selectedFood}
                   onChange={handleFoodChange}
@@ -211,20 +220,20 @@ const FoodTrackerTab = () => {
               </div>
             </div>
 
-
             <div className='flex justify-center items-center'>
-
-              <div className="mt-4 ">
-                <label className="block font-medium mb-1">Enter Quantity (gms)</label>
-                <input
-                  type="number"
-                  min="50"
-                  step="50"
-                  value={selectedQuantity}
-                  onChange={handleQuantityChange}
-                  className="p-2 my-4  rounded"
-                  placeholder="Quantity (gms)"
-                />
+              <div className="mt-4 mx-5">
+                <label className="font-medium mb-1">Enter Quantity (gms)</label>
+                <div className="flex">
+                  <input
+                    type="number"
+                    min="50"
+                    step="50"
+                    value={selectedQuantity}
+                    onChange={handleQuantityChange}
+                    className="p-2 my-4  rounded"
+                    placeholder="Quantity (gms)"
+                  />
+                </div>
               </div>
 
               <div className="mt-4 mx-5">
@@ -232,7 +241,7 @@ const FoodTrackerTab = () => {
                 <div className="flex">
                   <input
                     type="number"
-                    min="01"
+                    min="00"
                     max="12"
                     value={selectedHour}
                     onChange={handleHourChange}
@@ -269,14 +278,15 @@ const FoodTrackerTab = () => {
                 Add to Tracker
               </button>
             </div>
+            {/* <RoundProgressBar total={10} current={5}/> */}
           </div>
         </div>
 
         <div className="overflow-x-auto mt-10 mb-5">
           <div className="flex justify-between mt-4">
             <div>
-              <div className="font-bold">Food Tracker</div>
-              <div className='mb-4'>
+              <div className="font-bold ">Food Tracker</div>
+              <div className='mb-4 w3-animate-zoom'>
                 {currentDateTime.toLocaleString('en-US', {
                   day: '2-digit',
                   month: 'long',
@@ -293,11 +303,11 @@ const FoodTrackerTab = () => {
                 type="date"
                 value={selectedDate}
                 onChange={(event) => setSelectedDate(event.target.value)}
-                className=" p-2 me-4 rounded"
+                className=" p-2 me-4 rounded w3-animate-zoom"
               />
             </div>
           </div>
-          <table className="table">
+          <table className="table ">
             <thead>
               <tr>
                 <th>Time</th>
@@ -310,7 +320,7 @@ const FoodTrackerTab = () => {
               <tbody>
                 <tr>
                   <td colSpan="4" >
-                    <div className="flex justify-center items-center space-x-3">
+                    <div className="flex w3-animate-zoom justify-center items-center space-x-3">
                       No Data
                     </div>
                   </td>
@@ -319,7 +329,8 @@ const FoodTrackerTab = () => {
               </tbody>
             ) : (
               filteredFoodIntake?.map((entry, index) => (
-                <tbody key={index} className='hover:text-green-400 cursor-default '>
+
+                <tbody key={index} className='hover:text-green-400 cursor-default w3-animate-zoom '>
                   <tr>
                     <td>{entry?.time}</td>
                     <td>
@@ -337,23 +348,36 @@ const FoodTrackerTab = () => {
                     </td>
                     <th>
                       <button className="btn btn-ghost btn-xs" onClick={() => handleShowDetails(entry)}>Details</button>
-                      <button className="btn btn-ghost btn-xs text-red-500" onClick={() => { setEntryToDelete(entry); setIsDeleteModalOpen(true); }}>
-                        Delete
-                      </button>
+                      {new Date(entry.date).toDateString() === new Date().toDateString() && (
+                        <button
+                          className="btn btn-ghost btn-xs text-red-500"
+                          onClick={() => {
+                            setEntryToDelete(entry);
+                            setIsDeleteModalOpen(true);
+                          }}
+                        >
+                          Delete
+                        </button>
+                      )}
                     </th>
                   </tr>
                 </tbody>
               ))
             )}
-            {filteredFoodIntake?.length !== 0 ? (
-              <tfoot>
+            {filteredFoodIntake?.length !== 0 && (
+
+              <tfoot className='w3-animate-zoom'>
+                <tr ></tr>
+                <tr></tr>
                 <tr>
-                  <th colSpan="2" className='text-lg text-white' >Total Calories</th>
-                  <td className='text-lg text-white'>{totalCaloriesSum}</td>
+                  <td></td>
+                  <th colSpan="" className='text-lg text-white' ><p className="text-3xl font-extralight mt-2 border-b-2 mb-8 border-zinc-500"></p>Total Calories</th>
+                  <td className='text-lg text-white'><p className="text-3xl font-extralight mt-2 border-b-2 mb-8 border-zinc-500"></p>{totalCaloriesSum}</td>
+
                   <td></td>
                 </tr>
               </tfoot>)
-              : ''}
+            }
           </table>
         </div>
         {isModalOpen && (
