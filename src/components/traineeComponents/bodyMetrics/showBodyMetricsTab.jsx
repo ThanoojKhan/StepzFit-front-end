@@ -22,6 +22,16 @@ function BodyMetricsTab() {
   const recentBodyMetricsData = sortedBodyMetricsData.slice(0, 10);
 
   useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentDateTime(new Date());
+    }, 1000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
+
+  useEffect(() => {
     fetchBodyMetricsData();
   }, []);
 
@@ -103,6 +113,8 @@ function BodyMetricsTab() {
       {isLoading ? <Loader /> : ''}
       {showToaster && <Toaster toastOptions={3000} />}
       <div style={{ width: '95%' }} className=" mt-40 mx-10 md:mx-25 sm:w-auto">
+        <h1 className="text-zinc-200 mb-4 w-3/4 cursor-default text-xl w3-animate-left">Effortlessly track and record your body metrics, such as weight, BMI, body fat percentage, and measurements, to monitor your progress accurately.</h1>
+        <p className="text-3xl font-extralight mt-2 border-b-2 border-zinc-500"></p>
         <div className="overflow-x-auto mt-10 mb-5">
           <div className="flex justify-between mt-4">
             <div>
@@ -119,7 +131,7 @@ function BodyMetricsTab() {
                 })}
               </div>
             </div>
-            <div className="mb-4 self-center">
+            <div className="mb-4 self-center w3-animate-zoom">
               <Link to="/addBodyMetrics" className="text-blue-500 w3-animate-zoom hover:underline">
                 Add Body Metrics
               </Link>

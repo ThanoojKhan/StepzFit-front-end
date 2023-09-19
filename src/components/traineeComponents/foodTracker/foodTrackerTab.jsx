@@ -25,7 +25,7 @@ const FoodTrackerTab = () => {
   const [entryToDelete, setEntryToDelete] = useState(null);
   const [isLoading, setIsLoading] = useState(false)
   const [showToaster, setShowToaster] = useState(false)
-  
+
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -181,7 +181,7 @@ const FoodTrackerTab = () => {
         setIsLoading(false)
         setShowToaster(true)
         setFoodIntake((prevFoodIntake) =>
-        prevFoodIntake.filter((entry) => entry?._id !== entryToDelete?._id)
+          prevFoodIntake.filter((entry) => entry?._id !== entryToDelete?._id)
         );
         toast.success('Food intake entry deleted successfully');
       })
@@ -197,13 +197,13 @@ const FoodTrackerTab = () => {
       {isLoading ? <Loader /> : ''}
       {showToaster && <Toaster toastOptions={3000} />}
       <div style={{ width: '95%' }} className=" mt-40 mx-10 md:mx-25 sm:w-auto">
-        <div className='flex-col justify-center items-center'>
-          <h1 className="text-zinc-200 mb-4 cursor-default text-xl">Simplify your food tracking with our user-friendly interface, making it effortless to monitor your daily nutrition intake.</h1>
+        <div className='flex-col justify-center items-center '>
+          <h1 className="text-zinc-200 mb-4 cursor-default text-xl w3-animate-left">Simplify your food tracking with our user-friendly interface, making it effortless to monitor your daily nutrition intake.</h1>
           <p className="text-3xl font-extralight mt-2 border-b-2 mb-8 border-zinc-500"></p>
 
-          <div className="w-full flex justify-center flex-col my-10 gap-4">
+          <div className="w-full flex justify-center flex-col my-10 gap-4 w3-animate-zoom">
 
-            <div className='flex justify-center items-center'>
+            <div className='flex justify-center items-center '>
               <div className="mt-4 mx-5 w-full md:w-1/3">
                 <label className="font-medium mb-1">Select Food</label>
                 <select
@@ -284,6 +284,7 @@ const FoodTrackerTab = () => {
         </div>
 
         <div className="overflow-x-auto mt-10 mb-5">
+
           <div className="flex justify-between mt-4">
             <div>
               <div className="font-bold ">Food Tracker</div>
@@ -308,6 +309,7 @@ const FoodTrackerTab = () => {
               />
             </div>
           </div>
+
           <table className="table ">
             <thead>
               <tr>
@@ -368,12 +370,12 @@ const FoodTrackerTab = () => {
             {filteredFoodIntake?.length !== 0 && (
 
               <tfoot className='w3-animate-zoom'>
-                <tr ></tr>
-                <tr></tr>
+                <tr className='text-transparent'>f</tr>
+                <tr className='text-transparent'>f</tr>
                 <tr>
                   <td></td>
-                  <th colSpan="" className='text-lg text-white' ><p className="text-3xl font-extralight mt-2 border-b-2 mb-8 border-zinc-500"></p>Total Calories</th>
-                  <td className='text-lg text-white'><p className="text-3xl font-extralight mt-2 border-b-2 mb-8 border-zinc-500"></p>{totalCaloriesSum}</td>
+                  <th colSpan="" className='text-lg text-white' >Total Day Intake </th>
+                  <td className='text-lg text-white'>{totalCaloriesSum} Calories</td>
 
                   <td></td>
                 </tr>

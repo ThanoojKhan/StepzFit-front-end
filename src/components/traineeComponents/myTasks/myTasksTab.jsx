@@ -13,10 +13,21 @@ function MyTaskTab() {
   const [taskIdToMarkAsDone, setTaskIdToMarkAsDone] = useState('');
   const [selectedEntryDetails, setSelectedEntryDetails] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentDateTime, setCurrentDateTime] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   const [showAllTasks, setShowAllTasks] = useState(true);
   const [isLoading, setIsLoading] = useState(false)
   const [showToaster, setShowToaster] = useState(false)
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentDateTime(new Date());
+    }, 1000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
 
   const handleShowDetails = (task) => {
     setSelectedEntryDetails(task);
@@ -101,10 +112,27 @@ function MyTaskTab() {
       {showToaster && <Toaster toastOptions={3000} />}
       {isLoading ? <Loader /> : ''}
       <div style={{ width: '95%' }} className="mt-40 mx-10 md:mx-25 sm:w-auto">
-        <h1 className="text-zinc-200 mb-4 cursor-default text-xl">Daily fitness and nutrition tasks are essential components of a well-rounded and healthy lifestyle. These tasks focus on promoting physical activity, balanced eating, and overall well-being.</h1>
-        <p className="text-3xl font-extralight mt-2 border-b-2 border-zinc-500"></p><div className="overflow-x-auto mt-10 mb-5">
-          <div className="flex justify-end items-center mb-4">
-            <div className="flex items-center">
+        <h1 className="text-zinc-200 mb-4 w-3/4 cursor-default text-xl w3-animate-left">Daily fitness and nutrition tasks are essential components of a well-rounded and healthy lifestyle. These tasks focus on promoting physical activity, balanced eating, and overall well-being.</h1>
+        <p className="text-3xl font-extralight mt-2 border-b-2 border-zinc-500"></p>
+
+        <div className="overflow-x-auto mt-10 mb-5">
+          <div className="flex justify-between mt-4">
+
+            <div>
+              <div className="font-bold ">My Tasks</div>
+              <div className='mb-4 w3-animate-zoom'>
+                {currentDateTime.toLocaleString('en-US', {
+                  day: '2-digit',
+                  month: 'long',
+                  year: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  second: '2-digit',
+                  hour12: true,
+                })}
+              </div>
+            </div>
+            <div className="flex items-center w3-animate-zoom">
               <input
                 type="date"
                 value={selectedDate}
@@ -168,7 +196,7 @@ function MyTaskTab() {
                           </div>
                         </div>
                       </td>
-                      <th>
+                      <th className='flex items-center'>
                         <div className='w3-animate-zoom'>
                           <button className="btn btn-ghost btn-xs" onClick={() => handleShowDetails(task)}>Details</button>
                           {new Date(task.date).toDateString() === new Date().toDateString() && (!task.isDone) && (
@@ -277,13 +305,13 @@ function MyTaskTab() {
             <h2 className="text-white text-2xl mb-4">Confirm Completion of Task.</h2>
             {taskIdToMarkAsDone && (
               <div className="text-white flex flex-col gap-4 items-center justify-center">
-              Are you sure you want to mark the task:
-              <h4 className='font-bold capitalize'>
-                ' {taskIdToMarkAsDone.task} '
-              </h4>
-              as Task completed ?
-            </div>
-            
+                Are you sure you want to mark the task:
+                <h4 className='font-bold capitalize'>
+                  ' {taskIdToMarkAsDone.task} '
+                </h4>
+                as Task completed ?
+              </div>
+
             )}
             <div className="flex justify-center mt-4">
               <button
