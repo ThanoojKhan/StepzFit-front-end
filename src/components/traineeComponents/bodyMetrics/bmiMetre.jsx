@@ -2,35 +2,41 @@ import React from 'react';
 
 const BMIMeter = ({ bmi }) => {
   const meterValue = parseFloat(bmi) || 0;
-  const meterWidth = Math.min(meterValue, 40);
-
   let bmiCategory = 'Provide Data';
-  let bmiColor = 'bg-blue-500';
+  let bmiColor = 'text-blue-500';
+  let bmiBgColor = 'bg-blue-500';
+  let meterWidth = `${Math.min(100, meterValue)}%`;
 
-  if (meterValue < 18.5 && meterValue != 0) {
+  if (meterValue < 18.5) {
     bmiCategory = 'Underweight';
-    bmiColor = 'bg-red-500';
-  } else if (meterValue >= 18.5 && meterValue < 25 && meterValue != 0) {
+    bmiColor = 'text-red-500';
+    bmiBgColor = 'bg-red-500';
+  } else if (meterValue < 25) {
     bmiCategory = 'Normal Weight';
-    bmiColor = 'bg-green-500';
-  } else if (meterValue >= 25 && meterValue < 30 && meterValue != 0) {
+    bmiColor = 'text-green-500';
+    bmiBgColor = 'bg-green-500';
+  } else if (meterValue < 30) {
     bmiCategory = 'Overweight';
-    bmiColor = 'bg-yellow-500';
-  } else if (meterValue > 30 && meterValue != 0) {
+    bmiColor = 'text-yellow-500';
+    bmiBgColor = 'bg-yellow-500';
+  } else {
     bmiCategory = 'Obese';
-    bmiColor = 'bg-red-500';
+    bmiColor = 'text-red-400';
+    bmiBgColor = 'bg-red-600';
   }
 
   return (
     <>
-      <div className="mt-4">
-        <div className="bg-gray-200 h-6 w-40 rounded-full">
-          <div
-            className={`h-6 rounded-full ${bmiColor}`}
-            style={{ width: `${meterWidth}%` }}
-          ></div>
+      <div className="mt-4 ">
+        <div className="bg-black h-6 w-40 rounded-full">
+          <div>
+            <div
+              className={`h-6 rounded-full ${bmiBgColor}`}
+              style={{ width: meterWidth }}
+            ></div>
+          </div>
         </div>
-        <p className={`text-center mt-2 ${bmiColor === 'bg-red-500' ? 'text-red-500' : ''}`}>
+        <p className={`text-center mt-2 ${bmiColor}`}>
           BMI: {bmi} ({bmiCategory})
         </p>
       </div>

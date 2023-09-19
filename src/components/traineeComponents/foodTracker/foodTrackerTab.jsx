@@ -25,6 +25,7 @@ const FoodTrackerTab = () => {
   const [entryToDelete, setEntryToDelete] = useState(null);
   const [isLoading, setIsLoading] = useState(false)
   const [showToaster, setShowToaster] = useState(false)
+  
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -176,18 +177,18 @@ const FoodTrackerTab = () => {
       },
     })
       .then(() => {
-        setShowToaster(true)
-        toast.success('Food intake entry deleted successfully');
         setIsDeleteModalOpen(false);
         setIsLoading(false)
+        setShowToaster(true)
         setFoodIntake((prevFoodIntake) =>
-          prevFoodIntake.filter((entry) => entry?._id !== entryToDelete?._id)
+        prevFoodIntake.filter((entry) => entry?._id !== entryToDelete?._id)
         );
+        toast.success('Food intake entry deleted successfully');
       })
       .catch((error) => {
+        setIsLoading(false)
         setShowToaster(true)
         toast.error(error);
-        setIsLoading(false)
       });
   };
 
