@@ -106,9 +106,9 @@ function SideBar() {
                   <ListItem className="hover:scale-105  hover:bg-slate-900 transition-transform px-4" onClick={() => navigate('/myPlan')}>
                     My Plan
                   </ListItem>
-                  <ListItem className="hover:scale-105  hover:bg-slate-900 transition-transform px-4" onClick={() => navigate('/myPlan')}>
+                  {/* <ListItem className="hover:scale-105  hover:bg-slate-900 transition-transform px-4" onClick={() => navigate('/myPlan')}>
                     My Trainer
-                  </ListItem>
+                  </ListItem> */}
                   <ListItem className="hover:scale-105  hover:bg-slate-900 transition-transform px-4" onClick={handleLogout}>
                     <ListItemPrefix>
                       <PowerIcon className="h-6 w-6 me-2" />

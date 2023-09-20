@@ -199,87 +199,85 @@ const FoodTrackerTab = () => {
       <div style={{ width: '95%' }} className=" mt-40 mx-10 md:mx-25 sm:w-auto">
         <h1 className="text-zinc-200 mb-4 cursor-default text-xl w3-animate-left">Simplify your food tracking with our user-friendly interface, making it effortless to monitor your daily nutrition intake.</h1>
         <p className="text-3xl font-extralight mt-2 border-b-2 mb-8 border-zinc-500"></p>
+        <div className="w-full flex justify-center flex-col my-10 gap-4 w3-animate-top">
+          <div className='flex justify-center items-center '>
+            <div className="mt-4 mx-5 w-full md:w-1/3">
+              <label className="font-medium mb-1">Select Food</label>
+              <select
+                value={selectedFood}
+                onChange={handleFoodChange}
+                className="block w-full p-2 my-4 rounded"
+              >
+                <option value="">Select food</option>
+                {foodOptions?.map((foodOption, index) => (
+                  <option key={index} value={foodOption._id}>
+                    {foodOption.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
 
-          <div className="w-full flex justify-center flex-col my-10 gap-4 w3-animate-top">
+          <div className='flex justify-center items-center'>
+            <div className="mt-4 mx-5">
+              <label className="font-medium mb-1">Enter Quantity (gms)</label>
+              <div className="flex">
+                <input
+                  type="number"
+                  min="50"
+                  step="50"
+                  value={selectedQuantity}
+                  onChange={handleQuantityChange}
+                  className="p-2 my-4  rounded"
+                  placeholder="Quantity (gms)"
+                />
+              </div>
+            </div>
 
-            <div className='flex justify-center items-center '>
-              <div className="mt-4 mx-5 w-full md:w-1/3">
-                <label className="font-medium mb-1">Select Food</label>
+            <div className="mt-4 mx-5">
+              <label className="font-medium mb-1">Select Time</label>
+              <div className="flex">
+                <input
+                  type="number"
+                  min="00"
+                  max="12"
+                  value={selectedHour}
+                  onChange={handleHourChange}
+                  className="w-16 p-2 my-4 rounded-l"
+                  placeholder="HH"
+                />
+                <span className="flex justify-center items-center">:</span>
+                <input
+                  type="number"
+                  min="01"
+                  max="59"
+                  value={selectedMinute}
+                  onChange={handleMinuteChange}
+                  className="w-16 p-2 my-4 rounded-r"
+                  placeholder="MM"
+                />
                 <select
-                  value={selectedFood}
-                  onChange={handleFoodChange}
-                  className="block w-full p-2 my-4 rounded"
+                  value={selectedAmPm}
+                  onChange={handleAmPmChange}
+                  className="w-16 p-2 my-4 rounded ml-2"
                 >
-                  <option value="">Select food</option>
-                  {foodOptions?.map((foodOption, index) => (
-                    <option key={index} value={foodOption._id}>
-                      {foodOption.name}
-                    </option>
-                  ))}
+                  <option value="AM">AM</option>
+                  <option value="PM">PM</option>
                 </select>
               </div>
             </div>
 
-            <div className='flex justify-center items-center'>
-              <div className="mt-4 mx-5">
-                <label className="font-medium mb-1">Enter Quantity (gms)</label>
-                <div className="flex">
-                  <input
-                    type="number"
-                    min="50"
-                    step="50"
-                    value={selectedQuantity}
-                    onChange={handleQuantityChange}
-                    className="p-2 my-4  rounded"
-                    placeholder="Quantity (gms)"
-                  />
-                </div>
-              </div>
-
-              <div className="mt-4 mx-5">
-                <label className="font-medium mb-1">Select Time</label>
-                <div className="flex">
-                  <input
-                    type="number"
-                    min="00"
-                    max="12"
-                    value={selectedHour}
-                    onChange={handleHourChange}
-                    className="w-16 p-2 my-4 rounded-l"
-                    placeholder="HH"
-                  />
-                  <span className="flex justify-center items-center">:</span>
-                  <input
-                    type="number"
-                    min="01"
-                    max="59"
-                    value={selectedMinute}
-                    onChange={handleMinuteChange}
-                    className="w-16 p-2 my-4 rounded-r"
-                    placeholder="MM"
-                  />
-                  <select
-                    value={selectedAmPm}
-                    onChange={handleAmPmChange}
-                    className="w-16 p-2 my-4 rounded ml-2"
-                  >
-                    <option value="AM">AM</option>
-                    <option value="PM">PM</option>
-                  </select>
-                </div>
-              </div>
-
-            </div>
-            <div className='flex justify-center'>
-              <button
-                onClick={handleAddFood}
-                className="mt-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 focus:outline-none"
-              >
-                Add to Tracker
-              </button>
-            </div>
-            {/* <RoundProgressBar total={10} current={5}/> */}
           </div>
+          <div className='flex justify-center'>
+            <button
+              onClick={handleAddFood}
+              className="mt-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 focus:outline-none"
+            >
+              Add to Tracker
+            </button>
+          </div>
+          {/* <RoundProgressBar total={10} current={5}/> */}
+        </div>
 
         <div className="overflow-x-auto mt-10 mb-5">
 

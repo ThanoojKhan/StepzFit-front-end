@@ -34,11 +34,7 @@ function SignUp() {
     } catch (error) {
       console.log(error);
     }
-
-
   }
-
-
 
   function onSignUP() {
     if (name.trim().length == 0 || email.trim().length == 0 || phone.trim().length == 0 || password.trim().length == 0 || rePassword.trim().length == 0) {
@@ -104,8 +100,6 @@ function SignUp() {
               onClick={() => onSignUP()}
               className="w-full text-center py-3 rounded bg-green-800 text-white hover:bg-green-dark focus:outline-none my-1"
             >Create Account</button>
-
-
           </div>
 
           <div className="text-grey-dark mt-6">
