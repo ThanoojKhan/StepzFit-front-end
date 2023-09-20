@@ -140,10 +140,9 @@ function MyTaskTab() {
                 className="p-3 me-4 rounded"
               />
               <button
-                className="btn btn-blue"
-                onClick={() => setShowAllTasks(!showAllTasks)}
-              >
-                {showAllTasks ? 'Show Filtered Tasks' : 'Show All Tasks'}
+                className=" text-zinc-300 hover:underline"
+                onClick={() => setShowAllTasks(true)}
+              >Show All
               </button>
             </div>
           </div>

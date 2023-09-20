@@ -197,11 +197,10 @@ const FoodTrackerTab = () => {
       {isLoading ? <Loader /> : ''}
       {showToaster && <Toaster toastOptions={3000} />}
       <div style={{ width: '95%' }} className=" mt-40 mx-10 md:mx-25 sm:w-auto">
-        <div className='flex-col justify-center items-center '>
-          <h1 className="text-zinc-200 mb-4 cursor-default text-xl w3-animate-left">Simplify your food tracking with our user-friendly interface, making it effortless to monitor your daily nutrition intake.</h1>
-          <p className="text-3xl font-extralight mt-2 border-b-2 mb-8 border-zinc-500"></p>
+        <h1 className="text-zinc-200 mb-4 cursor-default text-xl w3-animate-left">Simplify your food tracking with our user-friendly interface, making it effortless to monitor your daily nutrition intake.</h1>
+        <p className="text-3xl font-extralight mt-2 border-b-2 mb-8 border-zinc-500"></p>
 
-          <div className="w-full flex justify-center flex-col my-10 gap-4 w3-animate-zoom">
+          <div className="w-full flex justify-center flex-col my-10 gap-4 w3-animate-top">
 
             <div className='flex justify-center items-center '>
               <div className="mt-4 mx-5 w-full md:w-1/3">
@@ -249,7 +248,7 @@ const FoodTrackerTab = () => {
                     className="w-16 p-2 my-4 rounded-l"
                     placeholder="HH"
                   />
-                  <span className="w-8 flex justify-center items-center">:</span>
+                  <span className="flex justify-center items-center">:</span>
                   <input
                     type="number"
                     min="01"
@@ -281,7 +280,6 @@ const FoodTrackerTab = () => {
             </div>
             {/* <RoundProgressBar total={10} current={5}/> */}
           </div>
-        </div>
 
         <div className="overflow-x-auto mt-10 mb-5">
 
@@ -333,23 +331,23 @@ const FoodTrackerTab = () => {
             ) : (
               filteredFoodIntake?.map((entry, index) => (
 
-                <tbody key={index} className='hover:text-green-400 cursor-default w3-animate-zoom '>
+                <tbody key={index} className='hover:text-green-400 cursor-default '>
                   <tr>
-                    <td>{entry?.time}</td>
+                    <td className='w3-animate-zoom '>{entry?.time}</td>
                     <td>
-                      <div className="flex items-center space-x-3">
-                        <div>
+                      <div className="flex items-center space-x-3 ">
+                        <div className='w3-animate-zoom '>
                           <div className="font-bold">{entry?.food?.name}</div>
                           <div className="text-sm opacity-50">Calories per {entry?.food?.serving} gm: {(entry?.food?.calories) * 100} cal </div>
                         </div>
                       </div>
                     </td>
-                    <td>
+                    <td className='w3-animate-zoom '>
                       {entry?.quantity} gms
                       <br />
                       <span className="text-sm opacity-50">Total Calories: {Math.floor(((entry?.food?.calories) / (entry?.food?.serving)) * (entry?.quantity) * 100)}</span>
                     </td>
-                    <th>
+                    <th className='w3-animate-zoom '>
                       <button className="btn btn-ghost btn-xs" onClick={() => handleShowDetails(entry)}>Details</button>
                       {new Date(entry.date).toDateString() === new Date().toDateString() && (
                         <button

@@ -5,11 +5,11 @@ import { Fade } from 'react-awesome-reveal';
 import TaskTab from './taskTab';
 import FoodTab from './foodTab';
 import { useSelector } from 'react-redux';
-import { toast } from 'react-hot-toast';
+import { toast,Toaster } from 'react-hot-toast';
 import axiosInstance from '../../../api/axios';
 import ImageUpdatePopup from './ImageUpdatePopup';
 import Loader from '../../loader';
-
+import dash from '../../../assets/images/images/bg.jpg'
 const HomeBody = () => {
   const { token } = useSelector((state) => state.User);
   const [user, setUser] = useState([]);
@@ -18,6 +18,7 @@ const HomeBody = () => {
   const [weight, setWeight] = useState([]);
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [existingImage, setExistingImage] = useState('');
+  const [showToaster, setShowToaster] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
   const link1 = '/myTasks';
@@ -31,6 +32,7 @@ const HomeBody = () => {
           Authorization: `Bearer ${token}`,
         },
       });
+      setShowToaster(true)
       setUser(response?.data?.user);
       setWeight(response?.data?.weight?.bodyWeight);
       setTasks(response?.data?.tasks);
@@ -59,6 +61,7 @@ const HomeBody = () => {
     <>
 
       {isLoading ? <Loader /> : ''}
+      {showToaster && <Toaster toastOptions={3000} />}
       <div className="min-h-screen w-full">
         <div className="mx-auto px-4 mt-24 py-8 sm:px-6 lg:px-8 ">
           <div className="py-6 px-1 overflow-hidden">
@@ -86,7 +89,7 @@ const HomeBody = () => {
                         <div className="md:hidden md:w-1/2 h-3/5 w3-aniamte-zoom ">
                           <span className="m-4 flex-col justify-center text-center">
                             <img
-                              src={existingImage}
+                              src={existingImage ? existingImage : dash}
                               alt=""
                               className="w-full h-full object-cover rounded-2xl shadow-2xl"
                             />
@@ -103,7 +106,7 @@ const HomeBody = () => {
                   <div className="hidden md:flex items-center md:w-1/2 h-2/5 max-h-96 max-w-xl w3-animate-zoom">
                     <span className="m-4 flex-col justify-center text-center">
                       <img
-                        src={existingImage}
+                        src={existingImage ? existingImage : dash}
                         alt=""
                         className="w-full h-full object-cover rounded-2xl shadow-2xl"
                       />
