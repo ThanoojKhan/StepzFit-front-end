@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 
 function Tabs({ title, items, link }) {
     const navigate = useNavigate();
-    console.log();
 
     return (
         <div>

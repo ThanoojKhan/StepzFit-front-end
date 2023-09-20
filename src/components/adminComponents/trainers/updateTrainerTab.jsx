@@ -61,7 +61,6 @@ function UpdateTrainer(props) {
 
 
   const handleSubmit = () => {
-    console.log("dfgh");
     try {
       axiosInstance.patch(`/admin/updateTrainer/${trainerId}`, { firstName, secondName, email, d_o_b, gender, phone, department, certification, userName, password, addedDate }, {
         headers: {

@@ -19,7 +19,6 @@ function Login() {
     } else {
       axiosInstance.post('/trainer/login', { email, password }).then((res) => {
         if (res.data) {
-          console.log('dg');
           toast.success(res.data.message)
           const name = res.data.name
           const token = res.data.token
