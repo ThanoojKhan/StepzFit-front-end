@@ -36,7 +36,7 @@ function cards({ weight, trainer }) {
                             <div
                                 className="w-32 h-32 mx-auto mb-4 rounded-xl bg-cover bg-center"
                                 style={{
-                                    backgroundImage: `url(${trainer.profileImage || 'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp'})`,
+                                    backgroundImage: `url(${trainer?.profileImage || 'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp'})`,
                                 }}
                             >
                             </div>
