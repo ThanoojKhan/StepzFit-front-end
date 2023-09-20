@@ -36,20 +36,19 @@ const MyTrainerPopup = ({ isOpen, onClose, trainer }) => {
         }}
       >
         <div>
-          <h4 className="text-white text-2xl my-5">My Trainer</h4>
+          <h4 className="text-gray-200 font-semibold mb-2 text-center text-2xl my-5">{trainer?.firstName} {trainer?.secondName}</h4>
           <div className="relative overflow-hidden">
             <img
-              src={trainer?.picture ? trainer?.picture : 'https://tecdn.b-cdn.net/img/new/avatars/5.webp'}
+              src={trainer?.profileImage ? trainer?.profileImage : 'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp'}
               alt="Trainer's Image"
               className="w-full mt-4 rounded-lg w3-animate-zoom cursor-pointer"
             />
           </div>
           <div className="flex flex-col items-center justify-center my-10">
             <div className="text-center">
-              <p className="text-gray-600 font-semibold mb-2">{trainer?.firstName} {trainer?.secondName}</p>
-              <p className="text-gray-600">{trainer?.department}</p>
-              <p className="text-gray-600">{trainer?.gender}</p>
-              <p className="text-gray-600">{trainer?.certification}</p>
+              <p className="text-gray-500"><span className='text-gray-200'>Department:</span> {trainer?.department}</p>
+              <p className="text-gray-500 capitalize"><span className='text-gray-200'>Gender:</span> {trainer?.gender}</p>
+              <p className="text-gray-500"><span className='text-gray-200'> Certifications:</span> {trainer?.certification}</p>
             </div>
           </div>
         </div>

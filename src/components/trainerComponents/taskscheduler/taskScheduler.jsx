@@ -139,29 +139,29 @@ function TaskSchedulerTrainer() {
 
   return (
     <>
-      <div className="min-h-screen w-full">
-        <header className="bg-white ps-5 shadow">
+      <div className="text-gray-900 min-h-screen w-full">
+        <header className=" ps-5 shadow">
           <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-            <h1 className="text-3xl font-bold text-gray-900">Task Scheduler</h1>
+            <h1 className="text-3xl font-bold text-white">Task Scheduler</h1>
           </div>
         </header>
         <main>
           <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-            <div className="mt-8 bg-white overflow-hidden shadow rounded-lg">
+            <div className="mt-8  overflow-hidden shadow rounded-lg">
               <div className="px-4 py-5 sm:p-6">
-                <h2 className="text-xl font-bold text-gray-900">Scheduler</h2>
+                <h2 className="text-xl font-bold text-white">Scheduler</h2>
                 <div className="mt-4">
                   <div className="flex items-center">
                     <input
                       type="date"
-                      className="border rounded-md p-2 mr-2"
+                      className="border text-white rounded-md p-2 mr-2"
                       value={selectedDate}
                       onChange={(e) => setSelectedDate(e.target.value)}
                     />
                     <input
                       type="text"
                       placeholder="Enter task..."
-                      className="border rounded-md p-2 flex-grow"
+                      className="border text-white rounded-md p-2 mr-2 flex-grow"
                       value={newTask}
                       onChange={(e) => setNewTask(e.target.value)}
                     />
@@ -178,7 +178,7 @@ function TaskSchedulerTrainer() {
             </div>
           </div>
         </main>
-        <main className="min-h-screen bg-gray-100">
+        <main className="min-h-screen ">
           <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
             <div className="mt-8 bg-white overflow-hidden shadow rounded-lg">
               <div className="px-4 py-5 sm:p-6">

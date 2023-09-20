@@ -41,10 +41,10 @@ function BodyMetricsTab({ traineeId }) {
     <div className="min-h-screen w-full">
       <Toaster toastOptions={3000} />
       <main>
-        <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto text-gray-900 py-6 sm:px-6 lg:px-8">
           <div className="mt-8 bg-white overflow-hidden shadow rounded-lg">
-            <div className="px-4 py-5 sm:p-6">
-              <h2 className="text-xl font-bold text-gray-900">Body Metrics of {trainee?.name}</h2>
+            <div className="px-4 py-5 my-5 sm:p-6">
+              <h2 className="text-xl font-bold mb-10 text-gray-900">Body Metrics of {trainee?.name}</h2>
               {loading ? (
                 <p className="text-gray-600">Loading...</p>
               ) : bodyMetrics.length === 0 ? (

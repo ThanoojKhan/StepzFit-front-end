@@ -14,7 +14,7 @@ function UpdateTrainer(props) {
   const [secondName, setSecondName] = useState('')
   const [department, setDept] = useState('')
   const [email, setEmail] = useState('')
-  const [dob, setDob] = useState('')
+  const [d_o_b, setDob] = useState('')
   const [gender, setGender] = useState('')
   const [phone, setPhone] = useState('')
   const [certification, setCertification] = useState('')
@@ -60,11 +60,10 @@ function UpdateTrainer(props) {
   }, [change]);
 
 
-
   const handleSubmit = () => {
     console.log("dfgh");
     try {
-      axiosInstance.patch(`/admin/updateTrainer/${trainerId}`, { firstName, secondName, email, dob, gender, phone, department, certification, userName, password, addedDate }, {
+      axiosInstance.patch(`/admin/updateTrainer/${trainerId}`, { firstName, secondName, email, d_o_b, gender, phone, department, certification, userName, password, addedDate }, {
         headers: {
           authorization: `Bearer ${token}`,
         },
@@ -173,7 +172,7 @@ function UpdateTrainer(props) {
                 onChange={(e) => setDob(e.target.value)}
                 className="block border border-grey-light w-full p-3 rounded mb-4"
                 name="dob"
-                value={dob}
+                value={d_o_b}
               />
             </div>
 

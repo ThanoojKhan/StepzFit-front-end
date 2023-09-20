@@ -32,9 +32,9 @@ function SideBar() {
             <div className=''>{show ? "" : <TfiAngleDoubleLeft className="ms-5 lg:hidden mt-5" onClick={() => setShow(true)} size={20} />}</div>
 
             <List>
-              <ListItem className={`hover:scale-105 transition-transform`} onClick={() => navigate('/trainer')} >
+              {/* <ListItem className={`hover:scale-105 transition-transform`} onClick={() => navigate('/trainer')} >
                 Dashboard
-              </ListItem>
+              </ListItem> */}
 
               <ListItem className='hover:scale-105 transition-transform' onClick={() => navigate('/trainer/messages')}>
                 Messages

@@ -54,8 +54,8 @@ const FoodTrackerTab = () => {
         setIsLoading(false)
       })
       .catch((error) => {
-        console.error('Error fetching food options:', error);
         setIsLoading(false)
+        console.error('Error fetching food options:', error);
       });
   };
 

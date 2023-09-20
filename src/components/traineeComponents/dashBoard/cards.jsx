@@ -6,7 +6,7 @@ function cards({ weight, trainer }) {
     const navigate = useNavigate()
     const [isPopupOpen, setPopupOpen] = useState(false);
 
-    const handlePopup=()=>{
+    const handlePopup = () => {
         setPopupOpen(!isPopupOpen)
     }
 
@@ -28,19 +28,23 @@ function cards({ weight, trainer }) {
                     </div>
                 </div>
                 <div onClick={handlePopup} className="flex w-1/2 hover:scale-105 transition-transform cursor-pointer w3-animate-zoom">
-                    <div className="flex flex-col  items-center w-full p-4">
-                        <div className="text-center">
-                            <h5 className="mb-2 text-xl font-light text-neutral-800 dark:text-neutral-50">
+                    <div className="flex flex-col items-center w-full p-4">
+                        <div className="text-center relative overflow-hidden">
+                            <h4 className="mb-2 text-2xl font-light text-neutral-800 dark:text-neutral-50">
                                 My Trainer
-                            </h5>
-                            <img
-                                src="https://tecdn.b-cdn.net/img/new/avatars/5.webp"
-                                className="mx-auto mb-4 w-32 rounded-lg"
-                                alt="Avatar" />
+                            </h4>
+                            <div
+                                className="w-32 h-32 mx-auto mb-4 rounded-xl bg-cover bg-center"
+                                style={{
+                                    backgroundImage: `url(${trainer.profileImage || 'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp'})`,
+                                }}
+                            >
+                            </div>
                             <h5 className="mb-2 text-xl font-medium leading-tight">{trainer?.firstName} {trainer?.secondName}</h5>
                             <p className="text-neutral-500 dark:text-neutral-400">{trainer?.department}</p>
                         </div>
                     </div>
+
                     <MyTrainerPopup isOpen={isPopupOpen} trainer={trainer} onClose={handlePopup} />
                 </div>
             </div>

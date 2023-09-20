@@ -32,6 +32,7 @@ function MyProfileTab() {
   const regex_mobile = /^\d{10}$/;
 
   useEffect(() => {
+    setLoader(true);
     axiosInstance
       .get('/user/profile', {
         headers: {
@@ -55,6 +56,7 @@ function MyProfileTab() {
         setSubscriptions(res?.data?.subscriptions);
       })
       .catch((error) => {
+        setLoader(false);
         if (error.response.data) {
           setShowToaster(true)
           toast.error(error.response.data.errMsg);
@@ -184,6 +186,7 @@ function MyProfileTab() {
                                 Change Profile Picture
                               </label>
                             </div>
+
                           </div>
                           <div className="sm:col-span-3 mb-3">
                             <label className="block text-sm font-medium leading-6">
