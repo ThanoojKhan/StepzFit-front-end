@@ -87,7 +87,8 @@ function Chat() {
                                         )
                                     })
                                 }
-                                </>}
+                                </>
+                        }
                     </div>
                 </div>
                 <Conversation socket={socket} goback={[showchat, setShowChat]} selected={chatSelected} refreshList={[changeList, setChangeList]} />
