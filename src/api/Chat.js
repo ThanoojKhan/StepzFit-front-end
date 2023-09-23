@@ -1,81 +1,115 @@
 
+import { useSelector } from "react-redux"
 import { errorAlert } from "../Functions/Toasts"
-import api_call from "../axios"
+import axiosInstance from "./axios"
+
+const api_call = axiosInstance
 
 export const createChat = async (client, freelancer, post_id) => {
-    try{
-        const {data} = await api_call.post(`/chats`,{client:client,freelancer:freelancer,post_id:post_id},{withCredentials:true})
-        if(data.status){
+    const { token } = useSelector((state) => state.User)
+    try {
+        const { data } = await api_call.post(`/chats`, { client: client, freelancer: freelancer, post_id: post_id }, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+        if (data.status) {
             return true
-        }else{
-            if(data.error){
+        } else {
+            if (data.error) {
                 errorAlert(data.error)
                 return false
-            }else{
+            } else {
                 errorAlert(data.message)
                 return false
             }
         }
-    }catch(err){
+    } catch (err) {
         errorAlert(err)
     }
 }
 
-export const getAllChatList = async (user_id) => {
-    try{
-        const {data} = await api_call.get(`/getChatList/${user_id}`)
-        if(data.error){
+export const getUserChatList = async (user_id) => {
+    const { token } = useSelector((state) => state.User)
+    console.log(token);
+    try {
+        const { data } = await api_call.get(`user/getUserChatList/${user_id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+        if (data.error) {
             errorAlert(data.error)
-        }else{
+        } else {
             return data.list
         }
-    }catch(err){
+    } catch (err) {
         errorAlert(err)
     }
 }
 
 export const sendMessage = async (messageData) => {
-    try{
-        const {data} = await api_call.post(`/chat/send-message`,{messageData})
+    const { token } = useSelector((state) => state.User)
+    try {
+        const { data } = await api_call.post(`/chat/send-message`, { messageData }, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
         return data.message
-    }catch(err){
+    } catch (err) {
         errorAlert(err)
     }
 }
 
 export const getMessagesByChat = async (chat_id) => {
-    try{
-        const {data} = await api_call.get(`/chat/get-all-messages/${chat_id}`)
-        if(data.error){
+    const { token } = useSelector((state) => state.User)
+    try {
+        const { data } = await api_call.get(`/chat/get-all-messages/${chat_id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+        if (data.error) {
             errorAlert(data.error)
-        }else{
+        } else {
             return data.messages
         }
-    }catch(err){
+    } catch (err) {
         errorAlert(err)
     }
 }
 
-export const setUnreadMessage = async (receiver,chat,setZero=false) => {
-    try{
-        const {data} = await api_call.post(`/chat/unreadMessage`,{chat,receiver,setZero})
+export const setUnreadMessage = async (receiver, chat, setZero = false) => {
+    const { token } = useSelector((state) => state.User)
+    try {
+        const { data } = await api_call.post(`/chat/unreadMessage`, { chat, receiver, setZero }, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
         return data.unread
-    }catch(err){
+    } catch (err) {
         errorAlert(err)
     }
 }
 
-export const chatListSearch = async (id,regex) => {
-    try{
-        const {data} = await api_call.get(`/getChatList/${id}`)
+export const chatListSearch = async (id, regex) => {
+    const { token } = useSelector((state) => state.User)
+    try {
+        const { data } = await api_call.get(`/getChatList/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
         const lists = data.list.map(obj => {
-            return{
-                ...obj,users: obj.users.filter(item => item._id !== id)
+            return {
+                ...obj, users: obj.users.filter(item => item._id !== id)
             }
         })
         const result = lists.filter((item) => regex.test(item?.users[0]?.profile?.full_name))
         return result
-    }catch(err){
+    } catch (err) {
         errorAlert(err)
     }
 }

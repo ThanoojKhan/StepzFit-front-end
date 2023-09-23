@@ -1,8 +1,8 @@
 import React from 'react'
 import MessagesTab from '../../components/traineeComponents/messages/messagesTab'
 import SideBar from '../../components/traineeComponents/sideBar'
-import { Toaster } from 'react-hot-toast'
 import NavBar from '../../components/traineeComponents/NavBar'
+import Chat from '../../components/traineeComponents/Chat/Chat'
 
 function Messages() {
 
@@ -10,7 +10,8 @@ function Messages() {
     <div className='flex'>
       <NavBar />
       <SideBar />
-      <MessagesTab />
+      {/* <MessagesTab /> */}
+      <Chat/>
     </div>
   )
 }

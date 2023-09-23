@@ -1,8 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { SocketContext } from '../../SocketContext'
-import { RateUser } from '../Users/Modal/Modal'
+import { SocketContext } from '../../../SocketContext'
 
 function SingleChat({ messages, id, sendNow, setMessage, message, selected, containerRef, socket, goback, loading, typeAction }) {
 
@@ -16,7 +15,6 @@ function SingleChat({ messages, id, sendNow, setMessage, message, selected, cont
 
     return (
         <>
-            {modal.rate && <RateUser data={modal} states={[modal, showModal]} />}
             <div className='md:col-span-8 col-span-12 border-2 bg-chat-background mt-16'>
                 <div className='bg-gray-200 h-14 flex justify-between'>
 
