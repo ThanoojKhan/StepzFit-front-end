@@ -26,7 +26,7 @@ function MessagesTab() {
     useEffect(() => {
         socket = io(END_POINT)
         socket.emit('setup', userId)
-        socket.on('connection')
+        socket.on('connection', chat?._id)
         return () => {
             socket.disconnect()
         }
@@ -110,7 +110,7 @@ function MessagesTab() {
             }
         })
         bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, [messages])
+    }, [])
 
     useEffect(() => {
         fetchDetails();
@@ -233,7 +233,6 @@ function MessagesTab() {
                                         <div className="ml-4">
                                             <button
                                                 onClick={() => {
-                                                    setShowEmojiPicker(false);
                                                     sendMessage();
                                                 }}
                                                 type="button"
