@@ -76,9 +76,9 @@ function AssignTrainerTab() {
 
   return (
     <>
-      <div style={{ width: '95%' }} className="ms-5 mt-5 me sm:w-auto">
+      <div style={{ width: '95%' }} className="m-5 mt-20 me sm:w-auto">
         <h2 className="text-2xl font-semibold mb-4">Assign Trainer to Trainee</h2>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block font-medium mb-1">Select Trainer</label>
             <select

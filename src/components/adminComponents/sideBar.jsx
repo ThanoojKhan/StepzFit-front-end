@@ -1,37 +1,74 @@
-import React, { useState } from 'react';
+import {
+  CogIcon,
+  PowerIcon
+} from "@heroicons/react/24/solid";
 import {
   Card, List,
   ListItem,
   ListItemPrefix
 } from "@material-tailwind/react";
-import {
-  PowerIcon
-} from "@heroicons/react/24/solid";
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { adminLogout } from '../../store/slice/admin';
+import React, { useEffect, useRef, useState } from 'react';
 import { TfiAngleDoubleLeft } from 'react-icons/tfi';
-import { FaBars } from 'react-icons/fa';
-
-
+import { useDispatch } from 'react-redux';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { userLogout } from '../../store/slice/user';
 
 function SideBar() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [show, setShow] = useState(true);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+  const location = useLocation();
 
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const [show, setShow] = useState(true)
+  const handleLogout = () => {
+    dispatch(userLogout());
+    navigate('/home');
+  };
 
+  const handleOutsideClick = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setIsDropdownOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('click', handleOutsideClick);
+
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
+    };
+  }, []);
+
+  const closeSidebar = () => {
+    setShow(true);
+  };
 
   return (
     <>
-      <div className='lg:w-1/5'>
-        {show ?
-          <FaBars className="absolute z-50 lg:hidden ms-1 mt-5" onClick={() => setShow(false)} size={20} /> : ''}
-        <div className={`${show ? '' : 'fixed w-screen h-screen '} lg:staic lg:w-0 lg:h-0`}>
-          <Card style={{ position: 'fixed' }} className={`lg:flex z-auto ${show ? 'hidden' : 'flex w-screen bg-opacity-70 backdrop-blur-[2px]'}  top-4 left-4 h-screen ease-in-out duration-500 w-full max-w-[18rem] p-4 shadow-xl shadow-blue-gray-900/5`}>
-            <div className=''>{show ? "" : <TfiAngleDoubleLeft className="ms-5 lg:hidden mt-5" onClick={() => setShow(true)} size={20} />}</div>
+      <div className="flex">
+        {show ? (
+          <div className="fixed text-white z-50 lg:hidden ms-5 mt-7 w3-animate-left drop-shadow-lg cursor-pointer" onClick={() => setShow(false)} size={20}>Menu</div>
+        ) : (
+          ''
+        )}
+        <div className={`${show ? '' : 'fixed w-screen h-screen '} flex flex-wrap z-50 lg:w-96 lg:-mr-24 xl:-mr-24 h-screen`} onClick={closeSidebar}>
+          <Card
+            style={{ position: 'fixed' }}
+            className={`rounded-none lg:flex z-50 ${show ? 'hidden' : 'flex w3-animate-left w-screen bg-opacity-75 bg-black backdrop-blur-[2px]'
+              }  overflow-y-auto lg:bg-black h-screen w-full max-w-[18rem] p-4 shadow-2xl`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Link to={`/home`} className='flex justify-center' >
+              <div className="animate-pulse w-36 my-10 ">
+                <img src="\src\assets\images\logo\StepzFit-Logowhite-nobg-png.png" alt="" />
+              </div>
+            </Link>
+            <div className='hover:scale-105 transition-transform cursor-pointer' onClick={() => setShow(true)} size={20}>
+              {show ? "" : <TfiAngleDoubleLeft className="ms-5  text-white mt-10 lg:hidden " />}
+            </div>
 
-            <List>
+            <List className='text-white my-10'>
               <ListItem className={`hover:scale-105 transition-transform`} onClick={() => navigate('/admin')} >
                 Dashboard
               </ListItem>
@@ -66,7 +103,8 @@ function SideBar() {
                 </ListItemPrefix>
                 Log Out
               </ListItem>
-            </List>
+            </List> 
+          
           </Card>
         </div>
       </div>

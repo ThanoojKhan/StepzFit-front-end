@@ -94,33 +94,10 @@ function UpdateTrainer(props) {
   return (
     <>
       <Toaster toastOptions={{ duration: 4000 }} />
-      <div className="fixed top-0 left-0 w-screen h-screen flex justify-center items-center">
-        <div className="bg-white w-full max-w-md mx-auto px-6 py-8 rounded shadow-md text-black">
-          <button
-            className="absolute top-4 right-4 text-gray-600 hover:text-gray-800 focus:outline-none"
-            onClick={() => {
-              window.history.back();
-            }}
-          >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M6 18L18 6M6 6l12 12"
-              ></path>
-            </svg>
-          </button>
-          <h1 className="mb-8 text-3xl text-center">Update Trainer</h1>
-          <div className="grid grid-cols-2 gap-4">
-            {/* Input fields here */}
-
+      <div className=" w-screen h-screen md:pt-0 flex  justify-center items-center">
+        <div className=" h-screen mt-20 w-3/4 mx-auto px-6 py-8 rounded shadow-md text-black">
+          <h1 className="mb-8 text-3xl text-zinc-300 text-center">Update Trainer</h1>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-white">
             <div>
               <label htmlFor="firstName" className="block mb-1 font-medium">
                 First Name

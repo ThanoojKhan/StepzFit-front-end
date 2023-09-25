@@ -75,7 +75,7 @@ function TrainerDetailTab(props) {
 
   return (
     <>
-      <div className="capitalize">
+      <div className="capitalize ">
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90">
           <div className="w-full max-w-3xl mx-auto overflow-y-auto bg-transparent rounded-lg">
             <div className="p-5 bg-black text-white rounded-t flex justify-center">

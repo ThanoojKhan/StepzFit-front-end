@@ -59,17 +59,17 @@ function TrainerManagement() {
 
   return (
     <>
-      <div style={{ width: '95%' }} className=' ms-5 mt-5 me sm:w-auto'>
+      <div style={{ width: '95%' }} className=' ms-5 me sm:w-auto mt-20'>
         <ConfirmPopup
           isOpen={confirmOpen}
           onCancel={() => setConfirmOpen(false)}
           onConfirm={handleConfirmDelete}
         />
         <div className="flex justify-end m-2 ">
-          <p className="underline align-text-bottom cursor-pointer px-3" onClick={() => navigate('/admin/assignTrainer')} >
+          <p className="align-text-bottom cursor-pointer px-3" onClick={() => navigate('/admin/assignTrainer')} >
             Assign Trainer
           </p>
-          <p className="underline align-text-bottom cursor-pointer px-3" onClick={() => navigate('/admin/addTrainer')} >
+          <p className="align-text-bottom cursor-pointer px-3" onClick={() => navigate('/admin/addTrainer')} >
             Add Trainer
           </p>
 
@@ -98,6 +98,11 @@ function TrainerManagement() {
                 <tbody>
                   {trainers
                     ? trainers
+                      .filter(
+                        (user) =>
+                          user.firstName.toLowerCase().includes(search) ||
+                          user.email.toLowerCase().includes(search)
+                      )
                       .map((trainer) => (
                         <tr key={trainer._id} className="border-b dark:border-neutral-500">
                           <td className="whitespace-nowrap px-6 py-4 font-medium"><p className="cursor-pointer" onClick={() => navigate(`/admin/trainerDetails/${trainer._id}`)} >{trainer.firstName}</p> </td>
