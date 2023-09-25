@@ -5,6 +5,7 @@ import { toast } from 'react-hot-toast'
 import SearchBox from '../../traineeComponents/search'
 import errorFunction from '../../../services/errorHandling'
 import { useNavigate } from 'react-router-dom'
+import PlanDetailsPopup from './planDetailsPopup'
 
 function UserManagement() {
 
@@ -12,6 +13,8 @@ function UserManagement() {
   const [search, setSearch] = useState('')
   const [users, setUsers] = useState([])
   const [reload, setReload] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState(null);
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -39,8 +42,14 @@ function UserManagement() {
       errorFunction(err, navigate)
     })
   }
+  const openModal = (userId) => {
+    setSelectedUserId(userId);
+    setIsOpen(true);
+  };
 
-
+  const closeModal = () => {
+    setIsOpen(false);
+  };
   return (
     <>
       <div style={{ width: '95%' }} className=' ms-5 mt-5 sm:w-auto'>
@@ -77,10 +86,16 @@ function UserManagement() {
                           user.email.toLowerCase().includes(search)
                       )
                       .map((user) => (
-                        <tr key={user._id} className="border-b dark:border-neutral-500">
-                          <td className="whitespace-nowrap px-6 py-4 font-medium">{user.name}</td>
-                          <td className="whitespace-nowrap px-6 py-4">{user.email}</td>
-                          <td className="whitespace-nowrap px-6 py-4">{user.phone || 'Not Provided'}</td>
+                        <tr key={user._id} className="border-b dark:border-neutral-500 ">
+                          <td onClick={() => openModal(user._id)} className="whitespace-nowrap px-6 py-4 cursor-pointer hover:font-bold transition-transform">
+                            <div className="cell-content">{user.name}</div>
+                          </td>
+                          <td onClick={() => openModal(user._id)} className="whitespace-nowrap px-6 py-4 cursor-pointer hover:font-bold transition-transform">
+                            <div className="cell-content">{user.email}</div>
+                          </td>
+                          <td onClick={() => openModal(user._id)} className="whitespace-nowrap px-6 py-4 cursor-pointer hover:font-bold transition-transform">
+                            <div className="cell-content">{user.phone || 'Not Provided'}</div>
+                          </td>
                           <td onClick={() => statusChange(user._id, user.isBlocked)} className="whitespace-nowrap flex justify-between px-6 py-4">
                             {user.isBlocked ? <span className='text-green-600 me-1 hover:cursor-pointer'>Unblock</span> : <span className='text-red-700 px-4 me-1 hover:cursor-pointer'>Block</span>}
                           </td>
@@ -98,6 +113,8 @@ function UserManagement() {
               </table>
             </div>
           </div>
+          <PlanDetailsPopup isOpen={isOpen} onClose={closeModal} axiosInstance={axiosInstance} userId={selectedUserId} token={token} />
+
         </div>
       </div>
     </>

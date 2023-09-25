@@ -1,5 +1,5 @@
 import React from 'react'
-import Dashboard from '../../../components/trainerComponents/dashboard/dashboard'
+import Dashboard from '../../../components/adminComponents/dashboard/dashboard'
 import SideBar from '../../../components/adminComponents/sideBar'
 
 
