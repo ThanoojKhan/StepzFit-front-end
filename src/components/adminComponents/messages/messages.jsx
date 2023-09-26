@@ -34,7 +34,7 @@ function MessagesTab() {
     return () => {
       socket.disconnect()
     }
-  }, [])
+  }, [chat])
 
 
   const fetchDetails = async () => {
@@ -286,7 +286,7 @@ function MessagesTab() {
                             />
                           </div>
                           <div>
-                            <h1 className="text-xl font-semibold">{name}</h1>
+                            <h1 className="text-xl text-white font-semibold">{name}</h1>
                             {/* <small>Online</small> */}
                           </div>
                         </div>

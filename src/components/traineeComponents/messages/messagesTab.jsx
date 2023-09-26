@@ -24,28 +24,32 @@ function MessagesTab() {
     const [isLoading, setIsLoading] = useState(false)
     const [chatLoading, setChatLoading] = useState(false)
     const [showToaster, setShowToaster] = useState(false)
+    const [chatId, setChatId] = useState('')
+    const [msg, setMsg] = useState('')
+    const [latestMessage, setLatestMessage] = useState([])
     const navigate = useNavigate()
 
 
     useEffect(() => {
+
         socket = io(END_POINT)
         socket.emit('setup', userId)
         socket.on('connection', chat?._id)
         return () => {
             socket.disconnect()
         }
-    }, [])
-
+    }, [chat])
 
     const fetchDetails = async () => {
         try {
             setIsLoading(true)
-            const response = await axiosInstance.get('/user/trainerDetails', {
+            const response = await axiosInstance.get('/chat/userChatList', {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            setTrainer(response?.data?.trainer?.trainerId);
+            setTrainer(response?.data?.trainer);
+            setLatestMessage(response?.data?.latestMessage?.latestMessage)
             setAdmin(response?.data?.admin);
             setIsLoading(false)
         } catch (error) {
@@ -55,7 +59,6 @@ function MessagesTab() {
         }
     };
 
-
     const loadChat = (userId, receiverId) => {
         setChatLoading(true)
         axiosInstance.post('/chat/accessChat', { userId, receiverId }, {
@@ -63,15 +66,9 @@ function MessagesTab() {
                 authorization: `Bearer ${token}`
             }
         }).then((res) => {
-            setMessages(res.data.messages)
-            setChat(res.data.chat)
-            if (res.data.chat.users[0]._id === userId) {
-                setProfile1(res?.data?.chat?.users[0]?.profileImage)
-                setProfile2(res?.data?.chat?.users[1]?.profileImage)
-            } else {
-                setProfile2(res?.data?.chat?.users[0]?.profileImage)
-                setProfile1(res?.data?.chat?.users[1]?.profileImage)
-            }
+            setMessages(res?.data?.messages)
+            setChat(res?.data?.chat)
+            setChatId(res?.data?.chat?._id)
             socket.emit('joinChat', chat?._id);
             setMessage('')
             setChatLoading(false);
@@ -84,9 +81,7 @@ function MessagesTab() {
             }
         })
     }
-
     const sendMessage = () => {
-        const chatId = chat?._id
         if (message.length !== 0) {
             axiosInstance.post('/chat/addMessage', { message, chatId, sender: userId }, {
                 headers: {
@@ -108,18 +103,46 @@ function MessagesTab() {
 
     useEffect(() => {
         socket.on('messageResponse', (msg, room) => {
-            if (room === chat?._id) {
+            setMsg(msg)
+            if (room === chatId) {
                 let updMsg = [...messages, msg];
                 setMessages(updMsg)
             }
         })
         bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages, chat]);
-
+    console.log(JSON.stringify(msg) + '===');
     useEffect(() => {
         fetchDetails();
     }, []);
 
+    function formatMessageDate(createdAt) {
+        const currentDate = new Date();
+        const messageDate = new Date(createdAt);
+
+        if (
+            currentDate.getDate() === messageDate.getDate() &&
+            currentDate.getMonth() === messageDate.getMonth() &&
+            currentDate.getFullYear() === messageDate.getFullYear()
+        ) {
+            return messageDate.toLocaleString('en-US', {
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: true,
+            });
+        } else if (
+            currentDate.getDate() - messageDate.getDate() === 1 &&
+            currentDate.getMonth() === messageDate.getMonth() &&
+            currentDate.getFullYear() === messageDate.getFullYear()
+        ) {
+            return 'Yesterday';
+        } else {
+            const day = messageDate.getDate().toString().padStart(2, '0');
+            const month = (messageDate.getMonth() + 1).toString().padStart(2, '0');
+            const year = messageDate.getFullYear();
+            return `${day}/${month}/${year}`;
+        }
+    }
     return (
         <>
             {showToaster && <Toaster toastOptions={3000} />}
@@ -156,10 +179,13 @@ function MessagesTab() {
                                                     <div className='ms-4'>
                                                         <div className='flex items-center'>{trainer?.firstName} {trainer?.secondName}
                                                         </div>
-                                                        <div style={{ fontSize: "0.73em" }}>{chat?.latestMessage?.message} sfg</div>
+                                                        <div style={{ fontSize: "0.73em" }}>{trainer?._id == latestMessage?.sender ? latestMessage?.message : ''}</div>
                                                     </div>
                                                 </div>
-                                                <div className='absolute top-2 right-4'>date
+                                                <div className='absolute top-2 right-4'>
+                                                    {trainer?._id === latestMessage?.sender && (
+                                                        formatMessageDate(latestMessage?.createdAt)
+                                                    )}
                                                 </div>
 
                                             </div>
@@ -176,12 +202,14 @@ function MessagesTab() {
                                                     <div className='ms-4'>
                                                         <div className='flex items-center'>{admin?.firstName} {admin?.secondName}
                                                         </div>
-                                                        <div style={{ fontSize: "0.73em" }}>{chat?.latestMessage?.message} sfg</div>
+                                                        <div style={{ fontSize: "0.73em" }}>{admin?._id == latestMessage?.sender ? latestMessage?.message : ''}</div>
                                                     </div>
                                                 </div>
-                                                <div className='absolute top-2 right-4'>date
+                                                <div className='absolute top-2 right-4'>
+                                                    {admin?._id === latestMessage?.sender && (
+                                                        formatMessageDate(latestMessage?.createdAt)
+                                                    )}
                                                 </div>
-
                                             </div>
                                         )
                                     }
@@ -281,14 +309,14 @@ function MessagesTab() {
                                                         />
                                                     </div>
                                                     <div>
-                                                        <h1 className="text-xl font-semibold">{name}</h1>
+                                                        <h1 className="text-xl text-white font-semibold">{name}</h1>
                                                         {/* <small>Online</small> */}
                                                     </div>
                                                 </div>
-                                                {/* <div className="flex items-center space-x-4">
-                                                <div className="h-10 w-10 rounded-full overflow-hidden"><img src="https://w7.pngwing.com/pngs/179/583/png-transparent-telephone-call-icon-phone-call-application-screenshot-blue-electronics-text.png" alt="" />Audio call</div>
-                                                <div className="h-10 w-10 rounded-full overflow-hidden"><img src="https://cdn-icons-png.flaticon.com/512/3687/3687415.png" alt="" /></div>
-                                            </div> */}
+                                                <div className="flex items-center space-x-4">
+                                                    <div className="h-10 w-10 rounded-full overflow-hidden"><img src="https://w7.pngwing.com/pngs/179/583/png-transparent-telephone-call-icon-phone-call-application-screenshot-blue-electronics-text.png" alt="" />Audio call</div>
+                                                    <div className="h-10 w-10 rounded-full overflow-hidden"><img src="https://cdn-icons-png.flaticon.com/512/3687/3687415.png" alt="" /></div>
+                                                </div>
                                             </div>
                                             {/* header */}
 

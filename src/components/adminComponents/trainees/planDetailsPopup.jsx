@@ -68,7 +68,7 @@ const ImageUpdatePopup = ({ isOpen, onClose, token, userId, axiosInstance }) => 
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
             </tr>
           </thead>
-          {subs.length === 0 ? (
+          {subs?.length === 0 ? (
             <tbody>
               <tr>
                 <td className="px-6 py-4 text-center text-gray-500" colSpan="5">
@@ -86,7 +86,7 @@ const ImageUpdatePopup = ({ isOpen, onClose, token, userId, axiosInstance }) => 
                     <img
                       src={sub?.plan?.imageSrc}
                       alt=""
-                      className="w-16 h-16 object-cover mx-auto rounded-full" />
+                      className="w-16 h-16 object-cover rounded-full" />
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">{sub?.plan?.name}</td>
                   <td className={`px-6 py-4 whitespace-nowrap ${sub?.expired ? 'text-red-500' : 'text-blue-500'}`}>

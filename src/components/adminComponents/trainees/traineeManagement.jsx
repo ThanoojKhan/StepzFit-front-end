@@ -86,18 +86,18 @@ function UserManagement() {
                           user.email.toLowerCase().includes(search)
                       )
                       .map((user) => (
-                        <tr key={user._id} className="border-b dark:border-neutral-500 ">
+                        <tr key={user?._id} className="border-b dark:border-neutral-500 ">
                           <td onClick={() => openModal(user._id)} className="whitespace-nowrap px-6 py-4 cursor-pointer hover:font-bold transition-transform">
-                            <div className="cell-content">{user.name}</div>
+                            <div className="cell-content">{user?.name}</div>
                           </td>
                           <td onClick={() => openModal(user._id)} className="whitespace-nowrap px-6 py-4 cursor-pointer hover:font-bold transition-transform">
-                            <div className="cell-content">{user.email}</div>
+                            <div className="cell-content">{user?.email}</div>
                           </td>
                           <td onClick={() => openModal(user._id)} className="whitespace-nowrap px-6 py-4 cursor-pointer hover:font-bold transition-transform">
-                            <div className="cell-content">{user.phone || 'Not Provided'}</div>
+                            <div className="cell-content">{user?.phone || 'Not Provided'}</div>
                           </td>
                           <td onClick={() => statusChange(user._id, user.isBlocked)} className="whitespace-nowrap flex justify-between px-6 py-4">
-                            {user.isBlocked ? <span className='text-green-600 me-1 hover:cursor-pointer'>Unblock</span> : <span className='text-red-700 px-4 me-1 hover:cursor-pointer'>Block</span>}
+                            {user?.isBlocked ? <span className='text-green-600 me-1 hover:cursor-pointer'>Unblock</span> : <span className='text-red-700 px-4 me-1 hover:cursor-pointer'>Block</span>}
                           </td>
                         </tr>
                       ))
