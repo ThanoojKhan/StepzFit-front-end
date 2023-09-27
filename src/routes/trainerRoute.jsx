@@ -1,30 +1,32 @@
-import TrainerDashboard from '../pages/trainer/mainPages/dashboard';
-import Messages from '../pages/trainer/mainPages/messages';
-import TaskScheduler from '../pages/trainer/mainPages/taskScheduler';
-import TraineesData from '../pages/trainer/mainPages/traineesData';
-import MyProfile from '../pages/trainer/mainPages/myProfile';
-import BodyMetrics from '../pages/trainer/traineeData/bodyMetrics';
-import FoodIntake from '../pages/trainer/traineeData/foodIntake';
-import ScheduleTask from '../pages/trainer/taskScheduler/scheduleTask';
-import ProtectedRoute from './ProtectedRoute';
-import NotFound from '../pages/errorPages/notFound';
+import { Route, Routes } from 'react-router-dom'
+import NotFound from '../pages/errorPages/notFound'
+import TrainerDashboard from '../pages/trainer/mainPages/dashboard'
+import Messages from '../pages/trainer/mainPages/messages'
+import MyProfile from '../pages/trainer/mainPages/myProfile'
+import TaskScheduler from '../pages/trainer/mainPages/taskScheduler'
+import TraineesData from '../pages/trainer/mainPages/traineesData'
+import ScheduleTask from '../pages/trainer/taskScheduler/scheduleTask'
+import BodyMetrics from '../pages/trainer/traineeData/bodyMetrics'
+import FoodIntake from '../pages/trainer/traineeData/foodIntake'
+import ProtectedRoute from './ProtectedRoute'
 
 function TrainerRoute() {
-
   return (
     <div>
-      <ProtectedRoute path="/" userType="trainer" tokenCheck={true} element={<TrainerDashboard />} />
-      <ProtectedRoute path="/dashBoard" userType="trainer" tokenCheck={true} element={<TrainerDashboard />} />
-      <ProtectedRoute path="/messages" userType="trainer" tokenCheck={true} element={<Messages />} />
-      <ProtectedRoute path="/taskScheduler" userType="trainer" tokenCheck={true} element={<TaskScheduler />} />
-      <ProtectedRoute path="/traineesData" userType="trainer" tokenCheck={true} element={<TraineesData />} />
-      <ProtectedRoute path="/myProfile" userType="trainer" tokenCheck={true} element={<MyProfile />} />
-      <ProtectedRoute path="/bodyMetrics/:traineeId" userType="trainer" tokenCheck={true} element={<BodyMetrics />} />
-      <ProtectedRoute path="/foodIntake/:traineeId" userType="trainer" tokenCheck={true} element={<FoodIntake />} />
-      <ProtectedRoute path="/scheduleTask/:traineeId" userType="trainer" tokenCheck={true} element={<ScheduleTask />} />
-      <ProtectedRoute path="*" userType="trainer" element={<NotFound />} />
+      <Routes>
+        <Route path="/" element={<ProtectedRoute userType="trainer" component={TrainerDashboard} />} />
+        <Route path="/dashboard" element={<ProtectedRoute userType="trainer" component={TrainerDashboard} />} />
+        <Route path="/messages" element={<ProtectedRoute userType="trainer" component={Messages} />} />
+        <Route path="/taskScheduler" element={<ProtectedRoute userType="trainer" component={TaskScheduler} />} />
+        <Route path="/traineesData" element={<ProtectedRoute userType="trainer" component={TraineesData} />} />
+        <Route path="/myProfile" element={<ProtectedRoute userType="trainer" component={MyProfile} />} />
+        <Route path="/bodyMetrics/:traineeId" element={<ProtectedRoute userType="trainer" component={BodyMetrics} />} />
+        <Route path="/foodIntake/:traineeId" element={<ProtectedRoute userType="trainer" component={FoodIntake} />} />
+        <Route path="/scheduleTask/:traineeId" element={<ProtectedRoute userType="trainer" component={ScheduleTask} />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </div>
-  );
+  )
 }
 
-export default TrainerRoute;
+export default TrainerRoute

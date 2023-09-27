@@ -1,12 +1,16 @@
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
+{/* PROTECTED ROUTE */ }
+import ProtectedRoute from './routes/ProtectedRoute'
+
 {/* TRAINEE */ }
 import TraineeRoute from './routes/traineeRoute'
 import Register from './pages/users/register'
 import UserLogin from './pages/users/login'
 import EmailVerify from './components/traineeComponents/emailVerify'
 import ResetPassword from './components/traineeComponents/resetPassword'
+import OtpLogin from './components/traineeComponents/otpLogin'
 
 {/* ADMIN */ }
 import AdminRoute from './routes/adminRoute'
@@ -38,20 +42,21 @@ function App() {
         <Route path='/home' element={<Home />} />
         <Route path='/membershipPlans/:planId' element={<Plans />} />
 
+
         {/* USER */}
-        <Route path='/*' element={<TraineeRoute />} />
         <Route path='/login' element={user.token !== null ? <Navigate to='/home' /> : <UserLogin />} />
         <Route path="/emailVerify/:userId" element={user.token !== null ? <Navigate to='/home' /> : <EmailVerify />} />
         <Route path='/register' element={user.token !== null ? <Navigate to='/home' /> : <Register />} />
         <Route path="/resetPassword/:userId" element={user.token !== null ? <Navigate to='/home' /> : <ResetPassword />} />
         <Route path='/otpLogin' element={user.token !== null ? <Navigate to='/home' /> : <OtpLogin />} />
+        <Route path='/*' element={<TraineeRoute />} />
 
         {/* TRAINER */}
-        <Route path='trainer/login' element={trainer?.token ? <Navigate to='/trainer' /> : <TrainerLogin />} />
+        <Route path='/trainer/login' element={trainer?.token ? <Navigate to='/trainer' /> : <TrainerLogin />} />
         <Route path='/trainer/*' element={<TrainerRoute />} />
 
         {/* ADMIN */}
-        <Route path='admin/login' element={admin?.token ? <Navigate to='/admin' /> : <AdminLogin />} />
+        <Route path='/admin/login' element={admin?.token ? <Navigate to='/admin' /> : <AdminLogin />} />
         <Route path='/admin/*' element={<AdminRoute />} />
 
         {/* ERROR PAGES */}
