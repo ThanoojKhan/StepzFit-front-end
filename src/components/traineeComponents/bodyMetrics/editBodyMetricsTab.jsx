@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import axiosInstance from '../../../api/axios';
 import { useParams } from 'react-router-dom';
 import { toast, Toaster } from 'react-hot-toast';
@@ -23,7 +22,6 @@ const InputField = ({ label, name, type, value, onChange }) => (
 
 function EditBodyMetrics() {
   const { bodyMetricsId } = useParams();
-  const { token } = useSelector((state) => state.User);
   const [showToaster, setShowToaster] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
@@ -48,11 +46,7 @@ function EditBodyMetrics() {
   const fetchExistingBodyMetrics = async () => {
     try {
       setIsLoading(true)
-      const response = await axiosInstance.get(`/user/bodyMetricsDetails/${bodyMetricsId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axiosInstance.get(`/user/bodyMetricsDetails/${bodyMetricsId}`);
       const bodyMetrics = response.data.bodyMetrics;
 
       const parsedDate = new Date(bodyMetrics.date);
@@ -131,11 +125,7 @@ function EditBodyMetrics() {
     }
     try {
       setIsLoading(true)
-      const response = await axiosInstance.patch(`/user/editBodyMetrics/${bodyMetricsId}`, formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axiosInstance.patch(`/user/editBodyMetrics/${bodyMetricsId}`, formData);
       setShowToaster(true)
       setIsLoading(false)
       toast.success(response.data.message);

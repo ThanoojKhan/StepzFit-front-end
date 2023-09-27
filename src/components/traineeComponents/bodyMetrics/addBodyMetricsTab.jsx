@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
-import { useSelector } from 'react-redux';
 import axiosInstance from '../../../api/axios';
 import Loader from '../../loader';
 import NavBar from '../NavBar';
@@ -24,7 +23,6 @@ const InputField = ({ label, name, type, value, onChange, max, disabled }) => (
 );
 
 function addBodyMetricsTab() {
-  const { token } = useSelector((state) => state.User);
   const currentDate = new Date().toISOString().split('T')[0];
   const [showToaster, setShowToaster] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -115,11 +113,7 @@ function addBodyMetricsTab() {
 
     try {
       setIsLoading(true)
-      const response = await axiosInstance.post('/user/addBodyMetrics', formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axiosInstance.post('/user/addBodyMetrics', formData);
       setShowToaster(true)
       toast.success(response.data.message);
       setFormData(initialFormData);

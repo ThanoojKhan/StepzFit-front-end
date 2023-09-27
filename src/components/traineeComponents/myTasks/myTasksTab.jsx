@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
 import Modal from 'react-modal';
-import { useSelector } from 'react-redux';
 import axiosInstance from '../../../api/axios';
 import Loader from '../../loader';
 import TaskDetailsModal from './taskDetailPopup';
 
 function MyTaskTab() {
-  const { token } = useSelector((state) => state.User);
   const [tasks, setTasks] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [taskIdToMarkAsDone, setTaskIdToMarkAsDone] = useState('');
@@ -55,11 +53,7 @@ function MyTaskTab() {
   const fetchTasks = async () => {
     try {
       setIsLoading(true)
-      const response = await axiosInstance.get('/user/getTasks', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axiosInstance.get('/user/getTasks');
       setTasks(response?.data?.tasks);
       setIsLoading(false)
 
@@ -74,14 +68,7 @@ function MyTaskTab() {
     try {
       setIsLoading(true)
       await axiosInstance.post(
-        `/user/markTaskAsDone/${taskIdToMarkAsDone._id}`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+        `/user/markTaskAsDone/${taskIdToMarkAsDone._id}`);
       setShowToaster(true)
       toast.success('Task marked as done.');
       fetchTasks();

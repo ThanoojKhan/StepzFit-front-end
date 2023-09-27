@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import Modal from 'react-modal';
 import footerLogo from '../../../assets/images/logo/StepzFit-Logo-png.png';
 import axiosInstance from '../../../api/axios';
-import { useSelector } from 'react-redux';
 import { Toaster, toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import Loader from '../../loader';
@@ -11,7 +10,6 @@ Modal.setAppElement('#root');
 
 const ImageUpdatePopup = ({ isOpen, onClose, onUpdate, existingImage }) => {
   const [selectedImage, setSelectedImage] = useState(existingImage);
-  const { token } = useSelector((state) => state.User);
   const fileInputRef = useRef(null);
   const [isLoading, setIsLoading] = useState(false)
   const [showToaster, setShowToaster] = useState(false)
@@ -31,11 +29,7 @@ const ImageUpdatePopup = ({ isOpen, onClose, onUpdate, existingImage }) => {
   const handleImageUpdate = async () => {
     try {
       setIsLoading(true)
-      await axiosInstance.post('/user/setDashImage', { selectedImage }, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await axiosInstance.post('/user/setDashImage', { selectedImage });
       onUpdate(selectedImage);
       setIsLoading(false)
       onClose();

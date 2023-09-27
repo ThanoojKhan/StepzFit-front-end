@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import axiosInstance from '../../../api/axios';
 import { Toaster, toast } from 'react-hot-toast';
 import UserDetail from '../userDetail';
@@ -7,7 +6,6 @@ import Loader from '../../loader';
 import { CgSpinner } from 'react-icons/cg';
 
 function MyProfileTab() {
-  const { token } = useSelector((state) => state.User);
   const [user, setUser] = useState({});
   const [change, setChange] = useState(false);
   const [edit, setEdit] = useState(false);
@@ -34,11 +32,7 @@ function MyProfileTab() {
   useEffect(() => {
     setLoader(true);
     axiosInstance
-      .get('/user/profile', {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      })
+      .get('/user/profile')
       .then((res) => {
         setLoader(false);
         setUser(res?.data?.user);
@@ -88,11 +82,6 @@ function MyProfileTab() {
             job,
             organization,
           },
-          {
-            headers: {
-              authorization: `Bearer ${token}`,
-            },
-          }
         )
         .then((res) => {
           setShowToaster(true)

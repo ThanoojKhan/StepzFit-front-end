@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
-import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import axiosInstance from '../../../api/axios';
 import BodyMetricsDetails from './bodyMetricsDetails'
@@ -8,7 +7,6 @@ import Loader from '../../loader';
 import Modal from 'react-modal';
 
 function BodyMetricsTab() {
-  const { token } = useSelector((state) => state.User);
   const [bodyMetricsData, setBodyMetricsData] = useState([]);
   const [selectedData, setSelectedData] = useState(null);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
@@ -38,11 +36,7 @@ function BodyMetricsTab() {
   const fetchBodyMetricsData = async () => {
     try {
       setIsLoading(true)
-      const response = await axiosInstance.get('/user/bodyMetrics', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axiosInstance.get('/user/bodyMetrics');
       setBodyMetricsData(response.data.bodyMetrics);
       setIsLoading(false)
     } catch (error) {
@@ -67,11 +61,7 @@ function BodyMetricsTab() {
   const handleDelete = (id) => {
     setIsLoading(true)
     axiosInstance
-      .delete(`/user/deleteBodyMetrics/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .delete(`/user/deleteBodyMetrics/${id}`)
       .then(() => {
         setShowToaster(true)
         fetchBodyMetricsData();

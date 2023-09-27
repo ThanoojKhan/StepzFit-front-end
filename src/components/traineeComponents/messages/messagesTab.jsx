@@ -11,7 +11,7 @@ let socket;
 
 function MessagesTab() {
 
-    const { userId, token } = useSelector((store) => store.User)
+    const { userId } = useSelector((store) => store.User)
     const bottomRef = useRef(null)
     const [chat, setChat] = useState()
     const [messages, setMessages] = useState([])
@@ -43,11 +43,7 @@ function MessagesTab() {
     const fetchDetails = async () => {
         try {
             setIsLoading(true)
-            const response = await axiosInstance.get('/chat/userChatList', {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
+            const response = await axiosInstance.get('/chat/userChatList',);
             setTrainer(response?.data?.trainer);
             setLatestMessage(response?.data?.latestMessage?.latestMessage)
             setAdmin(response?.data?.admin);
@@ -61,11 +57,7 @@ function MessagesTab() {
 
     const loadChat = (userId, receiverId) => {
         setChatLoading(true)
-        axiosInstance.post('/chat/accessChat', { userId, receiverId }, {
-            headers: {
-                authorization: `Bearer ${token}`
-            }
-        }).then((res) => {
+        axiosInstance.post('/chat/accessChat', { userId, receiverId }).then((res) => {
             setMessages(res?.data?.messages)
             setChat(res?.data?.chat)
             setChatId(res?.data?.chat?._id)
@@ -83,11 +75,7 @@ function MessagesTab() {
     }
     const sendMessage = () => {
         if (message.length !== 0) {
-            axiosInstance.post('/chat/addMessage', { message, chatId, sender: userId }, {
-                headers: {
-                    authorization: `Bearer ${token}`
-                }
-            }).then((res) => {
+            axiosInstance.post('/chat/addMessage', { message, chatId, sender: userId }).then((res) => {
                 let updMsg = [...messages, res?.data?.msg];
                 setMessages(updMsg)
                 setMessage('')

@@ -4,7 +4,6 @@ import Cards from './cards';
 import { Fade } from 'react-awesome-reveal';
 import TaskTab from './taskTab';
 import FoodTab from './foodTab';
-import { useSelector } from 'react-redux';
 import { toast,Toaster } from 'react-hot-toast';
 import axiosInstance from '../../../api/axios';
 import ImageUpdatePopup from './ImageUpdatePopup';
@@ -12,7 +11,6 @@ import Loader from '../../loader';
 import dash from '../../../assets/images/images/bg.jpg'
 
 const HomeBody = () => {
-  const { token } = useSelector((state) => state.User);
   const [user, setUser] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [foodIntake, setFoodIntake] = useState([]);
@@ -28,11 +26,7 @@ const HomeBody = () => {
   const fetchDashboard = async () => {
     try {
       setIsLoading(true)
-      const response = await axiosInstance.get('/user/dashBoard', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axiosInstance.get('/user/dashBoard');
       setShowToaster(true)
       setUser(response?.data?.user);
       setWeight(response?.data?.weight?.bodyWeight);
