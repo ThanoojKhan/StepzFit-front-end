@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Toaster, toast } from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
 import axiosInstance from '../../../api/axios'
 import errorFunction from '../../../services/errorHandling'
 
 
 function AddTrainer() {
 
-  const { token } = useSelector((state) => state.Admin)
   const [firstName, setFirstName] = useState('')
   const [secondName, setSecondName] = useState('')
   const [email, setEmail] = useState('')
@@ -38,11 +36,7 @@ function AddTrainer() {
 
   const handleSubmit = () => {
     try {
-      axiosInstance.post('/admin/addTrainer', { firstName, secondName, email, dob, gender, phone, department, certification, userName, password, addedDate }, {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      }).then((res) => {
+      axiosInstance.post('/admin/addTrainer', { firstName, secondName, email, dob, gender, phone, department, certification, userName, password, addedDate }).then((res) => {
         if (res.data.message) {
           toast.success(res.data.message)
           navigate('/admin/trainers')

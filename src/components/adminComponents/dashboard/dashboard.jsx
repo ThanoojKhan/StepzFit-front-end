@@ -2,19 +2,15 @@ import React, { useEffect, useState } from 'react';
 import 'react-image-crop/dist/ReactCrop.css';
 import { Fade } from 'react-awesome-reveal';
 import SubsTab from './subsTab';
-import FoodTab from './traineeTab';
-import { useSelector } from 'react-redux';
 import { toast, Toaster } from 'react-hot-toast';
 import axiosInstance from '../../../api/axios';
 import Loader from '../../loader';
-import dash from '../../../assets/images/images/bg.jpg'
 import PlanBarChart from './chart'
 import CountBarChart from './count'
 import TraineeTab from './traineeTab'
 import TrainerTab from './trainerTab'
 
 const HomeBody = () => {
-  const { token } = useSelector((state) => state.Admin);
   const [user, setUser] = useState([]);
   const [userCount, setUserCount] = useState([]);
   const [trainer, setTrainer] = useState([]);
@@ -29,11 +25,7 @@ const HomeBody = () => {
   const fetchDashboard = async () => {
     try {
       setIsLoading(true)
-      const response = await axiosInstance.get('/admin/dashBoard', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axiosInstance.get('/admin/dashBoard');
       setShowToaster(true)
       setUser(response?.data?.user);
       setSubs(response?.data?.subscriptions);

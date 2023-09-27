@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../../../api/axios';
-import { useSelector } from 'react-redux';
 import { toast } from 'react-hot-toast';
 import errorFunction from '../../../services/errorHandling';
 import { useNavigate } from 'react-router-dom';
 
 function AssignTrainerTab() {
-  const { token } = useSelector((state) => state.Admin);
   const [trainers, setTrainers] = useState([]);
   const [trainees, setTrainees] = useState([]);
   const [selectedTrainer, setSelectedTrainer] = useState('');
@@ -15,11 +13,7 @@ function AssignTrainerTab() {
 
   useEffect(() => {
     axiosInstance
-      .get('/admin/assignTrainer', {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      })
+      .get('/admin/assignTrainer')
       .then((res) => {
         setTrainers(res?.data?.trainers);
         setTrainees(res?.data?.trainees);
@@ -45,11 +39,7 @@ function AssignTrainerTab() {
     }
 
     try {
-      axiosInstance.post('/admin/assignTrainer', { selectedTrainee, selectedTrainer }, {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      }).then((res) => {
+      axiosInstance.post('/admin/assignTrainer', { selectedTrainee, selectedTrainer }).then((res) => {
         if (res.data.message) {
           toast.success(res.data.message);
           const updatedTrainees = trainees.map(trainee => {

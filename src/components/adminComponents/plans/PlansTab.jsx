@@ -16,11 +16,7 @@ function PlansTab() {
 
   useEffect(() => {
     axiosInstance
-      .get('/admin/plans', {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      })
+      .get('/admin/plans')
       .then((res) => {
         setPlans(res?.data?.plans);
       })
@@ -37,11 +33,7 @@ function PlansTab() {
   const handleConfirmDelete = () => {
     if (selectedPlan) {
       axiosInstance
-        .delete(`/admin/deletePlan/${selectedPlan}`, {
-          headers: {
-            authorization: `Bearer ${token}`,
-          },
-        })
+        .delete(`/admin/deletePlan/${selectedPlan}`)
         .then((res) => {
           toast.success(res?.data?.message);
           setReload(!reload);
@@ -55,11 +47,7 @@ function PlansTab() {
   };
 
   const statusChange = (planId, status) => {
-    axiosInstance.patch('/admin/planStatus', { planId, status }, {
-      headers: {
-        authorization: `Bearer ${token}`
-      }
-    }).then((res) => {
+    axiosInstance.patch('/admin/planStatus', { planId, status }).then((res) => {
       toast.success(res?.data?.message)
       setReload(!reload)
     }).catch((err) => {

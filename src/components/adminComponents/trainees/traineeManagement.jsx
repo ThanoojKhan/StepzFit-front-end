@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import axiosInstance from '../../../api/axios'
-import { useSelector } from 'react-redux'
 import { toast } from 'react-hot-toast'
 import SearchBox from '../../traineeComponents/search'
 import errorFunction from '../../../services/errorHandling'
@@ -9,7 +8,6 @@ import PlanDetailsPopup from './planDetailsPopup'
 
 function UserManagement() {
 
-  const { token } = useSelector((state => state.Admin))
   const [search, setSearch] = useState('')
   const [users, setUsers] = useState([])
   const [reload, setReload] = useState(false)
@@ -18,11 +16,7 @@ function UserManagement() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    axiosInstance.get('/admin/users', {
-      headers: {
-        authorization: `Bearer ${token}`
-      }
-    }).then((res) => {
+    axiosInstance.get('/admin/users').then((res) => {
       setUsers(res?.data?.users)
     }).catch((err) => {
       errorFunction(err, navigate)
@@ -31,11 +25,7 @@ function UserManagement() {
 
 
   const statusChange = (userId, blocked) => {
-    axiosInstance.patch('/admin/userStatus', { userId, blocked }, {
-      headers: {
-        authorization: `Bearer ${token}`
-      }
-    }).then((res) => {
+    axiosInstance.patch('/admin/userStatus', { userId, blocked }).then((res) => {
       toast.success(res?.data?.message)
       setReload(!reload)
     }).catch((err) => {
@@ -113,8 +103,7 @@ function UserManagement() {
               </table>
             </div>
           </div>
-          <PlanDetailsPopup isOpen={isOpen} onClose={closeModal} axiosInstance={axiosInstance} userId={selectedUserId} token={token} />
-
+          <PlanDetailsPopup isOpen={isOpen} onClose={closeModal} axiosInstance={axiosInstance} userId={selectedUserId} />
         </div>
       </div>
     </>

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Toaster, toast } from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
 import axiosInstance from '../../../api/axios'
 import errorFunction from '../../../services/errorHandling'
 
@@ -15,7 +14,6 @@ function AddPlanTab() {
         features: [],
     });
 
-    const { token } = useSelector((state) => state.Admin)
     const navigate = useNavigate()
 
 
@@ -44,11 +42,7 @@ function AddPlanTab() {
 
     const handleAddPlan = () => {
         if (newPlan.name && newPlan.description && newPlan.imageSrc && newPlan.price) {
-            axiosInstance.post('/admin/addPlan', newPlan, {
-                headers: {
-                    authorization: `Bearer ${token}`,
-                },
-            })
+            axiosInstance.post('/admin/addPlan', newPlan)
                 .then((res) => {
                     if (res.data.message) {
                         toast.success(res.data.message);

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
-import { useSelector } from 'react-redux';
 import axiosInstance from '../../../api/axios';
 import FoodIntakeDetailsModal from '../foodTracker/foodTrackerDetailPopup';
 import Modal from 'react-modal';
@@ -8,7 +7,6 @@ import Loader from '../../loader';
 import RoundProgressBar from '../roundProgress';
 
 const FoodTrackerTab = () => {
-  const { token } = useSelector((state) => state.User);
   const [selectedFood, setSelectedFood] = useState('');
   const [selectedQuantity, setSelectedQuantity] = useState('');
   const [selectedHour, setSelectedHour] = useState('0');
@@ -44,11 +42,7 @@ const FoodTrackerTab = () => {
 
   const fetchFoodOptions = () => {
     setIsLoading(true)
-    axiosInstance.get('/user/foodDB', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    axiosInstance.get('/user/foodDB')
       .then((response) => {
         setFoodOptions(response?.data?.foods);
         setIsLoading(false)
@@ -90,10 +84,6 @@ const FoodTrackerTab = () => {
         food: selectedFood,
         quantity: selectedQuantity,
         time: selectedTime,
-      }, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       })
         .then(() => {
           setShowToaster(true)
@@ -120,11 +110,7 @@ const FoodTrackerTab = () => {
 
   const handleFetchFoodIntake = () => {
     setIsLoading(true)
-    axiosInstance.get('/user/getFoodIntake', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    axiosInstance.get('/user/getFoodIntake')
       .then((response) => {
         setFoodIntake(response?.data?.foodIntake);
         setReload(false);
@@ -171,11 +157,7 @@ const FoodTrackerTab = () => {
 
   const handleDeleteEntry = () => {
     setIsLoading(true)
-    axiosInstance.delete(`/user/deleteFoodIntake/${entryToDelete._id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    axiosInstance.delete(`/user/deleteFoodIntake/${entryToDelete._id}`)
       .then(() => {
         setIsDeleteModalOpen(false);
         setIsLoading(false)

@@ -21,11 +21,7 @@ function UpdatePlanTab(props) {
 
     useEffect(() => {
         axiosInstance
-            .get(`/admin/planDetails/${planId}`, {
-                headers: {
-                    authorization: `Bearer ${token}`,
-                },
-            })
+            .get(`/admin/planDetails/${planId}`)
             .then((res) => {
                 const existingPlan = res?.data?.plan;
                 if (existingPlan) {
@@ -63,11 +59,7 @@ function UpdatePlanTab(props) {
             setButtonText('Updating...');
 
             axiosInstance
-                .patch(`/admin/updatePlan/${planId}`, plan, {
-                    headers: {
-                        authorization: `Bearer ${token}`,
-                    },
-                })
+                .patch(`/admin/updatePlan/${planId}`, plan)
                 .then((res) => {
                     if (res.data.message) {
                         setButtonText('Updated');

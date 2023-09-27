@@ -12,7 +12,6 @@ import { useNavigate } from 'react-router-dom'
 function TrainerDetailTab(props) {
 
   const trainerId = props.trainerId
-  const { token } = useSelector((state) => state.Admin)
   const [firstName, setFirstName] = useState('')
   const [secondName, setSecondName] = useState('')
   const [department, setDept] = useState('')
@@ -43,11 +42,7 @@ function TrainerDetailTab(props) {
 
 
   useEffect(() => {
-    axiosInstance.get(`/admin/trainerDetails/${trainerId}`, {
-      headers: {
-        authorization: `Bearer ${token}`,
-      },
-    })
+    axiosInstance.get(`/admin/trainerDetails/${trainerId}`)
       .then((res) => {
         setLoader(false)
         setFirstName(res?.data?.details?.firstName)

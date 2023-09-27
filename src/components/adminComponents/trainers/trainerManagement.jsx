@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../../../api/axios';
-import { useSelector } from 'react-redux';
 import { toast } from 'react-hot-toast';
 import SearchBox from '../../traineeComponents/search';
 import { useNavigate } from 'react-router-dom';
@@ -8,7 +7,6 @@ import ConfirmPopup from './confirmPopUp';
 import errorFunction from '../../../services/errorHandling';
 
 function TrainerManagement() {
-  const { token } = useSelector((state) => state.Admin);
   const [search, setSearch] = useState('');
   const [trainers, setTrainers] = useState([]);
   const [reload, setReload] = useState(false);
@@ -18,11 +16,7 @@ function TrainerManagement() {
 
   useEffect(() => {
     axiosInstance
-      .get('/admin/trainers', {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      })
+      .get('/admin/trainers')
       .then((res) => {
         setTrainers(res?.data?.trainers);
       })
@@ -40,11 +34,7 @@ function TrainerManagement() {
   const handleConfirmDelete = () => {
     if (selectedTrainer) {
       axiosInstance
-        .delete(`/admin/deleteTrainer/${selectedTrainer}`, {
-          headers: {
-            authorization: `Bearer ${token}`,
-          },
-        })
+        .delete(`/admin/deleteTrainer/${selectedTrainer}`)
         .then((res) => {
           toast.success(res?.data?.message);
           setReload(!reload);

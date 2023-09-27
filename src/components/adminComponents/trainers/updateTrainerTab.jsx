@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Toaster, toast } from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
 import axiosInstance from "../../../api/axios"
 import errorFunction from '../../../services/errorHandling'
 
@@ -9,7 +8,6 @@ import errorFunction from '../../../services/errorHandling'
 function UpdateTrainer(props) {
 
   const trainerId = props.trainerId
-  const { token } = useSelector((state) => state.Admin)
   const [firstName, setFirstName] = useState('')
   const [secondName, setSecondName] = useState('')
   const [department, setDept] = useState('')
@@ -34,11 +32,7 @@ function UpdateTrainer(props) {
 
   useEffect(() => {
     axiosInstance
-      .get(`/admin/trainerDetails/${trainerId}`, {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      })
+      .get(`/admin/trainerDetails/${trainerId}`)
       .then((res) => {
         setFirstName(res?.data?.details?.firstName)
         setSecondName(res?.data?.details?.secondName)
@@ -62,11 +56,7 @@ function UpdateTrainer(props) {
 
   const handleSubmit = () => {
     try {
-      axiosInstance.patch(`/admin/updateTrainer/${trainerId}`, { firstName, secondName, email, d_o_b, gender, phone, department, certification, userName, password, addedDate }, {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      }).then((res) => {
+      axiosInstance.patch(`/admin/updateTrainer/${trainerId}`, { firstName, secondName, email, d_o_b, gender, phone, department, certification, userName, password, addedDate }).then((res) => {
         if (res.data.message) {
           toast.success(res.data.message)
           navigate('/admin/trainers')

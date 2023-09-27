@@ -26,9 +26,7 @@ function TaskSchedulerTrainer() {
 
   const fetchTasks = async () => {
     try {
-      const response = await axiosInstance.get(`/trainer/getTasks/${traineeId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await axiosInstance.get(`/trainer/getTasks/${traineeId}`);
       setTasks(response?.data?.tasks);
       setTrainee(response?.data?.trainee);
     } catch (error) {
@@ -58,7 +56,6 @@ function TaskSchedulerTrainer() {
       await axiosInstance.post(
         `/trainer/scheduleTask/${traineeId}`,
         { task: newTask, date: selectedDate },
-        { headers: { Authorization: `Bearer ${token}` } }
       );
 
       setNewTask('');
@@ -89,10 +86,8 @@ function TaskSchedulerTrainer() {
     }
     try {
       setIsLoading(true);
-      await axiosInstance.put(
-        `/trainer/editTask/${editingTask.id}`,
+      await axiosInstance.put(`/trainer/editTask/${editingTask.id}`,
         { task: editingTask.task },
-        { headers: { Authorization: `Bearer ${token}` } }
       );
 
       setEditingTask(null);
@@ -112,9 +107,7 @@ function TaskSchedulerTrainer() {
   const handleConfirmDelete = async () => {
     try {
       setShowDeleteConfirmation(false);
-      await axiosInstance.delete(`/trainer/deleteTask/${taskToDelete}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await axiosInstance.delete(`/trainer/deleteTask/${taskToDelete}`);
       setTasks((prevTasks) => prevTasks.filter((task) => task._id !== taskToDelete));
       toast.success('Task deleted successfully');
     } catch (error) {

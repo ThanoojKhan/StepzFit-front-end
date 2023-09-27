@@ -5,17 +5,13 @@ import { useNavigate } from 'react-router-dom';
 
 Modal.setAppElement('#root');
 
-const ImageUpdatePopup = ({ isOpen, onClose, token, userId, axiosInstance }) => {
+const ImageUpdatePopup = ({ isOpen, onClose, userId, axiosInstance }) => {
   const [subs, setSubs] = useState([]);
   const navigate = useNavigate();
 
   const fetch = (userId) => {
     axiosInstance
-      .get(`/admin/subs/${userId}`, {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      })
+      .get(`/admin/subs/${userId}`)
       .then((res) => {
         setSubs(res?.data?.subs);
       })
