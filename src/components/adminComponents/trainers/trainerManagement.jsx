@@ -96,7 +96,7 @@ function TrainerManagement() {
                       .map((trainer) => (
                         <tr key={trainer._id} className="border-b dark:border-neutral-500">
                           <td className="whitespace-nowrap px-6 py-4 font-medium"><p className="cursor-pointer" onClick={() => navigate(`/admin/trainerDetails/${trainer._id}`)} >{trainer.firstName}</p> </td>
-                          <td className="whitespace-nowrap px-6 py-4">{trainer.userName}</td>
+                          <td className="whitespace-nowrap px-6 py-4">{trainer.email}</td>
                           <td className="whitespace-nowrap px-6 py-4">{trainer.password}</td>
                           <td className="whitespace-nowrap px-6 py-4">{trainer.phone || 'Not Provided'}</td>
                           <td><p className="underline align-text-bottom cursor-pointer" onClick={() => navigate(`/admin/updateTrainer/${trainer._id}`)}>Update Trainer</p></td>

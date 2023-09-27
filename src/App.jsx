@@ -3,6 +3,10 @@ import { useSelector } from 'react-redux'
 
 {/* TRAINEE */ }
 import TraineeRoute from './routes/traineeRoute'
+import Register from './pages/users/register'
+import UserLogin from './pages/users/login'
+import EmailVerify from './components/traineeComponents/emailVerify'
+import ResetPassword from './components/traineeComponents/resetPassword'
 
 {/* ADMIN */ }
 import AdminRoute from './routes/adminRoute'
@@ -24,16 +28,23 @@ import Plans from './pages/planDetailsPage/planDetailsPage'
 function App() {
   const admin = useSelector((state) => state.Admin)
   const trainer = useSelector((state) => state.Trainer)
+  const user = useSelector((state) => state.User)
 
   return (
     <Router>
       <Routes>
         {/* HOME */}
+        <Route path='/' element={<Home />} />
         <Route path='/home' element={<Home />} />
         <Route path='/membershipPlans/:planId' element={<Plans />} />
-        
+
         {/* USER */}
         <Route path='/*' element={<TraineeRoute />} />
+        <Route path='/login' element={user.token !== null ? <Navigate to='/home' /> : <UserLogin />} />
+        <Route path="/emailVerify/:userId" element={user.token !== null ? <Navigate to='/home' /> : <EmailVerify />} />
+        <Route path='/register' element={user.token !== null ? <Navigate to='/home' /> : <Register />} />
+        <Route path="/resetPassword/:userId" element={user.token !== null ? <Navigate to='/home' /> : <ResetPassword />} />
+        <Route path='/otpLogin' element={user.token !== null ? <Navigate to='/home' /> : <OtpLogin />} />
 
         {/* TRAINER */}
         <Route path='trainer/login' element={trainer?.token ? <Navigate to='/trainer' /> : <TrainerLogin />} />
@@ -45,7 +56,7 @@ function App() {
 
         {/* ERROR PAGES */}
         <Route path='/accessDenied' element={<AccessDenied />} />
-        <Route path='/notFound' element={<NotFound/>} />
+        <Route path='/notFound' element={<NotFound />} />
         <Route path='/serverError' element={<ServerError />} />
 
       </Routes>
