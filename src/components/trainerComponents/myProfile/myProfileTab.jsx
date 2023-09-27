@@ -21,11 +21,7 @@ function TrainerDetailTab() {
   const fetchTrainerDetails = () => {
     setIsLoading(true)
     axiosInstance
-      .get('/trainer/trainerDetails', {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      })
+      .get('/trainer/trainerDetails')
       .then((res) => {
         setTrainerDetails(res?.data?.details);
         setNewProfile(res?.data?.details?.profileImage)
@@ -55,11 +51,7 @@ function TrainerDetailTab() {
   const imageUpdate = (imageData) => {
     setIsLoading(true)
     axiosInstance
-      .post('/trainer/profileImageChange', { profileImage: imageData }, {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      })
+      .post('/trainer/profileImageChange', { profileImage: imageData })
       .then(() => {
         setNewProfile(imageData)
         setIsLoading(false)

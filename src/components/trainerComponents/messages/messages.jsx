@@ -10,7 +10,7 @@ let socket;
 
 function MessagesTab() {
 
-  const { trainerId, token } = useSelector((store) => store.Trainer)
+  const { trainerId } = useSelector((store) => store.Trainer)
   const userId = trainerId
   const bottomRef = useRef(null)
   const [chat, setChat] = useState()
@@ -38,11 +38,7 @@ function MessagesTab() {
   const fetchDetails = async () => {
     try {
       setIsLoading(true)
-      const response = await axiosInstance.get('/chat/traineeDetails', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axiosInstance.get('/chat/traineeDetails');
       setTrainee(response?.data?.trainees);
       setAdmin(response?.data?.admin);
       setIsLoading(false)
@@ -56,11 +52,7 @@ function MessagesTab() {
 
   const loadChat = (userId, receiverId) => {
     setIsLoading(true)
-    axiosInstance.post('/chat/accessChat', { userId, receiverId }, {
-      headers: {
-        authorization: `Bearer ${token}`
-      }
-    }).then((res) => {
+    axiosInstance.post('/chat/accessChat', { userId, receiverId }).then((res) => {
       setMessages(res?.data?.messages)
       setChat(res?.data?.chat)
       if (res?.data?.chat?.users[0]?._id === userId) {
@@ -86,11 +78,7 @@ function MessagesTab() {
   const sendMessage = () => {
     const chatId = chat?._id
     if (message.length !== 0) {
-      axiosInstance.post('/chat/addMessage', { message, chatId, sender: userId }, {
-        headers: {
-          authorization: `Bearer ${token}`
-        }
-      }).then((res) => {
+      axiosInstance.post('/chat/addMessage', { message, chatId, sender: userId }).then((res) => {
         let updMsg = [...messages, res?.data?.msg];
         setMessages(updMsg)
         setMessage('')

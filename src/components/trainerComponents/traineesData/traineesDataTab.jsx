@@ -7,18 +7,13 @@ import { toast } from 'react-hot-toast';
 import errorFunction from '../../../services/errorHandling';
 
 function TraineesDataTab() {
-  const { token } = useSelector((state) => state.Trainer);
   const [reload, setReload] = useState(false);
   const [trainees, setTrainees] = useState([{}]);
   const navigate = useNavigate()
 
   useEffect(() => {
     axiosInstance
-      .get('/trainer/getTrainees', {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      })
+      .get('/trainer/getTrainees')
       .then((res) => {
         setTrainees(res?.data?.trainee);
       })

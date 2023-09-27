@@ -17,11 +17,7 @@ function BodyMetricsTab({ traineeId }) {
     setLoading(true);
 
     axiosInstance
-      .get(`/trainer/bodyMetrics/${traineeId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .get(`/trainer/bodyMetrics/${traineeId}`)
       .then((res) => {
         setBodyMetrics(res?.data?.bodyMetrics);
         setTrainee(res?.data?.trainee)

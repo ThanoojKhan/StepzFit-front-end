@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
-import { useSelector } from 'react-redux';
 import axiosInstance from '../../../api/axios';
 import errorFunction from '../../../services/errorHandling';
 import { useNavigate } from 'react-router-dom';
 
 const FoodIntakeTab = ({ traineeId }) => {
-  const { token } = useSelector((state) => state.Trainer);
   const [foodIntake, setFoodIntake] = useState([]);
   const [reload, setReload] = useState(false);
   const [selectedEntryDetails, setSelectedEntryDetails] = useState(null);
@@ -20,11 +18,7 @@ const FoodIntakeTab = ({ traineeId }) => {
 
   const handleFetchFoodIntake = () => {
     axiosInstance
-      .get(`/trainer/getFoodIntake/${traineeId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .get(`/trainer/getFoodIntake/${traineeId}`)
       .then((response) => {
         setFoodIntake(response?.data?.foodIntake);
         setTrainee(response?.data?.trainee)
