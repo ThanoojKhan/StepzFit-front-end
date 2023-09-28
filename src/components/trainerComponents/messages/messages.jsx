@@ -10,7 +10,7 @@ let socket;
 
 function MessagesTab() {
 
-  const { trainerId } = useSelector((store) => store.Trainer)
+  const { trainerId, token } = useSelector((store) => store.Trainer)
   const userId = trainerId
   const bottomRef = useRef(null)
   const [chat, setChat] = useState()
@@ -32,13 +32,17 @@ function MessagesTab() {
     return () => {
       socket.disconnect()
     }
-  }, [])
+  }, [chat])
 
 
   const fetchDetails = async () => {
     try {
       setIsLoading(true)
-      const response = await axiosInstance.get('/chat/traineeDetails');
+      const response = await axiosInstance.get('/chat/traineeDetails', {
+        headers: {
+          authorization: `Bearer ${token}`
+        }
+      });
       setTrainee(response?.data?.trainees);
       setAdmin(response?.data?.admin);
       setIsLoading(false)
@@ -52,7 +56,11 @@ function MessagesTab() {
 
   const loadChat = (userId, receiverId) => {
     setIsLoading(true)
-    axiosInstance.post('/chat/accessChat', { userId, receiverId }).then((res) => {
+    axiosInstance.post('/chat/accessChat', { userId, receiverId }, {
+      headers: {
+        authorization: `Bearer ${token}`
+      }
+    }).then((res) => {
       setMessages(res?.data?.messages)
       setChat(res?.data?.chat)
       if (res?.data?.chat?.users[0]?._id === userId) {
@@ -78,7 +86,11 @@ function MessagesTab() {
   const sendMessage = () => {
     const chatId = chat?._id
     if (message.length !== 0) {
-      axiosInstance.post('/chat/addMessage', { message, chatId, sender: userId }).then((res) => {
+      axiosInstance.post('/chat/addMessage', { message, chatId, sender: userId }, {
+        headers: {
+          authorization: `Bearer ${token}`
+        }
+      }).then((res) => {
         let updMsg = [...messages, res?.data?.msg];
         setMessages(updMsg)
         setMessage('')
@@ -120,8 +132,8 @@ function MessagesTab() {
               {trainee.length !== 0 && (
                 trainee.map((trainee, index) => (
                   trainee._id ? (
-                    <div key={index} onClick={() => loadChat(userId, trainee._id)} 
-                    className="flex mt-14 flex-col items-center hover:scale-105 bg-indigo-100 border border-gray-200 w-full py-6 px-4 rounded-lg cursor-pointer">
+                    <div key={index} onClick={() => loadChat(userId, trainee._id)}
+                      className="flex mt-14 flex-col items-center hover:scale-105 bg-indigo-100 border border-gray-200 w-full py-6 px-4 rounded-lg cursor-pointer">
                       <div className="h-20 w-20 rounded-full border overflow-hidden">
                         <img
                           src={trainee?.profileImage ? trainee?.profileImage : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png'}
@@ -137,8 +149,8 @@ function MessagesTab() {
                 ))
               )}
               {admin?._id && (
-                <div onClick={() => loadChat(userId, admin._id)} 
-                className="flex flex-col mt-14 hover:scale-105 transition-transform items-center bg-indigo-100 border border-gray-200 w-full py-6 px-4 rounded-lg cursor-pointer">
+                <div onClick={() => loadChat(userId, admin._id)}
+                  className="flex flex-col mt-14 hover:scale-105 transition-transform items-center bg-indigo-100 border border-gray-200 w-full py-6 px-4 rounded-lg cursor-pointer">
                   <div className="h-20 w-20 rounded-full border overflow-hidden">
                     <img
                       src={admin?.profileImage ? admin?.profileImage : 'https://imgix.watchcrunch.com/images/2023/6/6/Hrwk4wWYexAhykkcbpC1bdJx3fQS9Sb8GV8vvOby.jpg?auto=format&fit=crop&h=400&ixlib=php-3.3.1&w=400&s=58553d0f542c6d4cd6b460447ad6cdeb'}

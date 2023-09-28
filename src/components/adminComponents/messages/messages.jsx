@@ -10,7 +10,7 @@ let socket;
 
 function MessagesTab() {
 
-  const { adminId } = useSelector((store) => store.Admin)
+  const { adminId, token } = useSelector((store) => store.Admin)
   const userId = adminId
   const bottomRef = useRef(null)
   const [chat, setChat] = useState()
@@ -25,8 +25,6 @@ function MessagesTab() {
   const [chatLoading, setChatLoading] = useState(false)
   const navigate = useNavigate()
 
-
-
   useEffect(() => {
     socket = io(END_POINT)
     socket.emit('setup', userId)
@@ -40,7 +38,11 @@ function MessagesTab() {
   const fetchDetails = async () => {
     try {
       setLoading(true)
-      const response = await axiosInstance.get('/chat/allDetails');
+      const response = await axiosInstance.get('/chat/allDetails', {
+        headers: {
+          authorization: `Bearer ${token}`
+        }
+      });
       setTrainee(response?.data?.trainees);
       setTrainer(response?.data?.trainers);
       setLoading(false);
@@ -53,7 +55,11 @@ function MessagesTab() {
 
   const loadChat = (userId, receiverId) => {
     setChatLoading(true)
-    axiosInstance.post('/chat/accessChat', { userId, receiverId }).then((res) => {
+    axiosInstance.post('/chat/accessChat', { userId, receiverId }, {
+      headers: {
+        authorization: `Bearer ${token}`
+      }
+    }).then((res) => {
       setMessages(res?.data?.messages)
       setChat(res?.data?.chat)
       if (res?.data?.chat?.users[0]?._id === userId) {
@@ -78,7 +84,11 @@ function MessagesTab() {
   const sendMessage = () => {
     const chatId = chat?._id
     if (message.length !== 0) {
-      axiosInstance.post('/chat/addMessage', { message, chatId, sender: userId }).then((res) => {
+      axiosInstance.post('/chat/addMessage', { message, chatId, sender: userId }, {
+        headers: {
+          authorization: `Bearer ${token}`
+        }
+      }).then((res) => {
         let updMsg = [...messages, res?.data?.msg];
         setMessages(updMsg)
         setMessage('')
@@ -134,28 +144,6 @@ function MessagesTab() {
               }</> :
 
                 <>
-                  {trainee.length !== 0 && (
-                    trainee.map((trainee, index) => (
-                      trainee?._id ? (
-                        <div key={index} onClick={() => { loadChat(userId, trainee._id); setName(`${trainee?.name}`) }} className="flex justify-between items-center border-2 mb-1 cursor-pointer rounded-lg p-2 relative">
-                          <div className='flex items-center'>
-                            <div className='h-16 w-16 rounded-full border overflow-hidden'>
-                              <img src={`${trainee?.profileImage ? trainee?.profileImage : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png'}`} alt='Avatar' className="h-full w-full" />
-                            </div>
-                            <div className='ms-4'>
-                              <div className='flex items-center'>{trainee?.name}
-                              </div>
-                              <div style={{ fontSize: "0.73em" }}>{chat?.latestMessage?.message} </div>
-                            </div>
-                          </div>
-                          <div className='absolute top-2 right-4'>date
-                          </div>
-
-                        </div>
-                      ) : ''
-                    ))
-                  )}
-
                   {trainer.length !== 0 && (
                     trainer.map((trainer, index) => (
                       trainer?._id ? (
@@ -167,16 +155,39 @@ function MessagesTab() {
                             <div className='ms-4'>
                               <div className='flex items-center'>{trainer?.firstName} {trainer?.secondName}
                               </div>
-                              <div style={{ fontSize: "0.73em" }}>{chat?.latestMessage?.message} </div>
+                              {/* <div style={{ fontSize: "0.73em" }}>{chat?.latestMessage?.message} </div> */}
                             </div>
                           </div>
-                          <div className='absolute top-2 right-4'>date
-                          </div>
+                          {/* <div className='absolute top-2 right-4'>date
+                          </div> */}
 
                         </div>
                       ) : ''
                     ))
                   )}
+                  {trainee.length !== 0 && (
+                    trainee.map((trainee, index) => (
+                      trainee?._id ? (
+                        <div key={index} onClick={() => { loadChat(userId, trainee._id); setName(`${trainee?.name}`) }} className="flex justify-between items-center border-2 mb-1 cursor-pointer rounded-lg p-2 relative">
+                          <div className='flex items-center'>
+                            <div className='h-16 w-16 rounded-full border overflow-hidden'>
+                              <img src={`${trainee?.profileImage ? trainee?.profileImage : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png'}`} alt='Avatar' className="h-full w-full" />
+                            </div>
+                            <div className='ms-4'>
+                              <div className='flex items-center'>{trainee?.name}
+                              </div>
+                              {/* <div style={{ fontSize: "0.73em" }}>{chat?.latestMessage?.message} </div> */}
+                            </div>
+                          </div>
+                          {/* <div className='absolute top-2 right-4'>date
+                          </div> */}
+
+                        </div>
+                      ) : ''
+                    ))
+                  )}
+
+
                 </>}
             </div>
 

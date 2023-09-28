@@ -30,6 +30,7 @@ const Membership = () => {
             .map((plan, index) => (
                 <div className="relative min-h-full w-full flex flex-col items-center gap-4 border border-zinc-500 py-10 hover:shadow-lg"
                     key={index}>
+
                     <div className="w-full flex flex-col items-center gap-4">
                         <h1 as="h2" className="text-zinc-100 flex items-end gap-0.5">
                             <span className="font-normal text-2xl">₹</span>

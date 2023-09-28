@@ -85,7 +85,6 @@ function PlanDetailsPage() {
                         </button>) : (<button onClick={() => navigate('/register')} type="button" className="hover:scale-[1.05] mt-10 text-white w3-animate-zoom bg-[#050708] hover:bg-[#050708]/90 focus:ring-4 focus:outline-none focus:ring-[#050708]/50 font-normal rounded-lg text- px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#050708]/50 dark:hover:bg-[#050708]/30 mr-2 mb-2">
                             Join StepzFit
                         </button>)}
-
                         <div className="flex items-center gap-8 mt-10 w3-animate-bottom hover:scale-[1.05]">
                             <div className="px-1 flex font-extralight text-lg text-white">
                                 <WhatsappLogo size={20} className="mt-1 bg-green-600 rounded-md" color="currentColor" weight="regular" />

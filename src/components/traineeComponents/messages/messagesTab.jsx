@@ -11,7 +11,7 @@ let socket;
 
 function MessagesTab() {
 
-    const { userId } = useSelector((store) => store.User)
+    const { userId, token } = useSelector((store) => store.User)
     const bottomRef = useRef(null)
     const [chat, setChat] = useState()
     const [messages, setMessages] = useState([])
@@ -43,7 +43,11 @@ function MessagesTab() {
     const fetchDetails = async () => {
         try {
             setIsLoading(true)
-            const response = await axiosInstance.get('/chat/userChatList',);
+            const response = await axiosInstance.get('/chat/userChatList', {
+                headers: {
+                    authorization: `Bearer ${token}`
+                }
+            });
             setTrainer(response?.data?.trainer);
             setLatestMessage(response?.data?.latestMessage?.latestMessage)
             setAdmin(response?.data?.admin);
@@ -57,7 +61,11 @@ function MessagesTab() {
 
     const loadChat = (userId, receiverId) => {
         setChatLoading(true)
-        axiosInstance.post('/chat/accessChat', { userId, receiverId }).then((res) => {
+        axiosInstance.post('/chat/accessChat', { userId, receiverId }, {
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        }).then((res) => {
             setMessages(res?.data?.messages)
             setChat(res?.data?.chat)
             setChatId(res?.data?.chat?._id)
@@ -75,7 +83,11 @@ function MessagesTab() {
     }
     const sendMessage = () => {
         if (message.length !== 0) {
-            axiosInstance.post('/chat/addMessage', { message, chatId, sender: userId }).then((res) => {
+            axiosInstance.post('/chat/addMessage', { message, chatId, sender: userId }, {
+                headers: {
+                    authorization: `Bearer ${token}`
+                }
+            }).then((res) => {
                 let updMsg = [...messages, res?.data?.msg];
                 setMessages(updMsg)
                 setMessage('')
@@ -99,7 +111,6 @@ function MessagesTab() {
         })
         bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages, chat]);
-    console.log(JSON.stringify(msg) + '===');
     useEffect(() => {
         fetchDetails();
     }, []);
@@ -167,14 +178,14 @@ function MessagesTab() {
                                                     <div className='ms-4'>
                                                         <div className='flex items-center'>{trainer?.firstName} {trainer?.secondName}
                                                         </div>
-                                                        <div style={{ fontSize: "0.73em" }}>{trainer?._id == latestMessage?.sender ? latestMessage?.message : ''}</div>
+                                                        {/* <div style={{ fontSize: "0.73em" }}>{trainer?._id == latestMessage?.sender ? latestMessage?.message : ''}</div> */}
                                                     </div>
                                                 </div>
-                                                <div className='absolute top-2 right-4'>
+                                                {/* <div className='absolute top-2 right-4'>
                                                     {trainer?._id === latestMessage?.sender && (
                                                         formatMessageDate(latestMessage?.createdAt)
                                                     )}
-                                                </div>
+                                                </div> */}
 
                                             </div>
                                         )
@@ -190,14 +201,14 @@ function MessagesTab() {
                                                     <div className='ms-4'>
                                                         <div className='flex items-center'>{admin?.firstName} {admin?.secondName}
                                                         </div>
-                                                        <div style={{ fontSize: "0.73em" }}>{admin?._id == latestMessage?.sender ? latestMessage?.message : ''}</div>
+                                                        {/* <div style={{ fontSize: "0.73em" }}>{admin?._id == latestMessage?.sender ? latestMessage?.message : ''}</div> */}
                                                     </div>
                                                 </div>
-                                                <div className='absolute top-2 right-4'>
+                                                {/* <div className='absolute top-2 right-4'>
                                                     {admin?._id === latestMessage?.sender && (
                                                         formatMessageDate(latestMessage?.createdAt)
                                                     )}
-                                                </div>
+                                                </div> */}
                                             </div>
                                         )
                                     }
