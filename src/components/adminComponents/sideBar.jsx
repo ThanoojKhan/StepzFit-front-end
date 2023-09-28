@@ -11,7 +11,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { TfiAngleDoubleLeft } from 'react-icons/tfi';
 import { useDispatch } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { userLogout } from '../../store/slice/user';
+import { adminLogout } from '../../store/slice/admin';
 
 function SideBar() {
   const dispatch = useDispatch();
