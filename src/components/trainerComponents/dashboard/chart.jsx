@@ -1,11 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
 
-function PlanBarChart({ data }) {
+function CountBarChart({ data }) {
     const chartRef = useRef(null);
-    const chartInstance = useRef(null); 
-    const planNames = data.map((item) => item.name);
-    const planCountsArray = data.map((item) => item.count);
+    const chartInstance = useRef(null);
+    const traineeCount = data;
 
     useEffect(() => {
         if (chartRef.current) {
@@ -17,13 +16,13 @@ function PlanBarChart({ data }) {
             chartInstance.current = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: planNames,
+                    labels: ['Tasks Count'],
                     datasets: [
                         {
-                            label: 'Number of Plans',
-                            data: planCountsArray,
-                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                            borderColor: 'rgba(75, 192, 192, 1)',
+                            label: 'Total Tasks Scheduled',
+                            data: [traineeCount],
+                            backgroundColor: 'rgba(100, 30, 132, 0.4)',
+                            borderColor: 'rgba(100, 30, 132, 1)',
                             borderWidth: 1,
                         },
                     ],
@@ -36,6 +35,8 @@ function PlanBarChart({ data }) {
                         },
                         y: {
                             beginAtZero: true,
+                            min: 0,
+                            max: 20,
                             stepSize: 1,
                         },
                     },
@@ -48,7 +49,7 @@ function PlanBarChart({ data }) {
                 chartInstance.current.destroy();
             }
         };
-    }, [planNames, planCountsArray]);
+    }, [traineeCount]);
 
     return (
         <div className="w-full h-full flex justify-center items-center">
@@ -57,4 +58,4 @@ function PlanBarChart({ data }) {
     );
 }
 
-export default PlanBarChart;
+export default CountBarChart;

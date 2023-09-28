@@ -1,15 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
 
-function countBarChart( {data} ) {
+function TrainerCountBarChart({ data }) {
     const chartRef = useRef(null);
     const chartInstance = useRef(null);
-    const months = data.map((item) => {
-        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        const monthNumber = item._id.month - 1; 
-        return monthNames[monthNumber];
-    });
-    const userCounts = data.map((item) => item.count);
+    const traineeCount = data;
 
     useEffect(() => {
         if (chartRef.current) {
@@ -21,12 +16,12 @@ function countBarChart( {data} ) {
             chartInstance.current = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: months,
+                    labels: ['Trainees Count'],
                     datasets: [
                         {
-                            label: 'User Count',
-                            data: userCounts,
-                            backgroundColor: 'rgba(10, 30, 132, 0.2)',
+                            label: 'Trainees Count',
+                            data: [traineeCount],
+                            backgroundColor: 'rgba(10, 30, 132, 0.4)',
                             borderColor: 'rgba(10, 30, 132, 1)',
                             borderWidth: 1,
                         },
@@ -40,6 +35,8 @@ function countBarChart( {data} ) {
                         },
                         y: {
                             beginAtZero: true,
+                            min: 0,
+                            max: 20,
                             stepSize: 1,
                         },
                     },
@@ -52,7 +49,7 @@ function countBarChart( {data} ) {
                 chartInstance.current.destroy();
             }
         };
-    }, [months, userCounts]);
+    }, [traineeCount]);
 
     return (
         <div className="w-full h-full flex justify-center items-center">
@@ -61,4 +58,4 @@ function countBarChart( {data} ) {
     );
 }
 
-export default countBarChart;
+export default TrainerCountBarChart;

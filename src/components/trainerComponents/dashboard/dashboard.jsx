@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import 'react-image-crop/dist/ReactCrop.css';
 import { Fade } from 'react-awesome-reveal';
-import SubsTab from './subsTab';
 import { toast, Toaster } from 'react-hot-toast';
 import axiosInstance from '../../../api/axios';
 import Loader from '../../loader';
@@ -12,26 +11,26 @@ import TrainerTab from './trainerTab'
 
 const HomeBody = () => {
   const [user, setUser] = useState([]);
-  const [userCount, setUserCount] = useState([]);
+  const [userCount, setUserCount] = useState();
+  const [tasksCount, setTasksCount] = useState();
   const [trainer, setTrainer] = useState([]);
-  const [subs, setSubs] = useState([]);
-  const [data, setData] = useState([]);
+  const [tasks, setTasks] = useState([]);
   const [showToaster, setShowToaster] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
-  const link1 = '/admin/users';
-  const link2 = '/admin/trainers';
+  const link1 = '/trainer/traineesData';
+  const link2 = '/trainer/taskScheduler';
 
   const fetchDashboard = async () => {
     try {
       setIsLoading(true)
-      const response = await axiosInstance.get('/admin/dashBoard');
+      const response = await axiosInstance.get('/trainer/dashBoard');
       setShowToaster(true)
-      setUser(response?.data?.user);
-      setSubs(response?.data?.subscriptions);
+      setUser(response?.data?.trainees);
       setTrainer(response?.data?.trainer);
-      setData(response?.data?.planDetails)
-      setUserCount(response?.data?.userCounts)
+      setTasks(response?.data?.tasks);
+      setUserCount(response?.data?.userCount)
+      setTasksCount(response?.data?.tasksCount)
       setIsLoading(false)
     } catch (error) {
       toast.error(error?.response?.data?.errMsg);
@@ -45,7 +44,6 @@ const HomeBody = () => {
 
   return (
     <>
-
       {isLoading ? <Loader /> : ''}
       {showToaster && <Toaster toastOptions={3000} />}
       <div className="min-h-screen w-full">
@@ -59,11 +57,13 @@ const HomeBody = () => {
                       <Fade className="w-full mb-10">
                         <div className="w-full flex flex-col mt-10 items-center relative z-10" >
                           <h1 className="text-zinc-100 font-light cursor-default lg:text-5xl md:text-4xl self-start ms-20 md:ms-0 md:self-center text-3xl w3-animate-top">
-                            Admin
+                            {trainer?.firstName}
                           </h1>
-                          <h1 className="absolute cursor-default text-zinc-500/10 lg:left-52 md:left-32 left-36 lg:text-9xl md:text-7xl text-6xl font-extralight lg:-top-32 md:-top-20 -top-16 -z-10 w3-animate-zoom">
-                            Heyy !!!
-                          </h1>
+                          <div>
+                            <h1 className="absolute cursor-default text-zinc-500/10 lg:left-52 md:left-32 left-36 lg:text-9xl md:text-7xl text-6xl font-extralight lg:-top-32 md:-top-20 -top-16 -z-10 w3-animate-zoom">
+                              Heyy !!!
+                            </h1>
+                          </div>
                         </div>
                       </Fade>
                     </div>
@@ -73,7 +73,7 @@ const HomeBody = () => {
                           <h1 className="absolute cursor-default text-zinc-500/20 md:-left-3 left-0 lg:text-8xl md:text-7xl text-6xl font-light lg:-top-36 md:-top-20 -top-16 -z-10 ">Heyy !!!</h1>
                         </div>
                         <h1 className="text-zinc-200 mt-16 mb-4 cursor-default text-xl">Monitor all your data in the easiest way</h1>
-                        <p className="text-3xl font-extralight mt-2 border-b-2 border-zinc-500"></p>
+                        {/* <p className="text-3xl font-extralight mt-2 border-b-2 border-zinc-500"></p> */}
                       </Fade>
                     </div>
                   </div>
@@ -83,7 +83,7 @@ const HomeBody = () => {
           </div>
           <div className="px-5 mx-1 w-full flex justify-center flex-col xl:flex-row">
             <div className="px-4 my-5">
-              <PlanBarChart data={data} />
+              <PlanBarChart data={tasksCount} />
             </div>
             <div className="px-4 my-5">
               <CountBarChart data={userCount} />
@@ -91,15 +91,10 @@ const HomeBody = () => {
           </div>
           <div className="px-5 mx-1 flex flex-col xl:flex-row">
             <div className="px-4 flex-col w-full my-5">
-              <SubsTab title="Subscriptions" items={subs} link={link1} />
-            </div>
-          </div>
-          <div className="px-5 mx-1 flex flex-col xl:flex-row">
-            <div className="px-4 flex-col w-full my-5">
-              <TraineeTab title="Users" items={user} link={link1} />
+              <TraineeTab title="Trainees" items={user} link={link1} />
             </div>
             <div className="px-4 flex-col w-full my-5">
-              <TrainerTab title="Trainers" items={trainer} link={link2} />
+              <TrainerTab title="Tasks" items={tasks} link={link2} />
             </div>
           </div>
         </div>

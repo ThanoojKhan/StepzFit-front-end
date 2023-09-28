@@ -13,8 +13,8 @@ function Tabs({ title, items, link }) {
                     <thead>
                         <tr>
                             <th>User</th>
-                            <th>Trainer</th>
-                            <th>plan</th>
+                            <th>Email</th>
+                            <th>Place</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -38,16 +38,8 @@ function Tabs({ title, items, link }) {
                                         </div></td>
                                     <td>
                                         <div className="flex items-center space-x-3">
-                                        <div className="h-10 w-10 rounded-full overflow-hidden">
-                                                <img
-                                                    src={item?.trainerId?.profileImage ? item?.trainerId?.profileImage : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png'}
-                                                    alt="Avatar"
-                                                    className="h-full w-full"
-                                                />
-                                            </div>
                                             <div>
-                                                <div className="font-bold">{item?.trainerId?.firstName} {item?.trainerId?.secondName}</div>
-                                                <div className="text-sm opacity-50">Department {item?.trainerId?.department}</div>
+                                                <div className="font-bold">{item?.email}</div>
                                             </div>
                                         </div>
                                     </td>

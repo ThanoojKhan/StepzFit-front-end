@@ -12,9 +12,9 @@ function Tabs({ title, items, link }) {
                 <table className="table">
                     <thead>
                         <tr>
-                            <th>Trainer</th>
-                            <th>Department</th>
-                            <th>Joining Date</th>
+                            <th>Trainee</th>
+                            <th>Task</th>
+                            <th>Date</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -26,28 +26,29 @@ function Tabs({ title, items, link }) {
                                         <div className="flex items-center space-x-3">
                                             <div className="h-10 w-10 rounded-full overflow-hidden">
                                                 <img
-                                                    src={item?.profileImage ? item?.profileImage : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png'}
+                                                    src={item?.traineeId?.profileImage ? item?.traineeId?.profileImage : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png'}
                                                     alt="Avatar"
                                                     className="h-full w-full"
                                                 />
                                             </div>
                                             <div>
-                                                <div className="font-bold">{item?.firstName}</div>
-                                                <div className="text-sm opacity-50">{item?.secondName}</div>
+                                                <div className="font-bold">{item?.traineeId?.name}</div>
+                                                <div className="text-sm opacity-50">{item?.traineeId?.age}</div>
                                             </div>
                                         </div></td>
                                     <td>
                                         <div className="flex items-center space-x-3">
                                             <div>
-                                                <div className="font-bold">{item?.department}</div>
-                                                <div className="text-sm opacity-50 capitalize">Gender: {item?.gender}</div>
+                                                <div className="font-bold overflow-hidden">{item?.task}</div>
                                             </div>
                                         </div>
                                     </td>
                                     <td>
                                         {item?.email}
                                         <br />
-                                        <span className="text-sm opacity-50">{item?.phone}</span>
+                                        <span className="text-sm opacity-50">
+                                            {item?.date ? new Date(item.date).toLocaleDateString() : ''}
+                                        </span>
                                     </td>
                                 </tr>
                             </tbody>

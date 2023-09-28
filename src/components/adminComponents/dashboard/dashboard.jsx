@@ -17,14 +17,14 @@ const HomeBody = () => {
   const [subs, setSubs] = useState([]);
   const [data, setData] = useState([]);
   const [showToaster, setShowToaster] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true);
+
 
   const link1 = '/admin/users';
   const link2 = '/admin/trainers';
 
   const fetchDashboard = async () => {
     try {
-      setIsLoading(true)
       const response = await axiosInstance.get('/admin/dashBoard');
       setShowToaster(true)
       setUser(response?.data?.user);
@@ -39,9 +39,13 @@ const HomeBody = () => {
     }
   };
 
+
   useEffect(() => {
-    fetchDashboard();
-  }, []);
+    if (user.length === 0 && userCount.length === 0 && trainer.length === 0 && subs.length === 0 && data.length === 0) {
+      fetchDashboard();
+    }
+  }, [user, userCount, trainer, subs, data]);
+
 
   return (
     <>
