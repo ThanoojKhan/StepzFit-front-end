@@ -5,7 +5,8 @@ import axiosInstance from '../../../api/axios'
 import { Toaster, toast } from 'react-hot-toast'
 import io from 'socket.io-client'
 
-const END_POINT = import.meta.env.VITE_BASEURL
+// const END_POINT = import.meta.env.VITE_BASEURL
+const END_POINT = 'https://api.stepzfit.online'
 let socket;
 
 function MessagesTab() {
