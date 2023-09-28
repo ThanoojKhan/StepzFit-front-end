@@ -1,12 +1,5 @@
-import {
-  CogIcon,
-  PowerIcon
-} from "@heroicons/react/24/solid";
-import {
-  Card, List,
-  ListItem,
-  ListItemPrefix
-} from "@material-tailwind/react";
+import { PowerIcon } from "@heroicons/react/24/solid";
+import { Card, List, ListItem, ListItemPrefix } from "@material-tailwind/react";
 import React, { useEffect, useRef, useState } from 'react';
 import { TfiAngleDoubleLeft } from 'react-icons/tfi';
 import { useDispatch } from 'react-redux';
@@ -18,7 +11,6 @@ function SideBar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [show, setShow] = useState(true);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
 
   const handleOutsideClick = (event) => {
@@ -37,6 +29,11 @@ function SideBar() {
 
   const closeSidebar = () => {
     setShow(true);
+  };
+
+  const handleLogout = () => {
+    dispatch(adminLogout());
+    navigate('/admin/login');
   };
 
   return (
@@ -89,10 +86,7 @@ function SideBar() {
                 Plans
               </ListItem>
 
-              <ListItem className='hover:scale-105 transition-transform' onClick={() => {
-                dispatch(adminLogout())
-                navigate('/admin/login')
-              }} >
+              <ListItem className='hover:scale-105 transition-transform' onClick={handleLogout} >
                 <ListItemPrefix>
                   <PowerIcon className="h-5 w-5 me-2 " />
                 </ListItemPrefix>

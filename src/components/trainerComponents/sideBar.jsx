@@ -15,6 +15,12 @@ function SideBar() {
   const closeSidebar = () => {
     setShow(true);
   };
+
+  const handleLogout = () => {
+    dispatch(trainerLogout());
+    navigate('/trainer/login');
+  };
+
   return (
 
     <>
@@ -63,10 +69,7 @@ function SideBar() {
             </List>
             <div className="relative mt-auto text-white mb-24" >
               <div className="rounded-md">
-                <ListItem onClick={() => {
-                  dispatch(trainerLogout())
-                  navigate('/trainer/login')
-                }} className="hover:scale-105  hover:bg-zinc-800 transition-transform">
+                <ListItem onClick={handleLogout} className="hover:scale-105  hover:bg-zinc-800 transition-transform">
                   <PowerIcon className="h-5 w-5 me-2 " />
                   Logout
                 </ListItem>
