@@ -1,6 +1,8 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import AdminLogin from '../pages/admin/mainPages/login';
+import TrainerLogin from '../pages/trainer/mainPages/login';
 
 const ProtectedRoute = ({ component: Component, userType, ...rest }) => {
   const user = useSelector((state) => state.User)
@@ -11,10 +13,10 @@ const ProtectedRoute = ({ component: Component, userType, ...rest }) => {
     return <Navigate to="/login" />
   }
   else if (userType === 'admin' && !admin.token) {
-    return <Navigate to="/admin/login" />
+    return <AdminLogin />
   }
   else if (userType === 'trainer' && !trainer.token) {
-    return <Navigate to="/trainer/login" />
+    return <TrainerLogin />
   }
 
   return <Component {...rest} />
