@@ -26,7 +26,7 @@ import AccessDenied from './pages/errorPages/accessDenied'
 import ServerError from './pages/errorPages/serverError'
 
 {/* HOME PAGES */ }
-import Home from './pages/landingPage/home'
+import Home from './pages/landingPage/Home'
 import Plans from './pages/planDetailsPage/planDetailsPage'
 
 function App() {
