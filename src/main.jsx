@@ -9,7 +9,7 @@ import { ThemeProvider } from "@material-tailwind/react";
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <Provider store={Store}>
       <PersistGate loading={null} persistor={persistor}>
         <ThemeProvider>
@@ -17,5 +17,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         </ThemeProvider>
       </PersistGate>
     </Provider>
-  </React.StrictMode>
+  // </React.StrictMode>
 )
