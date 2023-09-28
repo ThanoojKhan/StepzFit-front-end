@@ -11,10 +11,10 @@ const ProtectedRoute = ({ component: Component, userType, ...rest }) => {
     return <Navigate to="/login" />
   }
   else if (userType === 'admin' && !admin.token) {
-    return <Navigate to="/adminLogin" />
+    return <Navigate to="/admin/login" />
   }
   else if (userType === 'trainer' && !trainer.token) {
-    return <Navigate to="/trainerLogin" />
+    return <Navigate to="/trainer/login" />
   }
 
   return <Component {...rest} />
