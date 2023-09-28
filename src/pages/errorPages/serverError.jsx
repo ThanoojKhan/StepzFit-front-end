@@ -4,7 +4,7 @@ import './serverError.css'
 function ServerError() {
 	const navigate = useNavigate()
 	const goBack = () => {
-		navigate(-1);
+		navigate('/');
 	};
 	return (
 		<>
@@ -14,7 +14,7 @@ function ServerError() {
 						<h1 className='!important animate-pulse' >Oops!</h1>
 						<h2 className='!important w3-animate-bottom'>500 - Server Error</h2>
 					</div>
-					<span className='flex items-center w3-animate-bottom justify-center mt-10 cursor-pointer' onClick={goBack} >Go back</span>
+					<span className='flex items-center w3-animate-bottom justify-center mt-10 cursor-pointer' onClick={goBack} >Home</span>
 				</div>
 			</div>
 		</>
