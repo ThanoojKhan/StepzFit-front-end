@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import footerLogo from '../../../assets/images/logo/StepzFit-Logo-png.png';
+import footerLogo from '../../../assets/images/logo/StepzFit-Logo.png';
 
 function FooterLogo() {
   const [navBarColor, setNavBarColor] = useState(false);

@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { userLogout } from '../../store/slice/user';
 import List from "../landingPageComponents/atoms/List";
+import navbarIcon from  "../../assets/images/logo/StepzFit-Logowhite-nobg.png"
 
 const NavBar = () => {
     const navigate = useNavigate()
@@ -101,7 +102,7 @@ const NavBar = () => {
                                 </ul>
                             </section>
                             <div onClick={handleToggle} as="span" className="w-28 mb-10 md:left-5 left-3">
-                                <img src="\src\assets\images\logo\StepzFit-Logowhite-nobg-png.png" alt="" />
+                                <img src={navbarIcon} alt="" />
                             </div>
                         </div>
                     </nav>

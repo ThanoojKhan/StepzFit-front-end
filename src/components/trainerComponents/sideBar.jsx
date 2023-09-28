@@ -5,7 +5,7 @@ import { TfiAngleDoubleLeft } from 'react-icons/tfi';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { trainerLogout } from '../../store/slice/trainer';
-
+import navbarIcon from '../../assets/images/logo/StepzFit-Logowhite-nobg.png'
 function SideBar() {
 
   const dispatch = useDispatch()
@@ -33,7 +33,7 @@ function SideBar() {
           >
             <Link to={`/home`} className='flex justify-center' >
               <div className="animate-pulse w-36 my-10 ">
-                <img src="\src\assets\images\logo\StepzFit-Logowhite-nobg-png.png" alt="" />
+                <img src={navbarIcon} alt="" />
               </div>
             </Link>
             <div className='hover:scale-105 transition-transform cursor-pointer' onClick={() => setShow(true)} size={20}>

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Modal from 'react-modal';
-import footerLogo from '../../../assets/images/logo/StepzFit-Logo-png.png';
+import footerLogo from '../../../assets/images/logo/StepzFit-Logo.png';
 import axiosInstance from '../../../api/axios';
 import { Toaster, toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';

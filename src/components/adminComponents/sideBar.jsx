@@ -10,8 +10,9 @@ import {
 import React, { useEffect, useRef, useState } from 'react';
 import { TfiAngleDoubleLeft } from 'react-icons/tfi';
 import { useDispatch } from 'react-redux';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { adminLogout } from '../../store/slice/admin';
+import navbarIcon from '../../assets/images/logo/StepzFit-Logowhite-nobg.png'
 
 function SideBar() {
   const dispatch = useDispatch();
@@ -19,12 +20,6 @@ function SideBar() {
   const [show, setShow] = useState(true);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
-  const location = useLocation();
-
-  const handleLogout = () => {
-    dispatch(userLogout());
-    navigate('/home');
-  };
 
   const handleOutsideClick = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -61,7 +56,7 @@ function SideBar() {
           >
             <Link to={`/home`} className='flex justify-center' >
               <div className="animate-pulse w-36 my-10 ">
-                <img src="\src\assets\images\logo\StepzFit-Logowhite-nobg-png.png" alt="" />
+                <img src={navbarIcon} alt="" />
               </div>
             </Link>
             <div className='hover:scale-105 transition-transform cursor-pointer' onClick={() => setShow(true)} size={20}>
@@ -76,7 +71,7 @@ function SideBar() {
               <ListItem className='hover:scale-105 transition-transform' onClick={() => navigate('/admin/messages')}>
                 Messages
               </ListItem>
-              
+
               <ListItem className='hover:scale-105 transition-transform' onClick={() => navigate('/admin/users')}>
                 Trainees
               </ListItem>
@@ -103,8 +98,8 @@ function SideBar() {
                 </ListItemPrefix>
                 Log Out
               </ListItem>
-            </List> 
-          
+            </List>
+
           </Card>
         </div>
       </div>

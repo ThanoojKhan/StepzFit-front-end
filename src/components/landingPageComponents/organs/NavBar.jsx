@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { userLogout } from '../../../store/slice/user';
 import List from "../atoms/List";
-
+import navbarIcon from '../../../assets/images/logo/StepzFit-Logowhite-nobg.png'
 const NavBar = () => {
     const { token } = useSelector((state) => state.User);
     const navigate = useNavigate()
@@ -48,7 +48,7 @@ const NavBar = () => {
                 <nav className={`w-full lg:h-28 md:h-24 h-20 ${navBarColor ? "bg-gradient-to-b from-black w3-animate-top" : "bg-transparent"} lg:px-16 md:px-9 px-8 flex justify-between items-center`}>
                     <Link to={`/home`} className={`font-extrabold flex items-center relative md:text-2xl text-lg ${navBarColor ? '' : "w3-animate-left"} delay-100`}>
                         <div as="span" className="animate-pulse w-32 md:left-5 left-3 ">
-                            <img src="\src\assets\images\logo\StepzFit-Logowhite-nobg-png.png" alt="" />
+                            <img src={navbarIcon} alt="" />
                         </div>
                     </Link>
                     <div className={`lg:flex hidden items-center delay-100 h-full gap-5 ${navBarColor ? '' : "w3-animate-right"}`}>
@@ -106,7 +106,7 @@ const NavBar = () => {
                             <div className="w-full flex pt-5 px-4 justify-between items-center">
                                 <div className="font-extrabold text-2xl cursor-pointer">
                                     <div onClick={handleToggle} as="span" className="w-28 md:left-5 left-3">
-                                        <img src="\src\assets\images\logo\StepzFit-Logowhite-nobg-png.png" alt="" />
+                                        <img src={navbarIcon} alt="" />
                                     </div>
                                 </div>
                                 <div className="hamburger text-white cursor-pointer" onClick={handleToggle}>

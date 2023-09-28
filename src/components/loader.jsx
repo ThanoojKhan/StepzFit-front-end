@@ -1,5 +1,5 @@
 import React from 'react';
-import stepzfitImage from '../assets/images/logo/StepzFit-Logo-png.png';
+import stepzfitImage from '../assets/images/logo/StepzFit-Logo.png';
 
 const loaderContainerStyle = {
   position: 'fixed',
