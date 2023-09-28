@@ -24,7 +24,7 @@ function LoginAdmin() {
                     const token = res.data.token
                     const adminId = res.data.adminId
                     dispatch(adminLogin({ name, role, adminId, token }))
-                    navigate('/admin')
+                    navigate('/admin/')
                 }
             }).catch((error) => {
                 errorFunction(error, navigate)
