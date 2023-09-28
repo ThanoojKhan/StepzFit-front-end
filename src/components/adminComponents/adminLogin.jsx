@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Toaster, toast } from 'react-hot-toast'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import axiosInstance from '../../api/axios'
-import { useDispatch } from 'react-redux'
-import { adminLogin } from '../../store/slice/admin'
 import errorFunction from '../../services/errorHandling'
+import { adminLogin } from '../../store/slice/admin'
 
 function LoginAdmin() {
 
@@ -24,7 +24,7 @@ function LoginAdmin() {
                     const token = res.data.token
                     const adminId = res.data.adminId
                     dispatch(adminLogin({ name, role, adminId, token }))
-                    navigate('/admin/')
+                    navigate('/admin')
                 }
             }).catch((error) => {
                 errorFunction(error, navigate)
