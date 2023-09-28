@@ -52,11 +52,11 @@ function App() {
         <Route path='/*' element={<TraineeRoute />} />
 
         {/* TRAINER */}
-        <Route path='/trainer/login' element={trainer?.token ? <Navigate to='/trainer' /> : <TrainerLogin />} />
+        <Route path='/trainer/login' element={trainer?.token ? <Navigate to='/trainer/' /> : <TrainerLogin />} />
         <Route path='/trainer/*' element={<TrainerRoute />} />
 
         {/* ADMIN */}
-        <Route path='/admin/login' element={admin?.token ? <Navigate to='/admin' /> : <AdminLogin />} />
+        <Route path='/admin/login' element={admin?.token ? <Navigate to='/admin/' /> : <AdminLogin />} />
         <Route path='/admin/*' element={<AdminRoute />} />
 
         {/* ERROR PAGES */}
