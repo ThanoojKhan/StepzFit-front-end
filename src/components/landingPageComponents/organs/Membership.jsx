@@ -7,6 +7,7 @@ const Membership = () => {
     const { token } = useSelector((state) => state.Admin);
     const [plans, setPlans] = useState([]);
     const [showLoader, setShowLoader] = useState(false);
+    const [loading, setLoading] = useState(true); 
 
     useEffect(() => {
         setShowLoader(true);
@@ -14,11 +15,12 @@ const Membership = () => {
             .get('/user/plans')
             .then((res) => {
                 setPlans(res?.data?.plans);
-                setShowLoader(false);
+                setLoading(false); 
             })
             .catch((err) => {
                 if (err?.response?.data?.errMsg) {
                     toast.error(err?.response?.data?.errMsg);
+                    setLoading(false); 
                 }
             });
     }, [token]);
@@ -71,7 +73,16 @@ const Membership = () => {
                     <h1 as="h1" className="absolute text-zinc-500/10 md:left-24 lg:left-28 lg:text-9xl md:text-7xl text-6xl font-extralight lg:-top-32 md:-top-20 -top-16 -z-10">Membership Plans</h1>
                 </div>
                 <main className="grid lg:w-[90%] md:w-[96%] w-[90%] md:grid-cols-2 gap-8 md:gap-4 lg:gap-8 items-center">
-                    {sortedAndMappedPlans}
+                    {loading ? (
+                        <div className="skeleton-loader">
+                            <div className="w-1/2 h-4 mb-4"></div>
+                            <div className="w-full h-12 mb-4"></div>
+                            <div className="w-full h-12 mb-4"></div>
+                            <div className="w-full h-12 mb-4"></div>
+                        </div>
+                    ) : (
+                        sortedAndMappedPlans
+                    )}
                 </main>
             </section>
         </>
