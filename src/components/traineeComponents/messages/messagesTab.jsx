@@ -38,7 +38,7 @@ function MessagesTab() {
         return () => {
             socket.disconnect()
         }
-    }, [chat])
+    }, [chat?._id])
 
     const fetchDetails = async () => {
         try {
