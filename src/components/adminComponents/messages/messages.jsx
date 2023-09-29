@@ -187,8 +187,6 @@ function MessagesTab() {
                       ) : ''
                     ))
                   )}
-
-
                 </>}
             </div>
 

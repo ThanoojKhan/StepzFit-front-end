@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import axiosInstance from '../../../api/axios';
-import BodyMetricsDetails from './bodyMetricsDetails'
+import BodyMetricsDetails from './bodyMetricsDetails';
 import Loader from '../../loader';
 import Modal from 'react-modal';
 
@@ -13,11 +13,15 @@ function BodyMetricsTab() {
   const [deletingItemId, setDeletingItemId] = useState(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
-  const [isLoading, setIsLoading] = useState(false)
-  const [showToaster, setShowToaster] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
+  const [showToaster, setShowToaster] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 2;
 
   const sortedBodyMetricsData = bodyMetricsData.slice().sort((a, b) => new Date(b.date) - new Date(a.date));
-  const recentBodyMetricsData = sortedBodyMetricsData.slice(0, 10);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentItems = sortedBodyMetricsData.slice(startIndex, endIndex);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -35,20 +39,20 @@ function BodyMetricsTab() {
 
   const fetchBodyMetricsData = async () => {
     try {
-      setIsLoading(true)
+      setIsLoading(true);
       const response = await axiosInstance.get('/user/bodyMetrics');
       setBodyMetricsData(response.data.bodyMetrics);
-      setIsLoading(false)
+      setIsLoading(false);
     } catch (error) {
-      setIsLoading(false)
+      setIsLoading(false);
       console.error(error);
-      setShowToaster(true)
+      setShowToaster(true);
       toast.error('An error occurred while fetching data.');
     }
   };
 
   const handleTabClick = (data) => {
-    setShowToaster(true)
+    setShowToaster(true);
     setSelectedData(data);
     setIsPopupVisible(true);
   };
@@ -59,19 +63,19 @@ function BodyMetricsTab() {
   };
 
   const handleDelete = (id) => {
-    setIsLoading(true)
+    setIsLoading(true);
     axiosInstance
       .delete(`/user/deleteBodyMetrics/${id}`)
       .then(() => {
-        setShowToaster(true)
+        setShowToaster(true);
         fetchBodyMetricsData();
-        setIsLoading(false)
+        setIsLoading(false);
         toast.success('Body metrics deleted successfully.');
       })
       .catch((err) => {
         if (err?.response?.data?.errMsg) {
-          setShowToaster(true)
-          setIsLoading(false)
+          setShowToaster(true);
+          setIsLoading(false);
           toast.error(err?.response?.data?.errMsg);
         }
       });
@@ -86,7 +90,7 @@ function BodyMetricsTab() {
     if (deletingItemId) {
       handleDelete(deletingItemId);
       setDeletingItemId(null);
-      setIsDeleteModalOpen(false)
+      setIsDeleteModalOpen(false);
     }
   };
 
@@ -137,7 +141,7 @@ function BodyMetricsTab() {
               </tr>
             </thead>
             <tbody>
-              {recentBodyMetricsData.map((entry, index) => (
+              {currentItems.map((entry, index) => (
                 <tr key={index} className='hover:text-green-400 cursor-default'>
                   <td>
                     <div className="flex items-center my-4 space-x-3">
@@ -183,12 +187,29 @@ function BodyMetricsTab() {
                       </div>
                     )}
                   </th>
-
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
+        <div className="pagination flex items-center justify-center gap-5 mt-4">
+          <button
+            className=" hover:bg-blue-700 cursor-pointer text-white font-bold py-2 px-4 rounded"
+            onClick={() => setCurrentPage(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            Prev
+          </button>
+          <span className="text-gray-700">{currentPage}</span>
+          <button
+            className=" hover:bg-blue-700 cursor-pointer text-white font-bold py-2 px-4 rounded"
+            onClick={() => setCurrentPage(currentPage + 1)}
+            disabled={endIndex >= sortedBodyMetricsData.length}
+          >
+            Next
+          </button>
+        </div>
+
       </div>
       {isPopupVisible && (
         <BodyMetricsDetails
@@ -237,6 +258,7 @@ function BodyMetricsTab() {
           </div>
         </div>
       </Modal>
+
     </>
   );
 }

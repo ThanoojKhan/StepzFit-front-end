@@ -16,6 +16,13 @@ function MyTaskTab() {
   const [showAllTasks, setShowAllTasks] = useState(true);
   const [isLoading, setIsLoading] = useState(false)
   const [showToaster, setShowToaster] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+
+  const sortedtasks = tasks.slice().sort((a, b) => new Date(b.date) - new Date(a.date));
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentItems = sortedtasks.slice(startIndex, endIndex);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -155,9 +162,9 @@ function MyTaskTab() {
                 </tr>
               </tbody>
             ) : (
-              tasks.sort((a, b) => new Date(b.date) - new Date(a.date))
-                .map((task, index) => (
-                  <tbody key={index} className='hover:text-zinc-400  cursor-default '>
+              <>
+                {currentItems.map((task, index) => (
+                  <tbody key={index} className='hover:text-zinc-400 cursor-default'>
                     <tr>
                       <td>
                         <div className="flex items-center my-3 space-x-3">
@@ -200,7 +207,11 @@ function MyTaskTab() {
                       </th>
                     </tr>
                   </tbody>
-                ))
+                ))}
+
+
+              </>
+
             )
           ) : (
             filteredTasks.length === 0 ? (
@@ -208,7 +219,7 @@ function MyTaskTab() {
                 <tr>
                   <td colSpan="5">
                     <div className="flex justify-center w3-animate-zoom items-center my-5 space-x-3">
-                      No Filtered Data
+                      No Data
                     </div>
                   </td>
                 </tr>
@@ -259,15 +270,34 @@ function MyTaskTab() {
               ))
             )
           )}
-        </table>
+
+        </table >
         {isModalOpen && (
           <TaskDetailsModal
             isOpen={isModalOpen}
             onRequestClose={handleCloseModal}
             selectedEntryDetails={selectedEntryDetails}
           />
-        )}
-      </div>
+        )
+        }
+        {showAllTasks ? (<div className="pagination flex items-center justify-center gap-5 mt-4">
+          <button
+            className="hover:bg-blue-700 cursor-pointer text-white font-bold py-2 px-4 rounded"
+            onClick={() => setCurrentPage(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            Prev
+          </button>
+          <span className="text-gray-500">{currentPage}</span>
+          <button
+            className="hover:bg-blue-700 cursor-pointer text-white font-bold py-2 px-4 rounded"
+            onClick={() => setCurrentPage(currentPage + 1)}
+            disabled={endIndex >= sortedtasks.length}
+          >
+            Next
+          </button>
+        </div>) : ''}
+      </div >
       <Modal
         isOpen={showConfirmation}
         onRequestClose={() => setShowConfirmation(false)}
