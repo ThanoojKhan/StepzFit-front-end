@@ -6,9 +6,9 @@ import axiosInstance from '../../../api/axios';
 import Loader from '../../loader';
 import dash from '../../../assets/images/images/bg.jpg';
 
-const Cards = React.lazy(() => import('./Cards'));
-const TaskTab = React.lazy(() => import('./TaskTab'));
-const FoodTab = React.lazy(() => import('./FoodTab'));
+const Cards = React.lazy(() => import('./cards'));
+const TaskTab = React.lazy(() => import('./taskTab'));
+const FoodTab = React.lazy(() => import('./foodTab'));
 const ImageUpdatePopup = React.lazy(() => import('./ImageUpdatePopup'));
 
 const HomeBody = () => {
