@@ -7,7 +7,7 @@ const Membership = () => {
     const { token } = useSelector((state) => state.Admin);
     const [plans, setPlans] = useState([]);
     const [showLoader, setShowLoader] = useState(false);
-    const [loading, setLoading] = useState(true); 
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         setShowLoader(true);
@@ -15,12 +15,12 @@ const Membership = () => {
             .get('/user/plans')
             .then((res) => {
                 setPlans(res?.data?.plans);
-                setLoading(false); 
+                setLoading(false);
             })
             .catch((err) => {
                 if (err?.response?.data?.errMsg) {
                     toast.error(err?.response?.data?.errMsg);
-                    setLoading(false); 
+                    setLoading(false);
                 }
             });
     }, [token]);
@@ -74,12 +74,42 @@ const Membership = () => {
                 </div>
                 <main className="grid lg:w-[90%] md:w-[96%] w-[90%] md:grid-cols-2 gap-8 md:gap-4 lg:gap-8 items-center">
                     {loading ? (
-                        <div className="skeleton-loader">
-                            <div className="w-1/2 h-4 mb-4"></div>
-                            <div className="w-full h-12 mb-4"></div>
-                            <div className="w-full h-12 mb-4"></div>
-                            <div className="w-full h-12 mb-4"></div>
-                        </div>
+                        <>
+                            {[0, 1, 2, 3].map((index) => (
+                                <div className="relative min-h-full w-full flex flex-col items-center gap-4 border border-zinc-500 py-10 hover:shadow-lg"
+                                    key={index}>
+
+                                    <div className="w-full flex flex-col items-center gap-4">
+                                        <h1 as="h2" className="text-zinc-100 flex items-end gap-0.5">
+                                            <span className="font-normal text-2xl">₹ </span>
+                                            <span className="font-light text-5xl w-16 h-8 bg-gray-500 rounded animate-pulse"></span>
+                                            <span className="font-light text-lg">/Month</span>
+                                        </h1>
+                                        <h1 as="h3" className="capitalize text-base font-normal w-full h-8 py-2 text-center text-zinc-100 my-3 bg-zinc-800">
+
+                                        </h1>
+
+                                        <ul className="flex flex-col items-center text-center">
+                                            {[0, 1, 2, 3].map((index) => (
+                                                <li
+                                                    className="mt-2 py-3"
+                                                    key={index}
+                                                >
+                                                    <div className="mt-2 w-48 h-5 bg-gray-500 rounded animate-pulse"></div>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                    <div className="opacity-0 hover:opacity-100 absolute inset-0 flex items-center justify-center transition-opacity bg-black bg-opacity-75">
+                                        <Link>
+                                            <button className="text-white bg-[#050708]/90 border hover:bg-zinc-800 focus:ring-4 focus:outline-none focus:ring-[#050708]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#050708]/50 dark:hover:bg-[#050708]/30 mr-2 mb-2">
+                                                Explore More
+                                            </button>
+                                        </Link>
+                                    </div>
+                                </div>
+                            ))}
+                        </>
                     ) : (
                         sortedAndMappedPlans
                     )}
