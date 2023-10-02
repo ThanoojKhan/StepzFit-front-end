@@ -122,20 +122,44 @@ const FoodTrackerTab = () => {
   };
 
   const handleFetchFoodIntake = () => {
-    setIsLoading()
-    axiosInstance.get('/user/getFoodIntake')
-      .then((response) => {
-        setFoodIntake(response?.data?.foodIntake);
-        setReload(false);
-        setIsLoading(false)
-      })
-      .catch((error) => {
-        console.error('Error fetching food intake:', error);
-        setShowToaster(true)
-        toast.error('An error occurred while fetching food intake.');
-        setIsLoading(false)
-      });
+    try {
+      setIsLoading(true);
+      const cachedData = localStorage.getItem('foodIntakeData');
+      const cachedVersion = localStorage.getItem('foodIntakeDataVersion');
+      if (cachedData) {
+        const cachedFoodIntakeData = JSON.parse(cachedData);
+        setFoodIntake(cachedFoodIntakeData);
+        setIsLoading(false);
+      }
+
+      axiosInstance.get('/user/getFoodIntake')
+        .then((response) => {
+          const data = response?.data?.foodIntake;
+          if (!cachedData || cachedVersion !== data.version) {
+            setFoodIntake(data);
+            const updatedCachedData = {
+              foodIntake: data,
+            };
+            localStorage.setItem('foodIntakeData', JSON.stringify(updatedCachedData));
+            localStorage.setItem('foodIntakeDataVersion', data.version);
+          }
+          setReload(false);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          console.error('Error fetching food intake:', error);
+          setShowToaster(true);
+          toast.error('An error occurred while fetching food intake.');
+          setIsLoading(false);
+        });
+    } catch (error) {
+      console.error('Error handling food intake:', error);
+      setShowToaster(true);
+      toast.error('An error occurred while handling food intake.');
+      setIsLoading(false);
+    }
   };
+
 
   const handleShowDetails = (entry) => {
     setSelectedEntryDetails(entry);
@@ -155,11 +179,11 @@ const FoodTrackerTab = () => {
     return `${year}-${month}-${day}`;
   };
 
-  const filteredFoodIntake = foodIntake.filter(
-    (entry) => formatDate(entry.date) === selectedDate
-  );
+  const filteredFoodIntake = Array.isArray(foodIntake)
+    ? foodIntake.filter((entry) => formatDate(entry.date) === selectedDate)
+    : [];
 
-  const totalCaloriesSum = filteredFoodIntake.reduce(
+  const totalCaloriesSum = filteredFoodIntake?.reduce(
     (total, entry) =>
       total +
       Math.floor(
@@ -360,8 +384,12 @@ const FoodTrackerTab = () => {
             {filteredFoodIntake?.length !== 0 && (
 
               <tfoot className='w3-animate-zoom'>
-                <tr className='text-transparent'>f</tr>
-                <tr className='text-transparent'>f</tr>
+                <tr>
+                  <td className='text-transparent'>f</td>
+                </tr>
+                <tr>
+                  <td className='text-transparent'>f</td>
+                </tr>
                 <tr>
                   <td></td>
                   <th colSpan="" className='text-lg text-white' >Total Day Intake </th>
