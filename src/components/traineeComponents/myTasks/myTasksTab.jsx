@@ -58,18 +58,35 @@ function MyTaskTab() {
   };
 
   const fetchTasks = async () => {
-    try {
-      setIsLoading(true)
-      const response = await axiosInstance.get('/user/getTasks');
-      setTasks(response?.data?.tasks);
-      setIsLoading(false)
+    setIsLoading(true);
 
+    const cachedTasks = localStorage.getItem('tasks');
+    const cachedVersion = localStorage.getItem('tasksVersion');
+
+    if (cachedTasks) {
+      setTasks(JSON.parse(cachedTasks));
+      setIsLoading(false);
+    }
+
+    try {
+      const response = await axiosInstance.get('/user/getTasks');
+      const data = response?.data?.tasks;
+      const currentVersion = response?.data?.version;
+
+      if (!cachedTasks || JSON.parse(cachedTasks).length !== data.length || cachedVersion !== currentVersion) {
+        setTasks(data);
+        localStorage.setItem('tasks', JSON.stringify(data));
+        localStorage.setItem('tasksVersion', currentVersion);
+      }
+
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
       console.error(error);
       toast.error(error.response.data.errMsg);
-      setIsLoading(false)
     }
   };
+
 
   const markTaskAsDone = async () => {
     try {

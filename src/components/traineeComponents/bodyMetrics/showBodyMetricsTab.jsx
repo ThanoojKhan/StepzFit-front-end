@@ -38,10 +38,22 @@ function BodyMetricsTab() {
   }, []);
 
   const fetchBodyMetricsData = async () => {
+    setIsLoading(true);
+    const cachedData = localStorage.getItem('bodyMetricsData');
+    const cachedVersion = localStorage.getItem('bodyMetricsDataVersion');
+    if (cachedData) {
+      setBodyMetricsData(JSON.parse(cachedData));
+      setIsLoading(false);
+    }
     try {
-      setIsLoading(true);
       const response = await axiosInstance.get('/user/bodyMetrics');
-      setBodyMetricsData(response.data.bodyMetrics);
+      const data = response?.data?.bodyMetrics;
+      const currentVersion = response?.data?.version;
+      if (!cachedData || cachedVersion !== currentVersion) {
+        setBodyMetricsData(data);
+        localStorage.setItem('bodyMetricsData', JSON.stringify(data));
+        localStorage.setItem('bodyMetricsDataVersion', currentVersion);
+      }
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -50,6 +62,7 @@ function BodyMetricsTab() {
       toast.error('An error occurred while fetching data.');
     }
   };
+
 
   const handleTabClick = (data) => {
     setShowToaster(true);

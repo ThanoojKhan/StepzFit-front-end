@@ -41,17 +41,30 @@ const FoodTrackerTab = () => {
   }, [reload]);
 
   const fetchFoodOptions = () => {
-    setIsLoading(true)
+    setIsLoading(true);
+    const cachedData = localStorage.getItem('foodOptions');
+    const cachedVersion = localStorage.getItem('foodOptionsVersion');
+    if (cachedData) {
+      setFoodOptions(JSON.parse(cachedData));
+      setIsLoading(false);
+    }
     axiosInstance.get('/user/foodDB')
       .then((response) => {
-        setFoodOptions(response?.data?.foods);
-        setIsLoading(false)
+        const data = response?.data?.foods;
+        const currentVersion = response?.data?.version;
+        if (!cachedData || JSON.parse(cachedData).length !== data.length || cachedVersion !== currentVersion) {
+          setFoodOptions(data);
+          localStorage.setItem('foodOptions', JSON.stringify(data));
+          localStorage.setItem('foodOptionsVersion', currentVersion);
+        }
+        setIsLoading(false);
       })
       .catch((error) => {
-        setIsLoading(false)
+        setIsLoading(false);
         console.error('Error fetching food options:', error);
       });
   };
+
 
   const handleFoodChange = (event) => {
     setSelectedFood(event.target.value);
@@ -109,7 +122,7 @@ const FoodTrackerTab = () => {
   };
 
   const handleFetchFoodIntake = () => {
-    setIsLoading(true)
+    setIsLoading()
     axiosInstance.get('/user/getFoodIntake')
       .then((response) => {
         setFoodIntake(response?.data?.foodIntake);
@@ -258,7 +271,6 @@ const FoodTrackerTab = () => {
               Add to Tracker
             </button>
           </div>
-          {/* <RoundProgressBar total={10} current={5}/> */}
         </div>
 
         <div className="overflow-x-auto mt-10 mb-5">
