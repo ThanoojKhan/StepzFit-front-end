@@ -82,7 +82,7 @@ const Membership = () => {
                                     <div className="w-full flex flex-col items-center gap-4">
                                         <h1 as="h2" className="text-zinc-100 flex items-end gap-0.5">
                                             <span className="font-normal text-2xl">₹ </span>
-                                            <span className="font-light text-5xl w-16 h-8 bg-gray-500 rounded animate-pulse"></span>
+                                            <span className="font-light text-5xl  rounded animate-pulse">_____</span>
                                             <span className="font-light text-lg">/Month</span>
                                         </h1>
                                         <h1 as="h3" className="capitalize text-base font-normal w-full h-8 py-2 text-center text-zinc-100 my-3 bg-zinc-800">
