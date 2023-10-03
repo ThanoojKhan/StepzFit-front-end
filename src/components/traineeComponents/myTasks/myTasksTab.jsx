@@ -61,7 +61,6 @@ function MyTaskTab() {
     setIsLoading(true);
 
     const cachedTasks = localStorage.getItem('tasks');
-console.log(cachedTasks+'=====');
     if (cachedTasks) {
       setTasks(JSON.parse(cachedTasks));
       setIsLoading(false);
