@@ -114,7 +114,7 @@ function BodyMetricsTab() {
     <>
       {showToaster && <Toaster toastOptions={3000} />}
       {isLoading ? <Loader /> : ''}
-      <div style={{ width: '95%' }} className=" mt-40 mx-10 md:mx-25 sm:w-auto">
+      <div style={{ width: '95%' }} className=" mt-40 px-8 mx-auto md:mx-25 sm:w-auto">
         <h1 className="text-zinc-200 mb-4 w-3/4 cursor-default text-xl w3-animate-left">Effortlessly track and record your body metrics, such as weight, BMI, body fat percentage, and measurements, to monitor your progress accurately.</h1>
         <p className="text-3xl font-extralight mt-2 border-b-2 border-zinc-500"></p>
         <div className="overflow-x-auto mt-10 mb-5">
@@ -133,7 +133,7 @@ function BodyMetricsTab() {
                 })}
               </div>
             </div>
-            <div className="mb-4 self-center w3-animate-zoom">
+            <div className="mb-4 mx-5 self-center w3-animate-zoom">
               <Link to="/addBodyMetrics" className="text-blue-500 w3-animate-zoom hover:underline">
                 Add Body Metrics
               </Link>
@@ -172,29 +172,29 @@ function BodyMetricsTab() {
                       </div>
                     </div>
                   </td>
-                    <td className='flex items-center'>
-                      <div className='w3-animate-zoom flex-col justify-center'>
-                        <button className="btn btn-ghost btn-xs" onClick={() => handleTabClick(entry)}>
-                          Details
+                  <td className='flex items-center'>
+                    <div className='w3-animate-zoom flex-col justify-center mr-4'>
+                      <button className="btn btn-ghost btn-xs" onClick={() => handleTabClick(entry)}>
+                        Details
+                      </button>
+                    </div>
+                    {new Date(entry.date).toLocaleDateString('en-GB') === new Date().toLocaleDateString('en-GB') && (
+                      <div className="flex flex-col items-center justify-center space-y-2 mx-2">
+                        <Link
+                          to={`/editBodyMetrics/${entry._id}`}
+                          className="text-blue-700 rounded-md hover:underline w3-animate-zoom"
+                        >
+                          Edit
+                        </Link>
+                        <button
+                          className="text-red-700 rounded-md hover:underline w3-animate-zoom"
+                          onClick={() => openDeleteConfirmation(entry._id)}
+                        >
+                          Delete
                         </button>
                       </div>
-                      {new Date(entry.date).toLocaleDateString('en-GB') === new Date().toLocaleDateString('en-GB') && (
-                        <div className="flex flex-col items-center justify-center mx-5  ">
-                          <Link
-                            to={`/editBodyMetrics/${entry._id}`}
-                            className="text-blue-700 rounded-md hover:underline w3-animate-zoom "
-                          >
-                            Edit
-                          </Link>
-                          <button
-                            className="text-red-700 rounded-md hover:underline mt-2 w3-animate-zoom"
-                            onClick={() => openDeleteConfirmation(entry._id)}
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      )}
-                    </td>
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>

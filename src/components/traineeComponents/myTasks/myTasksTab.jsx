@@ -122,7 +122,7 @@ function MyTaskTab() {
     <>
       {showToaster && <Toaster toastOptions={3000} />}
       {isLoading ? <Loader /> : ''}
-      <div style={{ width: '95%' }} className="mt-40 mx-10 md:mx-25 sm:w-auto">
+      <div style={{ width: '95%' }} className="mt-40 px-8 mx-auto md:mx-25 sm:w-auto">
         <h1 className="text-zinc-200 mb-4 w-3/4 cursor-default text-xl w3-animate-left">Daily fitness and nutrition tasks are essential components of a well-rounded and healthy lifestyle. These tasks focus on promoting physical activity, balanced eating, and overall well-being.</h1>
         <p className="text-3xl font-extralight mt-2 border-b-2 border-zinc-500"></p>
 

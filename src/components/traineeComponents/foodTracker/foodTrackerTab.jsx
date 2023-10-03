@@ -223,7 +223,7 @@ const FoodTrackerTab = () => {
     <>
       {showToaster && <Toaster toastOptions={3000} />}
       {isLoading ? <Loader /> : ''}
-      <div style={{ width: '95%' }} className=" mt-40 px-10 mx-auto  md:mx-25 sm:w-auto">
+      <div style={{ width: '95%' }} className=" mt-40 px-8 mx-auto  md:mx-25 sm:w-auto">
         <h1 className="text-zinc-200 mb-4 cursor-default text-xl w3-animate-left">Simplify your food tracking with our user-friendly interface, making it effortless to monitor your daily nutrition intake.</h1>
         <p className="text-3xl font-extralight mt-2 border-b-2 mb-8 border-zinc-500"></p>
         <div className="w-full flex justify-center flex-col my-10 gap-4 w3-animate-top">
