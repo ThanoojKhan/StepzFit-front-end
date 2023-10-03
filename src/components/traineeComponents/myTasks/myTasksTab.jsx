@@ -128,7 +128,6 @@ function MyTaskTab() {
 
         <div className="overflow-x-auto mt-10 mb-5">
           <div className="flex justify-between mt-4">
-
             <div>
               <div className="font-bold ">My Tasks</div>
               <div className='mb-4 w3-animate-zoom'>
@@ -143,7 +142,7 @@ function MyTaskTab() {
                 })}
               </div>
             </div>
-            <div className="flex items-center w3-animate-zoom">
+            <div className="flex flex-col items-center w3-animate-zoom">
               <input
                 type="date"
                 value={selectedDate}
@@ -151,7 +150,7 @@ function MyTaskTab() {
                 className="p-3 me-4 rounded"
               />
               <button
-                className=" text-zinc-300 hover:underline"
+                className=" text-zinc-300 mt-2 hover:underline"
                 onClick={() => setShowAllTasks(true)}
               >Show All
               </button>

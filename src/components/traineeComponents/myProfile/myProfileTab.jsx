@@ -51,12 +51,12 @@ function MyProfileTab() {
       })
       .catch((error) => {
         setLoader(false);
-        if (error.response.data) {
+        if (error?.response?.data) {
           setShowToaster(true)
-          toast.error(error.response.data.errMsg);
+          toast.error(error?.response?.data?.errMsg);
         } else {
           setShowToaster(true)
-          toast.error(error.message);
+          toast.error(error?.message);
         }
       });
   }, [change]);
@@ -103,11 +103,11 @@ function MyProfileTab() {
   };
 
   function isValidImage(logo) {
-    const validExtensions = ['.jpg', '.jpeg', '.png', '.webp'];
+    const validExtensions = ['.jpg', '.jpeg', '.png', '.webp']
 
-    const extension = logo.substr(logo.lastIndexOf('.')).toLowerCase();
+    const extension = logo.substr(logo.lastIndexOf('.')).toLowerCase()
 
-    return validExtensions.includes(extension);
+    return validExtensions.includes(extension)
   }
 
   const handleImageChange = (img) => {
@@ -129,8 +129,7 @@ function MyProfileTab() {
   return (
     <>
       {showToaster && <Toaster toastOptions={3000} />}
-      <div className="min-h-screen bg-cover bg-fixed">
-
+      <div className="min-h-screen w-screen bg-cover bg-fixed">
         {loader ? (
           <Loader />
         ) : edit ? (

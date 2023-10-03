@@ -58,7 +58,6 @@ const HomeBody = () => {
         localStorage.setItem('dashboardData', JSON.stringify(updatedCachedData));
         localStorage.setItem('dashboardDataVersion', data.version);
       }
-
       setIsLoading(false);
       setShowToaster(true);
     } catch (error) {

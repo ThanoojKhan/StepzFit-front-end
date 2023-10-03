@@ -307,7 +307,6 @@ const FoodTrackerTab = () => {
         </div>
 
         <div className="overflow-x-auto mt-10 mb-5">
-
           <div className="flex justify-between mt-4">
             <div>
               <div className="font-bold ">Food Tracker</div>
@@ -323,12 +322,12 @@ const FoodTrackerTab = () => {
                 })}
               </div>
             </div>
-            <div className="flex justify-end mt-4">
+            <div className="flex items-center w3-animate-zoom">
               <input
                 type="date"
                 value={selectedDate}
                 onChange={(event) => setSelectedDate(event.target.value)}
-                className=" p-2 me-4 rounded w3-animate-zoom"
+                className="p-2 me-4 rounded w3-animate-zoom"
               />
             </div>
           </div>

@@ -24,7 +24,6 @@ const Membership = () => {
                 }
             });
     }, [token]);
-
     const sortedAndMappedPlans = useMemo(() => {
         return plans
             .slice()
