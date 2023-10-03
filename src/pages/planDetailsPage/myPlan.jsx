@@ -59,7 +59,7 @@ function PlanDetailsPage() {
 
     return (
         <>
-            <section className="w-full h-auto relative overflow-x-hidden">
+            <section className="w-full h-screen relative overflow-x-hidden">
                 <main className="w-full lg:h-screen h-screen relative bg-zinc-900 overflow-x-hidden " style={backgroundStyle} >
                     <NavBar></NavBar>
                     <div className="w-full h-full absolute bg-black bg-opacity-75 flex flex-col items-center justify-center px-4 overflow-x-hidden">
