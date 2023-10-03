@@ -88,8 +88,10 @@ function MessagesTab() {
                     authorization: `Bearer ${token}`
                 }
             }).then((res) => {
-                let updMsg = [...messages, res?.data?.msg];
-                setMessages(updMsg)
+                if (res?.data?.msg.sender !== userId) {
+                    let updMsg = [...messages, res?.data?.msg];
+                    setMessages(updMsg);
+                }
                 setMessage('')
                 socket.emit('new message', res?.data?.msg, chatId)
             }).catch((err) => {
