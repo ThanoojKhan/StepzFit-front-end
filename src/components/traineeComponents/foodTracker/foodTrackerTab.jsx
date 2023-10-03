@@ -245,7 +245,7 @@ const FoodTrackerTab = () => {
             </div>
           </div>
 
-          <div className='flex justify-center items-center'>
+          <div className='flex flex-col sm:flex-row justify-center items-center'>
             <div className="mt-4 mx-5">
               <label className="font-medium mb-1">Enter Quantity (gms)</label>
               <div className="flex">
@@ -255,7 +255,7 @@ const FoodTrackerTab = () => {
                   step="50"
                   value={selectedQuantity}
                   onChange={handleQuantityChange}
-                  className="p-2 my-4  rounded"
+                  className="p-2 my-4 rounded"
                   placeholder="Quantity (gms)"
                 />
               </div>
@@ -263,14 +263,14 @@ const FoodTrackerTab = () => {
 
             <div className="mt-4 mx-5">
               <label className="font-medium mb-1">Select Time</label>
-              <div className="flex">
+              <div className="flex items-center">
                 <input
                   type="number"
                   min="00"
                   max="12"
                   value={selectedHour}
                   onChange={handleHourChange}
-                  className="w-16 p-2 my-4 rounded-l"
+                  className="w-16 p-2 my-2 sm:my-4 rounded-l"
                   placeholder="HH"
                 />
                 <span className="flex justify-center items-center">:</span>
@@ -280,21 +280,21 @@ const FoodTrackerTab = () => {
                   max="59"
                   value={selectedMinute}
                   onChange={handleMinuteChange}
-                  className="w-16 p-2 my-4 rounded-r"
+                  className="w-16 p-2 my-2 sm:my-4 rounded-r"
                   placeholder="MM"
                 />
                 <select
                   value={selectedAmPm}
                   onChange={handleAmPmChange}
-                  className="w-16 p-2 my-4 rounded ml-2"
+                  className="w-16 p-2 my-2 sm:my-4 rounded ml-2"
                 >
                   <option value="AM">AM</option>
                   <option value="PM">PM</option>
                 </select>
               </div>
             </div>
-
           </div>
+
           <div className='flex justify-center'>
             <button
               onClick={isAdding ? null : handleAddFood}
