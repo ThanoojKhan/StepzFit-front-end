@@ -40,7 +40,6 @@ function BodyMetricsTab() {
   const fetchBodyMetricsData = async () => {
     setIsLoading(true);
     const cachedData = localStorage.getItem('bodyMetricsData');
-    const cachedVersion = localStorage.getItem('bodyMetricsDataVersion');
     if (cachedData) {
       setBodyMetricsData(JSON.parse(cachedData));
       setIsLoading(false);
@@ -48,12 +47,8 @@ function BodyMetricsTab() {
     try {
       const response = await axiosInstance.get('/user/bodyMetrics');
       const data = response?.data?.bodyMetrics;
-      const currentVersion = response?.data?.version;
-      if (!cachedData || cachedVersion !== currentVersion) {
-        setBodyMetricsData(data);
-        localStorage.setItem('bodyMetricsData', JSON.stringify(data));
-        localStorage.setItem('bodyMetricsDataVersion', currentVersion);
-      }
+      setBodyMetricsData(data);
+      localStorage.setItem('bodyMetricsData', JSON.stringify(data));
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -117,8 +112,8 @@ function BodyMetricsTab() {
 
   return (
     <>
-      {isLoading ? <Loader /> : ''}
       {showToaster && <Toaster toastOptions={3000} />}
+      {isLoading ? <Loader /> : ''}
       <div style={{ width: '95%' }} className=" mt-40 mx-10 md:mx-25 sm:w-auto">
         <h1 className="text-zinc-200 mb-4 w-3/4 cursor-default text-xl w3-animate-left">Effortlessly track and record your body metrics, such as weight, BMI, body fat percentage, and measurements, to monitor your progress accurately.</h1>
         <p className="text-3xl font-extralight mt-2 border-b-2 border-zinc-500"></p>
@@ -177,29 +172,29 @@ function BodyMetricsTab() {
                       </div>
                     </div>
                   </td>
-                  <th className='flex items-center'>
-                    <div className='w3-animate-zoom'>
-                      <button className="btn btn-ghost btn-xs mb-2" onClick={() => handleTabClick(entry)}>
-                        Details
-                      </button>
-                    </div>
-                    {new Date(entry.date).toLocaleDateString('en-GB') === new Date().toLocaleDateString('en-GB') && (
-                      <div className="flex flex-col items-centre mx-5  ">
-                        <Link
-                          to={`/editBodyMetrics/${entry._id}`}
-                          className="text-blue-700 rounded-md hover:underline w3-animate-zoom "
-                        >
-                          Edit
-                        </Link>
-                        <button
-                          className="text-red-700 rounded-md hover:underline mt-2 w3-animate-zoom"
-                          onClick={() => openDeleteConfirmation(entry._id)}
-                        >
-                          Delete
+                    <td className='flex items-center'>
+                      <div className='w3-animate-zoom flex-col justify-center'>
+                        <button className="btn btn-ghost btn-xs" onClick={() => handleTabClick(entry)}>
+                          Details
                         </button>
                       </div>
-                    )}
-                  </th>
+                      {new Date(entry.date).toLocaleDateString('en-GB') === new Date().toLocaleDateString('en-GB') && (
+                        <div className="flex flex-col items-center justify-center mx-5  ">
+                          <Link
+                            to={`/editBodyMetrics/${entry._id}`}
+                            className="text-blue-700 rounded-md hover:underline w3-animate-zoom "
+                          >
+                            Edit
+                          </Link>
+                          <button
+                            className="text-red-700 rounded-md hover:underline mt-2 w3-animate-zoom"
+                            onClick={() => openDeleteConfirmation(entry._id)}
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      )}
+                    </td>
                 </tr>
               ))}
             </tbody>

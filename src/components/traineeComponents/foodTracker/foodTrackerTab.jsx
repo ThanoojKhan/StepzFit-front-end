@@ -4,6 +4,7 @@ import axiosInstance from '../../../api/axios';
 import FoodIntakeDetailsModal from '../foodTracker/foodTrackerDetailPopup';
 import Modal from 'react-modal';
 import Loader from '../../loader';
+import Loading from '../../loading'
 import RoundProgressBar from '../roundProgress';
 
 const FoodTrackerTab = () => {
@@ -22,6 +23,8 @@ const FoodTrackerTab = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [entryToDelete, setEntryToDelete] = useState(null);
   const [isLoading, setIsLoading] = useState(false)
+  const [isLoad, setIsLoad] = useState(false)
+  const [isAdding, setIsAdding] = useState(false)
   const [showToaster, setShowToaster] = useState(false)
 
 
@@ -43,7 +46,6 @@ const FoodTrackerTab = () => {
   const fetchFoodOptions = () => {
     setIsLoading(true);
     const cachedData = localStorage.getItem('foodOptions');
-    const cachedVersion = localStorage.getItem('foodOptionsVersion');
     if (cachedData) {
       setFoodOptions(JSON.parse(cachedData));
       setIsLoading(false);
@@ -51,12 +53,8 @@ const FoodTrackerTab = () => {
     axiosInstance.get('/user/foodDB')
       .then((response) => {
         const data = response?.data?.foods;
-        const currentVersion = response?.data?.version;
-        if (!cachedData || JSON.parse(cachedData).length !== data.length || cachedVersion !== currentVersion) {
-          setFoodOptions(data);
-          localStorage.setItem('foodOptions', JSON.stringify(data));
-          localStorage.setItem('foodOptionsVersion', currentVersion);
-        }
+        setFoodOptions(data);
+        localStorage.setItem('foodOptions', JSON.stringify(data));
         setIsLoading(false);
       })
       .catch((error) => {
@@ -87,76 +85,86 @@ const FoodTrackerTab = () => {
   };
 
   const handleAddFood = () => {
+    setIsAdding(true)
+    setShowToaster(true)
     const selectedHourWithZero = selectedHour < 10 ? `0${selectedHour}` : selectedHour;
     const selectedMinuteWithZero = selectedMinute == 0 ? "00" : selectedMinute < 10 ? `0${selectedMinute}` : selectedMinute;
     const selectedTime = `${selectedHourWithZero}:${selectedMinuteWithZero} ${selectedAmPm}`;
 
     if (selectedFood && selectedQuantity && selectedHourWithZero != 0 && selectedHourWithZero < 13 && selectedMinuteWithZero < 60) {
-      setIsLoading(true)
       axiosInstance.post('/user/addFood', {
         food: selectedFood,
         quantity: selectedQuantity,
         time: selectedTime,
       })
         .then(() => {
-          setShowToaster(true)
-          toast.success('Food added successfully');
-          setReload(true);
+          toast.success('Food added successfully')
+          setFoodIntake((prevFoodIntake) => {
+            return [...prevFoodIntake, {
+              food: selectedFood,
+              quantity: selectedQuantity,
+              time: selectedTime,
+            }]
+          })
+          setReload(true)
           setSelectedFood('')
           setSelectedQuantity('')
           setSelectedHour('')
           setSelectedMinute('')
           setSelectedDate(new Date().toISOString().split('T')[0])
-          setIsLoading(false)
+          setIsAdding(false)
         })
         .catch((error) => {
           console.error('Error adding food:', error);
-          setIsLoading(false)
           setShowToaster(true)
           toast.error('An error occurred while adding food.');
+          setIsAdding(false)
         });
     } else {
       setShowToaster(true)
+      setIsAdding(false)
       toast.error('Please select food, quantity, and proper time of intake.');
     }
   };
 
+  const STORAGE_KEY = 'foodIntakeData';
+
   const handleFetchFoodIntake = () => {
     try {
-      setIsLoading(true);
-      const cachedData = localStorage.getItem('foodIntakeData');
-      const cachedVersion = localStorage.getItem('foodIntakeDataVersion');
+      setIsLoad(true);
+      const cachedData = localStorage.getItem(STORAGE_KEY);
       if (cachedData) {
-        const cachedFoodIntakeData = JSON.parse(cachedData);
-        setFoodIntake(cachedFoodIntakeData);
-        setIsLoading(false);
+        const parsedData = JSON.parse(cachedData);
+        if (parsedData && Array.isArray(parsedData.foodIntake)) {
+          setFoodIntake(parsedData.foodIntake);
+          setIsLoad(false);
+        } else {
+          console.error('Error parsing cached data:', cachedData);
+          setIsLoad(false);
+        }
       }
-
       axiosInstance.get('/user/getFoodIntake')
         .then((response) => {
           const data = response?.data?.foodIntake;
-          if (!cachedData || cachedVersion !== data.version) {
-            setFoodIntake(data);
-            const updatedCachedData = {
-              foodIntake: data,
-            };
-            localStorage.setItem('foodIntakeData', JSON.stringify(updatedCachedData));
-            localStorage.setItem('foodIntakeDataVersion', data.version);
-          }
+          setFoodIntake(data);
+          const updatedCachedData = {
+            foodIntake: data,
+          };
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedCachedData));
           setReload(false);
-          setIsLoading(false);
+          setIsLoad(false);
         })
         .catch((error) => {
           console.error('Error fetching food intake:', error);
           setShowToaster(true);
           toast.error('An error occurred while fetching food intake.');
-          setIsLoading(false);
+          setIsLoad(false);
         });
     } catch (error) {
       console.error('Error handling food intake:', error);
       setShowToaster(true);
       toast.error('An error occurred while handling food intake.');
-      setIsLoading(false);
+      setIsLoad(false);
     }
   };
 
@@ -193,15 +201,15 @@ const FoodTrackerTab = () => {
   );
 
   const handleDeleteEntry = () => {
+    setShowToaster(true)
+    setIsDeleteModalOpen(false);
     setIsLoading(true)
     axiosInstance.delete(`/user/deleteFoodIntake/${entryToDelete._id}`)
       .then(() => {
-        setIsDeleteModalOpen(false);
-        setIsLoading(false)
-        setShowToaster(true)
         setFoodIntake((prevFoodIntake) =>
           prevFoodIntake.filter((entry) => entry?._id !== entryToDelete?._id)
         );
+        setIsLoading(false)
         toast.success('Food intake entry deleted successfully');
       })
       .catch((error) => {
@@ -213,13 +221,13 @@ const FoodTrackerTab = () => {
 
   return (
     <>
-      {isLoading ? <Loader /> : ''}
       {showToaster && <Toaster toastOptions={3000} />}
-      <div style={{ width: '95%' }} className=" mt-40 mx-10 md:mx-25 sm:w-auto">
+      {isLoading ? <Loader /> : ''}
+      <div style={{ width: '95%' }} className=" mt-40 px-10 mx-auto  md:mx-25 sm:w-auto">
         <h1 className="text-zinc-200 mb-4 cursor-default text-xl w3-animate-left">Simplify your food tracking with our user-friendly interface, making it effortless to monitor your daily nutrition intake.</h1>
         <p className="text-3xl font-extralight mt-2 border-b-2 mb-8 border-zinc-500"></p>
         <div className="w-full flex justify-center flex-col my-10 gap-4 w3-animate-top">
-          <div className='flex justify-center items-center '>
+          <div className='flex justify-center mx-5 items-center '>
             <div className="mt-4 mx-5 w-full md:w-1/3">
               <label className="font-medium mb-1">Select Food</label>
               <select
@@ -289,10 +297,11 @@ const FoodTrackerTab = () => {
           </div>
           <div className='flex justify-center'>
             <button
-              onClick={handleAddFood}
-              className="mt-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 focus:outline-none"
+              onClick={isAdding ? null : handleAddFood}
+              className={`${isAdding ? 'opacity-50 cursor-not-allowed' : ''} mt-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 focus:outline-none`}
+              disabled={isAdding}
             >
-              Add to Tracker
+              {isAdding ? <Loading /> : 'Add to Tracker'}
             </button>
           </div>
         </div>
@@ -305,7 +314,7 @@ const FoodTrackerTab = () => {
               <div className='mb-4 w3-animate-zoom'>
                 {currentDateTime.toLocaleString('en-US', {
                   day: '2-digit',
-                  month: 'long',
+                  month: 'short',
                   year: 'numeric',
                   hour: '2-digit',
                   minute: '2-digit',
@@ -333,63 +342,109 @@ const FoodTrackerTab = () => {
                 <th></th>
               </tr>
             </thead>
-            {filteredFoodIntake?.length === 0 ? (
-              <tbody>
-                <tr>
-                  <td colSpan="4" >
-                    <div className="flex w3-animate-zoom justify-center items-center space-x-3">
-                      No Data
-                    </div>
-                  </td>
-
-                </tr>
-              </tbody>
-            ) : (
-              filteredFoodIntake?.map((entry, index) => (
-
-                <tbody key={index} className='hover:text-green-400 cursor-default '>
+            {isLoad ? (
+              <>
+                <tbody className="hover:text-green-400 cursor-default animate-pulse">
                   <tr>
-                    <td className='w3-animate-zoom '>{entry?.time}</td>
                     <td>
-                      <div className="flex items-center space-x-3 ">
-                        <div className='w3-animate-zoom '>
-                          <div className="font-bold">{entry?.food?.name}</div>
-                          <div className="text-sm opacity-50">Calories per {entry?.food?.serving} gm: {(entry?.food?.calories) * 100} cal </div>
+                      <div className="flex items-center space-x-3">
+                        <div className="w3-animate-zoom">
+                          <div className="font-bold bg-gray-300 h-4 w-20"></div>
                         </div>
                       </div>
                     </td>
-                    <td className='w3-animate-zoom '>
-                      {entry?.quantity} gms
-                      <br />
-                      <span className="text-sm opacity-50">Total Calories: {Math.floor(((entry?.food?.calories) / (entry?.food?.serving)) * (entry?.quantity) * 100)}</span>
+                    <td>
+                      <div className="flex items-center space-x-3">
+                        <div className="w3-animate-zoom">
+                          <div className="font-bold bg-gray-300 h-4 w-20"></div>
+                          <div className="text-sm opacity-50 bg-gray-300 h-3 w-32 mt-1"></div>
+                        </div>
+                      </div>
                     </td>
-                    <th className='w3-animate-zoom '>
-                      <button className="btn btn-ghost btn-xs" onClick={() => handleShowDetails(entry)}>Details</button>
-                      {new Date(entry.date).toDateString() === new Date().toDateString() && (
-                        <button
-                          className="btn btn-ghost btn-xs text-red-500"
-                          onClick={() => {
-                            setEntryToDelete(entry);
-                            setIsDeleteModalOpen(true);
-                          }}
-                        >
-                          Delete
-                        </button>
-                      )}
+                    <td className="w3-animate-zoom">
+                      <div className="flex items-center space-x-3">
+                        <div className="w3-animate-zoom">
+                          <div className="font-bold bg-gray-300 h-4 w-20"></div>
+                          <div className="text-sm opacity-50 bg-gray-300 h-3 w-32 mt-1"></div>
+                        </div>
+                      </div>
+                    </td>
+                    <th>
+                      <button className="btn btn-ghost btn-xs bg-gray-300 h-6 w-12"></button>
+                      <button className="btn btn-ghost btn-xs text-red-500 bg-gray-300 h-6 w-16 ml-2"></button>
                     </th>
                   </tr>
                 </tbody>
-              ))
-            )}
+              </>
+            ) :
+              filteredFoodIntake?.length === 0 ? (
+                <tbody>
+                  <tr>
+                    <td colSpan="4" >
+                      <div className="flex w3-animate-zoom justify-center items-center space-x-3">
+                        No Data
+                      </div>
+                    </td>
+
+                  </tr>
+                </tbody>
+              ) : (
+                filteredFoodIntake?.sort((a, b) => {
+                  const convertToSortableTime = (timeStr) => {
+                    const [hourMinute, amPm] = timeStr.split(' ');
+                    const [hour, minute] = hourMinute.split(':');
+                    let sortableHour = parseInt(hour);
+                    if (amPm === 'PM' && sortableHour !== 12) {
+                      sortableHour += 12;
+                    } else if (amPm === 'AM' && sortableHour === 12) {
+                      sortableHour = 0;
+                    }
+                    return sortableHour * 60 + parseInt(minute);
+                  };
+                  const timeA = convertToSortableTime(a.time);
+                  const timeB = convertToSortableTime(b.time);
+                  return timeB - timeA;
+                })
+                  .map((entry, index) => (
+
+                    <tbody key={index} className='hover:text-green-400 cursor-default '>
+                      <tr>
+                        <td className='w3-animate-zoom '>{entry?.time}</td>
+                        <td>
+                          <div className="flex items-center space-x-3 ">
+                            <div className='w3-animate-zoom '>
+                              <div className="font-bold">{entry?.food?.name}</div>
+                              <div className="text-sm opacity-50">Calories per {entry?.food?.serving} gm: {(entry?.food?.calories) * 100} cal </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td className='w3-animate-zoom '>
+                          {entry?.quantity} gms
+                          <br />
+                          <span className="text-sm opacity-50">Total Calories: {Math.floor(((entry?.food?.calories) / (entry?.food?.serving)) * (entry?.quantity) * 100)}</span>
+                        </td>
+                        <th className='w3-animate-zoom '>
+                          <button className="btn btn-ghost btn-xs" onClick={() => handleShowDetails(entry)}>Details</button>
+                          {new Date(entry.date).toDateString() === new Date().toDateString() && (
+                            <button
+                              className="btn btn-ghost btn-xs text-red-500"
+                              onClick={() => {
+                                setEntryToDelete(entry);
+                                setIsDeleteModalOpen(true);
+                              }}
+                            >
+                              Delete
+                            </button>
+                          )}
+                        </th>
+                      </tr>
+                    </tbody>
+                  ))
+              )}
             {filteredFoodIntake?.length !== 0 && (
 
               <tfoot className='w3-animate-zoom'>
-                <tr>
-                  <td className='text-transparent'>f</td>
-                </tr>
-                <tr>
-                  <td className='text-transparent'>f</td>
-                </tr>
+
                 <tr>
                   <td></td>
                   <th colSpan="" className='text-lg text-white' >Total Day Intake </th>
@@ -408,48 +463,50 @@ const FoodTrackerTab = () => {
             selectedEntryDetails={selectedEntryDetails}
           />
         )}
-      </div>
-      <Modal
-        isOpen={isDeleteModalOpen}
-        onRequestClose={() => setIsDeleteModalOpen(false)}
-        style={{
-          overlay: {
-            backgroundColor: 'rgba(0, 0, 0, 0.4)',
-            backdropFilter: 'blur(15px)',
-            zIndex: 1000,
-          },
-          content: {
-            margin: 'auto',
-            borderColor: 'transparent',
-            background: 'transparent',
-            overflowY: 'auto',
-          },
-        }}
-        contentLabel="Delete Confirmation"
-      >
-        <div className="fixed top-0 left-0 px-10 w-full h-full flex items-center justify-center z-50">
-          <div className="bg-transparent p-10 rounded-lg border border-zinc-800 shadow-md">
-            <h2 className="text-white text-2xl mb-4">Confirm Deletion</h2>
-            {entryToDelete && (
-              <p className="text-white">
-                Are you sure you want to delete the food intake entry for{' '}
-                {entryToDelete?.food?.name} at {entryToDelete?.time} ?
-              </p>
-            )}
-            <div className="flex justify-center mt-4">
-              <button
-                className="btn btn-red mr-2"
-                onClick={() => setIsDeleteModalOpen(false)}
-              >
-                Cancel
-              </button>
-              <button className="btn btn-green" onClick={handleDeleteEntry}>
-                Confirm Delete
-              </button>
+        <Modal
+          isOpen={isDeleteModalOpen}
+          onRequestClose={() => setIsDeleteModalOpen(false)}
+          style={{
+            overlay: {
+              backgroundColor: 'rgba(0, 0, 0, 0.4)',
+              backdropFilter: 'blur(15px)',
+              zIndex: 1000,
+            },
+            content: {
+              margin: 'auto',
+              borderColor: 'transparent',
+              background: 'transparent',
+              overflowY: 'auto',
+            },
+          }}
+          contentLabel="Delete Confirmation"
+        >
+          <div className="fixed top-0 left-0 px-10 w-full h-full flex items-center justify-center z-50">
+            <div className="bg-transparent p-10 rounded-lg border border-zinc-800 shadow-md">
+              <h2 className="text-white text-2xl mb-4">Confirm Deletion</h2>
+              {entryToDelete && (
+                <p className="text-white">
+                  Are you sure you want to delete the food intake entry for{' '}
+                  {entryToDelete?.food?.name} at {entryToDelete?.time} ?
+                </p>
+              )}
+              <div className="flex justify-center mt-4">
+                <button
+                  className="btn btn-red mr-2"
+                  onClick={() => setIsDeleteModalOpen(false)}
+                >
+                  Cancel
+                </button>
+                <button className="btn btn-green" onClick={handleDeleteEntry}>
+                  Confirm Delete
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      </Modal>
+        </Modal>
+      </div>
+
+
 
     </>
   );
