@@ -49,7 +49,7 @@ function MyTaskTab() {
     const year = dateObj.getFullYear();
     const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
     const day = dateObj.getDate().toString().padStart(2, '0');
-    return `${year}-${month}-${day}`;
+    return `${day}-${month}-${year}`;
   };
 
   const handleDateChange = (event) => {
@@ -61,8 +61,7 @@ function MyTaskTab() {
     setIsLoading(true);
 
     const cachedTasks = localStorage.getItem('tasks');
-    const cachedVersion = localStorage.getItem('tasksVersion');
-
+console.log(cachedTasks+'=====');
     if (cachedTasks) {
       setTasks(JSON.parse(cachedTasks));
       setIsLoading(false);
@@ -71,14 +70,8 @@ function MyTaskTab() {
     try {
       const response = await axiosInstance.get('/user/getTasks');
       const data = response?.data?.tasks;
-      const currentVersion = response?.data?.version;
-
-      if (!cachedTasks || JSON.parse(cachedTasks).length !== data.length || cachedVersion !== currentVersion) {
-        setTasks(data);
-        localStorage.setItem('tasks', JSON.stringify(data));
-        localStorage.setItem('tasksVersion', currentVersion);
-      }
-
+      setTasks(data);
+      localStorage.setItem('tasks', JSON.stringify(data));
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);

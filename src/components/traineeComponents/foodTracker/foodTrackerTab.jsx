@@ -408,7 +408,14 @@ const FoodTrackerTab = () => {
 
                     <tbody key={index} className='hover:text-green-400 cursor-default '>
                       <tr>
-                        <td className='w3-animate-zoom '>{entry?.time}</td>
+                        <td>
+                          <div className="flex items-center space-x-3 ">
+                            <div className='w3-animate-zoom '>
+                              <div className="font-bold">{entry?.time}</div>
+                              <div className="text-sm opacity-50">{new Date().toDateString(entry?.date)}</div>
+                            </div>
+                          </div>
+                        </td>
                         <td>
                           <div className="flex items-center space-x-3 ">
                             <div className='w3-animate-zoom '>
@@ -417,24 +424,31 @@ const FoodTrackerTab = () => {
                             </div>
                           </div>
                         </td>
-                        <td className='w3-animate-zoom '>
-                          {entry?.quantity} gms
-                          <br />
-                          <span className="text-sm opacity-50">Total Calories: {Math.floor(((entry?.food?.calories) / (entry?.food?.serving)) * (entry?.quantity) * 100)}</span>
+                        <td >
+                          <div className="flex items-center space-x-3 ">
+                            <div className='w3-animate-zoom'>
+                              <div className="font-bold">{entry?.quantity} gms</div>
+                              <span className="text-sm opacity-50">Total Calories: {Math.floor(((entry?.food?.calories) / (entry?.food?.serving)) * (entry?.quantity) * 100)}</span>
+                            </div>
+                          </div>
                         </td>
-                        <th className='w3-animate-zoom '>
-                          <button className="btn btn-ghost btn-xs" onClick={() => handleShowDetails(entry)}>Details</button>
-                          {new Date(entry.date).toDateString() === new Date().toDateString() && (
-                            <button
-                              className="btn btn-ghost btn-xs text-red-500"
-                              onClick={() => {
-                                setEntryToDelete(entry);
-                                setIsDeleteModalOpen(true);
-                              }}
-                            >
-                              Delete
-                            </button>
-                          )}
+                        <th>
+                          <div className="flex items-center space-x-3 ">
+                            <div className='w3-animate-zoom'>
+                              <button className="btn btn-ghost btn-xs" onClick={() => handleShowDetails(entry)}>Details</button>
+                              {new Date(entry.date).toDateString() === new Date().toDateString() && (
+                                <button
+                                  className="btn btn-ghost btn-xs text-red-500"
+                                  onClick={() => {
+                                    setEntryToDelete(entry);
+                                    setIsDeleteModalOpen(true);
+                                  }}
+                                >
+                                  Delete
+                                </button>
+                              )}
+                            </div>
+                          </div>
                         </th>
                       </tr>
                     </tbody>
@@ -443,12 +457,24 @@ const FoodTrackerTab = () => {
             {filteredFoodIntake?.length !== 0 && (
 
               <tfoot className='w3-animate-zoom'>
-
                 <tr>
                   <td></td>
-                  <th colSpan="" className='text-lg text-white' >Total Day Intake </th>
-                  <td className='text-lg text-white'>{totalCaloriesSum} Calories</td>
-
+                  <th>
+                    <td>
+                      <div className="flex items-center space-x-3 ">
+                        <div className='w3-animate-zoom'>
+                          <div className="font-bold text-lg text-white">Total Day Intake</div>
+                        </div>
+                      </div>
+                    </td>
+                  </th>
+                  <td>
+                    <div className="flex items-center space-x-3 ">
+                      <div className='w3-animate-zoom'>
+                        <div className="font-bold text-lg text-white">{totalCaloriesSum} Calories</div>
+                      </div>
+                    </div>
+                  </td>
                   <td></td>
                 </tr>
               </tfoot>)

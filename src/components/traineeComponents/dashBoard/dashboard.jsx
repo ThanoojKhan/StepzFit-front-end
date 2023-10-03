@@ -27,8 +27,6 @@ const HomeBody = () => {
   const fetchDashboard = async () => {
     try {
       const cachedData = localStorage.getItem('dashboardData');
-      const cachedVersion = localStorage.getItem('dashboardDataVersion');
-
       if (cachedData) {
         const cachedDashboardData = JSON.parse(cachedData);
         setUser(cachedDashboardData.user);
@@ -41,23 +39,20 @@ const HomeBody = () => {
       const response = await axiosInstance.get('/user/dashBoard');
       const data = response?.data;
 
-      if (!cachedData || cachedVersion !== data.version) {
-        setUser(data.user);
-        setWeight(data.weight?.bodyWeight);
-        setTasks(data.tasks);
-        setFoodIntake(data.foodIntake);
-        setExistingImage(data.user?.dashImage);
+      setUser(data.user);
+      setWeight(data.weight?.bodyWeight);
+      setTasks(data.tasks);
+      setFoodIntake(data.foodIntake);
+      setExistingImage(data.user?.dashImage);
 
-        const updatedCachedData = {
-          user: data.user,
-          weight: data.weight?.bodyWeight,
-          tasks: data.tasks,
-          foodIntake: data.foodIntake,
-          dashImage: data.user?.dashImage,
-        };
-        localStorage.setItem('dashboardData', JSON.stringify(updatedCachedData));
-        localStorage.setItem('dashboardDataVersion', data.version);
-      }
+      const updatedCachedData = {
+        user: data.user,
+        weight: data.weight?.bodyWeight,
+        tasks: data.tasks,
+        foodIntake: data.foodIntake,
+        dashImage: data.user?.dashImage,
+      };
+      localStorage.setItem('dashboardData', JSON.stringify(updatedCachedData));
       setIsLoading(false);
       setShowToaster(true);
     } catch (error) {
