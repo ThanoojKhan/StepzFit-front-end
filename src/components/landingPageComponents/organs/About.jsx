@@ -1,9 +1,9 @@
 import React from "react";
 import { Fade } from "react-awesome-reveal";
-import Image1 from "../../../assets/gym/2.jpeg";
-import Image2 from "../../../assets/gym/3.jpeg";
-import Image3 from "../../../assets/gym/4.jpeg";
-import Image4 from "../../../assets/gym/5.jpeg";
+import Image1 from "../../../assets/gym/7.jpeg";
+import Image2 from "../../../assets/gym/10.jpeg";
+import Image3 from "../../../assets/gym/12.jpeg";
+import Image4 from "../../../assets/gym/11.jpeg";
 import Image from "../atoms/Image";
 
 const About = () => {

@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import Image from "../atoms/Image";
-import Offer from "../../../assets/hero/3.jpeg";
+import Offer from "../../../assets/gym/5.jpeg";
 import List from "../atoms/List";
 import { Barbell, Hoodie, PersonSimpleRun } from "@phosphor-icons/react";
 import { Fade } from "react-awesome-reveal";
