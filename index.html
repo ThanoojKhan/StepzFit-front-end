@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark">
   <title>StepzFit</title>
   <script>
     function updateTitle() {
@@ -24,11 +25,21 @@
     window.addEventListener('load', updateTitle);
     window.addEventListener('popstate', updateTitle);
   </script>
+  <script>
+    setTimeout(() => {
+      const splashScreen = document.getElementById('splash-screen');
+      if (splashScreen) {
+        splashScreen.style.display = 'none';
+      }
+    }, 3000);
+  </script>
 </head>
 
 <body>
   <div id="root"></div>
   <script type="module" src="/src/main.jsx"></script>
+
+  
 </body>
 
 </html>

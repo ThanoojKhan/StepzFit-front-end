@@ -73,7 +73,7 @@ const HeroSection = () => {
           <div className="w-screen md:h-screen absolute md:top-0 bottom-0 mb-10 right-0 flex flex-col items-center justify-end px-4 overflow-x-hidden">
             <div className="items-start justify-center">
               <h1 className="lg:text-4xl md:text-2xl text-2xl font-extralight w3-animate-left text-zinc-100 ">Meet</h1>
-              <h1 className="lg:text-8xl md:text-6xl mb-10 pl-4 text-6xl w3-animate-right ease-in text-zinc-100 font-extralight ">StepzFitz</h1>
+              <h1 className="lg:text-8xl md:text-6xl mb-10 pl-4 text-6xl w3-animate-right ease-in text-zinc-100 font-extralight ">StepzFit</h1>
             </div>
 
             <p className="lg:text-lg text-base text-center text-zinc-400 font-extralight px-20 w-auto w3-animate-bottom">

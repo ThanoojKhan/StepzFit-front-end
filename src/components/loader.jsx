@@ -21,7 +21,7 @@ const loaderImageStyle = {
 
 const Loader = () => {
   return (
-    <div style={loaderContainerStyle} className=''>
+    <div style={loaderContainerStyle} className='overflow-hidden'>
       <div style={{ textAlign: 'center' }} className='animate-pulse '>
         <img src={stepzfitImage} className='w-24' alt="StepzFit Logo" style={loaderImageStyle} />
       </div>

@@ -1,17 +1,20 @@
-import { ArrowCircleRight, CirclesFour } from "@phosphor-icons/react";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { userLogout } from '../../../store/slice/user';
 import List from "../atoms/List";
 import navbarIcon from '../../../assets/images/logo/StepzFit-Logowhite-nobg.png'
+import { CirclesFour, ArrowCircleRight } from "@phosphor-icons/react";
+import PWAInstallButton from "./pwainstall";
+
 const NavBar = () => {
     const { token } = useSelector((state) => state.User);
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [open, setOpen] = useState(false);
     const [navBarColor, setNavBarColor] = useState(false);
-    const [isHidden, setIsHidden] = useState(false);
+    const [isAppInstalled, setIsAppInstalled] = useState(false);
+
 
     const handleLogout = () => {
         dispatch(userLogout());
@@ -35,11 +38,10 @@ const NavBar = () => {
 
 
     useEffect(() => {
-        const timeout = setTimeout(() => {
-            setIsHidden(true);
-        }, 15000);
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+            setIsAppInstalled(true);
+        }
 
-        return () => clearTimeout(timeout);
     }, []);
 
     return (
@@ -86,13 +88,15 @@ const NavBar = () => {
                                 </ul>
                             </>
                         }
-                        <ul className={`flex items-center justify-center h-full relative ${isHidden ? 'hidden' : ''}`}>
-                            <List className="w-full text-base">
-                                <small className="flex items-center gap-2 text-red-500 hover:text-amber-500 group cursor-pointer">
-                                    <h1 as="span" className="text-zinc-100 group-hover:text-amber-500 text-sm ">Install</h1>
-                                </small>
-                            </List>
-                        </ul>
+                        {!isAppInstalled && (
+                            <ul className={`flex items-center justify-center h-full relative`}>
+                                <List className="w-full text-base">
+                                    <small className="flex items-center gap-2  hover:text-amber-500 group cursor-pointer">
+                                        <h1 as="span" className="text-zinc-100 group-hover:text-amber-500 text-sm "><PWAInstallButton></PWAInstallButton></h1>
+                                    </small>
+                                </List>
+                            </ul>
+                        )}
                     </div>
                     <div className={`hamburger lg:hidden flex delay-100 text-white cursor-pointer ${navBarColor ? '' : "w3-animate-right"}`} onClick={handleToggle}>
                         <CirclesFour size={30} color="currentColor" weight="light" />
@@ -142,8 +146,8 @@ const NavBar = () => {
                                     </>
                                 }
                                 <List className="w-full text-base">
-                                    <NavLink to='' onClick={handleToggle} className={`${isHidden ? 'hidden' : ''} relative overflow-hidden inline-block text-white before:w-full before:h-0.5 before:bg-color2 before:absolute before:bottom-0 before:-left-full before:rounded-full before:transition-all before:duration-200 before:ease-in hover:before:left-0 hover:scale-110 transition ease-in-out delay-50`}>
-                                        Install
+                                    <NavLink to='' onClick={handleToggle} className={`relative overflow-hidden inline-block text-white before:w-full before:h-0.5 before:bg-color2 before:absolute before:bottom-0 before:-left-full before:rounded-full before:transition-all before:duration-200 before:ease-in hover:before:left-0 hover:scale-110 transition ease-in-out delay-50`}>
+                                        <PWAInstallButton></PWAInstallButton>
                                     </NavLink>
                                 </List>
                             </ul>
