@@ -130,7 +130,7 @@ function Login() {
                       <GoogleLoginComponent />
                     </GoogleOAuthProvider>
                     <div className="flex items-center my-6">
-                      <h4 onClick={() => navigate('/register')} className="text-lg text-white text-center font-extralight cursor-pointer hover:underline underline-offset-2 w3-animate-bottom">Not a Memeber Yet?</h4>
+                      <h4 onClick={() => navigate('/register')} className="text-lg text-white text-center font-extralight cursor-pointer hover:underline underline-offset-2 w3-animate-bottom">Not a Member Yet?</h4>
                     </div>
                   </div>
                 }
