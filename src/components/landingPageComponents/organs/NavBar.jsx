@@ -145,11 +145,13 @@ const NavBar = () => {
                                         </List>
                                     </>
                                 }
-                                <List className="w-full text-base">
-                                    <NavLink to='' onClick={handleToggle} className={`relative overflow-hidden inline-block text-white before:w-full before:h-0.5 before:bg-color2 before:absolute before:bottom-0 before:-left-full before:rounded-full before:transition-all before:duration-200 before:ease-in hover:before:left-0 hover:scale-110 transition ease-in-out delay-50`}>
-                                        <PWAInstallButton></PWAInstallButton>
-                                    </NavLink>
-                                </List>
+                                {!isAppInstalled && (
+                                    <List className="w-full text-base">
+                                        <NavLink to='' onClick={handleToggle} className={`relative overflow-hidden inline-block text-white before:w-full before:h-0.5 before:bg-color2 before:absolute before:bottom-0 before:-left-full before:rounded-full before:transition-all before:duration-200 before:ease-in hover:before:left-0 hover:scale-110 transition ease-in-out delay-50`}>
+                                            <PWAInstallButton></PWAInstallButton>
+                                        </NavLink>
+                                    </List>
+                                )}
                             </ul>
                         </section>
                     </div>

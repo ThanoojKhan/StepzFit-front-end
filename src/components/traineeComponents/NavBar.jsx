@@ -83,7 +83,7 @@ const NavBar = () => {
                                         <ArrowCircleRight size={25} color="currentColor" weight="light" />
                                     </div>
                                 </div>
-                                <ul className="flex flex-col gap-3 pl-5">
+                                <ul className="flex flex-col gap-3 pl-5 cursor-pointer">
                                     <List className="w-full text-base">
                                         <h1 onClick={() => navigate('/plans')} className={`relative overflow-hidden inline-block text-white before:w-full before:h-0.5 before:bg-color2 before:absolute before:bottom-0 before:-left-full before:rounded-full before:transition-all before:duration-200 hover:scale-110 transition ease-in-out delay-50 before:ease-in hover:before:left-0 `}>
                                             Explore Plans
