@@ -62,9 +62,9 @@ const HeroSection = () => {
 
   return (
     <>
-      <section className="w-full h-screen relative overflow-x-hidden" >
-        <main className="w-full h-screen relative bg-zinc-900 overflow-x-hidden" >
-          <div className="h-screen relative" >
+      <section className="w-full h-screen relative overflow-x-hidden">
+        <main className="w-full h-screen relative bg-zinc-900 overflow-x-hidden">
+          <div className="h-screen relative">
             <div className="w-full">
               <img src={renderProfileImg()} className="w-full h-screen object-cover w3-animate-top" alt="Profile" />
             </div>
@@ -75,29 +75,36 @@ const HeroSection = () => {
               <h1 className="lg:text-4xl md:text-2xl text-2xl font-extralight w3-animate-left text-zinc-100 ">Meet</h1>
               <h1 className="lg:text-8xl md:text-6xl mb-10 pl-4 text-6xl w3-animate-right ease-in text-zinc-100 font-extralight ">StepzFit</h1>
             </div>
-
-            <p className="lg:text-lg text-base text-center text-zinc-400 font-extralight px-20 w-auto w3-animate-bottom">
+            <p className="lg:text-base text-sm text-center text-zinc-400 font-extralight px-5 sm:px-20 w-auto w3-animate-bottom">
               The SMART Fitness and Weight Loss Plan designed to create lasting behavior change incorporating fitness routines, yoga sessions, and a well-balanced diet plan.
             </p>
-            <div className="flex items-center gap-8 mt-10 mb-28 w3-animate-bottom">
-              <div className="px-1 flex font-extralight text-lg text-zinc-100 border-white rounded-full">
-                <button type="button" className="text-white bg-[#050708]/90 hover:bg-zinc-800 focus:ring-4 focus:outline-none focus:ring-[#050708]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#050708]/50 dark:hover:bg-[#050708]/30 mr-2 mb-2">
-                  <WhatsappLogo size={20} className=" bg-green-600 rounded-md" color="currentColor" weight="regular" />
-                  <a href={import.meta.env.VITE_WHATSAPP} className="ms-3" target="_blank">Chat With Us</a>
+            <div className="flex flex-col md:flex-row items-center gap-4 sm:gap-8 mt-6 md:mt-10 mb-6 md:mb-28 w3-animate-bottom">
+              <div className="flex font-extralight text-sm text-zinc-100 border-white rounded-full">
+                <button
+                  type="button"
+                  className="text-white bg-[#050708]/90 hover:bg-zinc-800 focus:ring-4 focus:outline-none focus:ring-[#050708]/50 font-medium rounded-lg text-sm px-4 sm:px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#050708]/50 dark:hover:bg-[#050708]/30 mr-2 mb-2"
+                >
+                  <WhatsappLogo size={20} className="bg-green-600 rounded-md" color="currentColor" weight="regular" />
+                  <a href={import.meta.env.VITE_WHATSAPP} className="ms-3" target="_blank" rel="noopener noreferrer">
+                    Chat With Us
+                  </a>
                 </button>
               </div>
-
-              <div href="#scrollTarget" onClick={scrollToNextWindow} className="flex items-center gap-2 text-red-500 hover:text-amber-500 group cursor-pointer">
-                <h1 className="text-zinc-100 group-hover:text-amber-500 font-extralight text-lg animate-bounce">Learn More</h1>
+              <div
+                href="#scrollTarget"
+                onClick={scrollToNextWindow}
+                className="flex items-center gap-2 text-red-500 hover:text-amber-500 group cursor-pointer"
+              >
+                <h1 className="text-zinc-100 group-hover:text-amber-500 font-extralight text-sm sm:text-lg animate-bounce">
+                  Learn More
+                </h1>
               </div>
-
             </div>
           </div>
         </main>
         <StickyIcons />
-        <div id="scrollTarget" ref={scrollTargetRef}>
-        </div>
-      </section >
+        <div id="scrollTarget" ref={scrollTargetRef}></div>
+      </section>
     </>
   )
 }
