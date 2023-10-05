@@ -13,12 +13,12 @@ const manifestForPlugin = {
     name: 'StepzFit',
     icons: [
       {
-        src: '/src/assets/images/logo/cropped512x512.png',
+        src: 'https://www.stepzfit.online/src/assets/images/logo/cropped512x512.png',
         type: 'image/png',
         sizes: '512x512',
       },
       {
-        src: '/src/assets/images/logo/cropped.png',
+        src: 'https://www.stepzfit.online/src/assets/images/logo/cropped.png',
         type: 'image/png',
         sizes: '192x192',
       },
@@ -31,7 +31,7 @@ const manifestForPlugin = {
     theme_color: 'black',
     splashScreens: [
       {
-        src: '/src/assets/images/logo/StepzFit-Logo-allscn.png',
+        src: 'https://www.stepzfit.online/src/assets/images/logo/StepzFit-Logo-allscn.png',
         sizes: '1024x1024',
       },
     ],

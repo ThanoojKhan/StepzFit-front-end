@@ -38,7 +38,7 @@ function PaymentSuccess() {
             <p className='text-red-800'>Redirecting in {countdown} seconds...</p>
             <div className="py-10 text-center">
               <p onClick={() => navigate('/myPlan')}
-                className="px-12 bg-black w3-animate-bottom hover:bg-gray-600 text-white font-semibold py-3 rounded-full inline-block"
+                className="px-12 cursor-pointer bg-black w3-animate-bottom hover:bg-gray-600 text-white font-semibold py-3 rounded-full inline-block"
               >
                 GO BACK
               </p>
