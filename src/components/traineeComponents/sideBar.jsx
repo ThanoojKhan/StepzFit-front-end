@@ -74,9 +74,9 @@ function SideBar() {
                 Dashboard
               </ListItem>
 
-              <ListItem className={`hover:scale-105 hover:bg-zinc-800 transition-transform ${location.pathname == '/messages' ? 'scale-110 ml-2 bg-zinc-800 font-semibold w3-animate-left hover:scale-110' : ''}`} onClick={() => navigate('/messages')}>
+              {/* <ListItem className={`hover:scale-105 hover:bg-zinc-800 transition-transform ${location.pathname == '/messages' ? 'scale-110 ml-2 bg-zinc-800 font-semibold w3-animate-left hover:scale-110' : ''}`} onClick={() => navigate('/messages')}>
                 Messages
-              </ListItem>
+              </ListItem> */}
 
               <ListItem className={`hover:scale-105 hover:bg-zinc-800 transition-transform ${location.pathname == '/foodTracker' ? 'scale-110 ml-2 bg-zinc-800 font-semibold w3-animate-left hover:scale-110' : ''}`} onClick={() => navigate('/foodTracker')}>
                 Food Tracker
