@@ -83,19 +83,19 @@ const NavBar = () => {
                                         <ArrowCircleRight size={25} color="currentColor" weight="light" />
                                     </div>
                                 </div>
-                                <ul className="flex flex-col gap-3 pl-5 cursor-pointer">
+                                <ul className="flex flex-col gap-3 pl-5">
                                     <List className="w-full text-base">
-                                        <h1 onClick={() => navigate('/plans')} className={`relative overflow-hidden inline-block text-white before:w-full before:h-0.5 before:bg-color2 before:absolute before:bottom-0 before:-left-full before:rounded-full before:transition-all before:duration-200 hover:scale-110 transition ease-in-out delay-50 before:ease-in hover:before:left-0 `}>
+                                        <h1 onClick={() => navigate('/plans')} className={`cursor-pointer relative overflow-hidden inline-block text-white before:w-full before:h-0.5 before:bg-color2 before:absolute before:bottom-0 before:-left-full before:rounded-full before:transition-all before:duration-200 hover:scale-110 transition ease-in-out delay-50 before:ease-in hover:before:left-0 `}>
                                             Explore Plans
                                         </h1>
                                     </List>
                                     <List className="w-full text-base">
-                                        <h1 onClick={() => navigate('/home')} className={`relative overflow-hidden inline-block text-white before:w-full before:h-0.5 before:bg-color2 before:absolute before:bottom-0 before:-left-full before:rounded-full before:transition-all before:duration-200 hover:scale-110 transition ease-in-out delay-50 before:ease-in hover:before:left-0 `}>
+                                        <h1 onClick={() => navigate('/home')} className={`cursor-pointer relative overflow-hidden inline-block text-white before:w-full before:h-0.5 before:bg-color2 before:absolute before:bottom-0 before:-left-full before:rounded-full before:transition-all before:duration-200 hover:scale-110 transition ease-in-out delay-50 before:ease-in hover:before:left-0 `}>
                                             Home
                                         </h1>
                                     </List>
                                     <List className="w-full text-base">
-                                        <h1 onClick={(e) => { e.preventDefault(); handleToggle(); handleLogout() }} className={`relative overflow-hidden inline-block text-white before:w-full before:h-0.5 before:bg-color2 before:absolute before:bottom-0 before:-left-full before:rounded-full before:transition-all before:duration-200 hover:scale-110 transition ease-in-out delay-50 before:ease-in hover:before:left-0 `}>
+                                        <h1 onClick={(e) => { e.preventDefault(); handleToggle(); handleLogout() }} className={`cursor-pointer relative overflow-hidden inline-block text-white before:w-full before:h-0.5 before:bg-color2 before:absolute before:bottom-0 before:-left-full before:rounded-full before:transition-all before:duration-200 hover:scale-110 transition ease-in-out delay-50 before:ease-in hover:before:left-0 `}>
                                             Logout
                                         </h1>
                                     </List>
