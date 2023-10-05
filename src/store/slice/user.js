@@ -27,6 +27,7 @@ export const user = createSlice({
                 localStorage.removeItem('dashboardData'),
                 localStorage.removeItem('tasks'),
                 localStorage.removeItem('foodIntakeData');
+                localStorage.removeItem('plans');
         }
     }
 })
