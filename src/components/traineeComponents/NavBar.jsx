@@ -101,7 +101,7 @@ const NavBar = () => {
                                     </List>
                                 </ul>
                             </section>
-                            <div onClick={handleToggle} as="span" className="w-28 mb-10 md:left-5 left-3">
+                            <div onClick={() => navigate('/home')} as="span" className="cursor-pointer w-28 mb-10 md:left-5 left-3">
                                 <img src={navbarIcon} alt="" />
                             </div>
                         </div>
