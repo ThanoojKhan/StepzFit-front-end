@@ -8,7 +8,11 @@ import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth
 import { auth } from '../../api/firebase';
 import { useDispatch } from 'react-redux'
 import { userLogin } from '../../store/slice/user'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import NavbarIcon from '../../assets/images/logo/StepzFit-Logowhite-nobg.png'
+import FooterLogo from '../landingPageComponents/organs/FooterLogo'
+import BgLogin from '../../assets/images/images/login-bg.jpg'
+import StickyIcons from '../landingPageComponents/molecules/StickyIcons'
 
 function OtpPage() {
 
@@ -19,15 +23,18 @@ function OtpPage() {
   const [otp, setOtp] = useState()
   const [resend, setResend] = useState(false)
   const [data, setData] = useState('')
+  const [seconds, setSeconds] = useState(60);
+  const countdownIntervalRef = useRef(null);
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
 
   const checkMob = () => {
     setResend(false);
-    
+    setClicked(true)
     if (!regex_mobile.test(phone)) {
       toast.error('Enter a valid mobile number');
+      setClicked(false)
     } else {
       axiosInstance.post('/user/otpLogin', { phone })
         .then((res) => {
@@ -36,47 +43,56 @@ function OtpPage() {
             onCaptchaVerify();
             const appVerifier = window.recaptchaVerifier;
             const phoneNo = '+91' + phone;
-            
+
             signInWithPhoneNumber(auth, phoneNo, appVerifier)
               .then((confirmationResult) => {
                 window.confirmationResult = confirmationResult;
                 setShowOTP(true);
                 toast.success('OTP sent');
+                setClicked(false)
               })
               .catch((error) => {
                 console.error("Error while sending OTP:", error);
+                setClicked(false)
                 if (error.response && error.response.data && error.response.data.errMsg) {
                   toast.error(error.response.data.errMsg);
-                } 
+                  setClicked(false)
+                }
               });
           }
         })
         .catch((error) => {
           console.error("Error in checkMob:", error);
+          setClicked(false)
           if (error.response && error.response.data && error.response.data.errMsg) {
             toast.error(error.response.data.errMsg);
+            setClicked(false)
           } else {
             toast.error('An error occurred while checking the mobile number');
+            setClicked(false)
           }
         });
     }
   };
-  
+
 
   function onCaptchaVerify() {
-
+    const recaptchaContainer = document.getElementById('recaptcha-container');
+    if (!recaptchaContainer) {
+      console.error('reCAPTCHA container element not found.');
+      return;
+    }
     if (!window.recaptchaVerifier) {
       window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
         size: 'invisible',
         callback: (response) => {
-          checkMob()
+          checkMob();
         },
         'expired-callback': () => {
           console.log('expired callback');
         }
       }, auth);
     }
-
   }
 
   function otpVerify() {
@@ -92,10 +108,6 @@ function OtpPage() {
     })
   }
 
-
-  const [seconds, setSeconds] = useState(60);
-  const countdownIntervalRef = useRef(null);
-
   useEffect(() => {
     if (showOTP) {
       setSeconds(60)
@@ -105,7 +117,6 @@ function OtpPage() {
         }
         countdownIntervalRef.current = setInterval(decrementSeconds, 1000);
       }
-
       return () => clearInterval(countdownIntervalRef.current);
     }
   }, [resend, showOTP]);
@@ -117,37 +128,76 @@ function OtpPage() {
     }
   }, [seconds]);
 
+  const backgroundStyle = {
+    backgroundImage: `url(${BgLogin})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    minHeight: '900px',
+  };
+
   return (
     <>
+      <Toaster toastOptions={{ duration: 4000 }} />
       <div style={{ 'height': '100vh' }} className='bg-black flex justify-center items-center'>
         <div id='recaptcha-container'></div>
-        <div className=' bg-emerald-600 p-5 rounded'>
-          <Toaster toastOptions={3000} /><div className='bg-white text-emarald-500 w-fit mx-auto p-4 rounded-full'>
-            <BsFillShieldLockFill size={30} />
-          </div>
-          {showOTP ? <h1 className='text-white font-bold text-center mt-2'>Enter OTP</h1> : <h1 className='text-white font-bold text-center mt-2'>Enter Mobile No.</h1>}
-          <div className='p-5'>
-            {showOTP ? <OtpInput
-              className='ms-3'
-              OTPLength={6}
-              value={otp}
-              onChange={setOtp}
-              otpType='number'
-              disabled={false}
-              autoFocus
-            /> : <input
-              type="text"
-              onChange={(e) => setPhone(e.target.value)}
-              className="block border border-grey-light w-full p-3 rounded mb-4"
-              name="phone"
-              placeholder="Mobile No" />}
-            {showOTP && <div className='flex justify-center'>
-              <span className='text-center text-white'>{seconds}</span>
-            </div>}
-            {!showOTP ? <button className='text-white mt-3 bg-green-800 w-full flex gap-1 items-center justify-center py-2.5 rounded' onClick={checkMob}><span>Send Otp</span></button> : resend ? <button className='text-white mt-3 bg-green-800 w-full flex gap-1 items-center justify-center py-2.5 rounded' onClick={checkMob}>{clicked ? <CgSpinner size={20} className='animate-spin' /> : ''}<span>Resend Otp</span></button> : <button className='text-white mt-3 bg-green-800 w-full flex gap-1 items-center justify-center py-2.5 rounded' onClick={otpVerify}>{clicked ? <CgSpinner size={20} className='animate-spin' /> : ''}<span>Verify OTP</span></button>}
-          </div>
-
-        </div>
+        <section className="w-full h-screen relative overflow-x-hidden">
+          <main className="w-full lg:h-screen h-screen relative bg-zinc-900 overflow-x-hidden " style={backgroundStyle} >
+            <div className="w-full h-full absolute bg-black backdrop-blur-sm bg-opacity-75 flex flex-col items-center justify-center px-4 overflow-x-hidden">
+              <div className="items-start justify-center">
+                <Link to={`/home`} className={`font-extrabold flex justify-center relative text-lg w3-animate-zoom delay-100`}>
+                  <div className="animate-pulse md:w-1/4 w-2/5">
+                    <img src={NavbarIcon} alt="" />
+                  </div>
+                </Link>
+                <h1 className="lg:text-4xl md:text-2xl text-3xl text-center mt-16 my-5 text-white font-extralight w3-animate-opacity w3-animate-zoom">OTP Login</h1>
+                <h1 className="text-md text-center mt-16 text-white font-extralight w3-animate-opacity w3-animate-zoom">
+                  {showOTP ? <BsFillShieldLockFill size={30} /> : 'Enter OTP'}
+                </h1>
+              </div>
+              {showOTP ?
+                <>
+                  <OtpInput
+                    className='mt-5'
+                    OTPLength={6}
+                    value={otp}
+                    onChange={setOtp}
+                    otpType='number'
+                    disabled={false}
+                    autoFocus
+                  />
+                  <span className='text-center mt-5 text-white'>{seconds}</span>
+                </>
+                :
+                <input type="text" onChange={(e) => setPhone(e.target.value)} placeholder='Mobile No' className="w3-animate-zoom mt-5 input bg-transparent border text-center text-white border-x-gray-500 w-full max-w-md" />
+              }
+              {!showOTP ?
+                <button className='opacity-50 w3-animate-bottom mt-10 text-lg text-white bg-[#050708] hover:bg-[#050708]/90 focus:ring-4 focus:outline-none focus:ring-[#050708]/50 font-normal rounded-lg text- px-5 py-2.5 text-center inline-flex items-center' onClick={checkMob}>
+                  {clicked ?
+                    <CgSpinner size={20} className='animate-spin' />
+                    : ''}
+                  <span>Send OTP</span>
+                </button>
+                :
+                resend ? <button className='opacity-50 w3-animate-bottom mt-10 text-lg text-white bg-[#050708] hover:bg-[#050708]/90 focus:ring-4 focus:outline-none focus:ring-[#050708]/50 font-normal rounded-lg text- px-5 py-2.5 text-center inline-flex items-center' onClick={checkMob}>
+                  {clicked ?
+                    <CgSpinner size={20} className='animate-spin' />
+                    : ''}
+                  <span>Resend OTP</span></button>
+                  :
+                  <button className='opacity-50 w3-animate-bottom mt-10 text-lg text-white bg-[#050708] hover:bg-[#050708]/90 focus:ring-4 focus:outline-none focus:ring-[#050708]/50 font-normal rounded-lg text- px-5 py-2.5 text-center inline-flex items-center' onClick={otpVerify}>
+                    {clicked ?
+                      <CgSpinner size={20} className='animate-spin' />
+                      : ''}
+                    <span>Verify OTP</span>
+                  </button>
+              }
+              <h4 onClick={() => navigate('/')} className="lg:text-lg text-sm text-center cursor-pointer mt-10 text-white font-extralight px-20 w-auto w3-animate-bottom">Back to Login</h4>
+              <div className='bottom-0 fixed'>
+                <FooterLogo /></div>
+            </div>
+          </main>
+          <StickyIcons />
+        </section>
       </div>
     </>
   )

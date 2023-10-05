@@ -5,8 +5,8 @@ import { useDispatch } from 'react-redux';
 import { userLogin } from '../../store/slice/user';
 import { useNavigate } from 'react-router-dom';
 
-function 
-GoogleLoginComponent() {
+function
+    GoogleLoginComponent() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -47,8 +47,12 @@ GoogleLoginComponent() {
     };
 
     return (
-        <div>
-            <GoogleLogin onSuccess={login} />
+
+        <div style={{ background: 'transparent !important' }}>
+            <GoogleLogin render={renderProps => (
+                <button onClick={renderProps.onClick} style={customStyle}>This is my custom Google button</button>
+            )}
+                buttonText="Login" onSuccess={login} />
         </div>
     );
 }
