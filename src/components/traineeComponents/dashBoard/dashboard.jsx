@@ -5,6 +5,8 @@ import { toast, Toaster } from 'react-hot-toast';
 import axiosInstance from '../../../api/axios';
 import Loader from '../../loader';
 import dash from '../../../assets/images/images/bg.jpg';
+import { useSelector } from 'react-redux';
+import { Store } from '../../../store/store';
 
 const Cards = React.lazy(() => import('./cards'));
 const TaskTab = React.lazy(() => import('./taskTab'));
@@ -12,6 +14,7 @@ const FoodTab = React.lazy(() => import('./foodTab'));
 const ImageUpdatePopup = React.lazy(() => import('./ImageUpdatePopup'));
 
 const HomeBody = () => {
+  const userName = Store.getState().User.name;
   const [user, setUser] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [foodIntake, setFoodIntake] = useState([]);
@@ -90,7 +93,7 @@ const HomeBody = () => {
                             {isLoading ? (
                               <div className='bg-gray-300 h-16 rounded animate-pulse'></div>
                             ) : (
-                              user.name
+                              userName
                             )}
 
                           </h1>

@@ -47,13 +47,7 @@ function
     };
 
     return (
-
-        <div style={{ background: 'transparent !important' }}>
-            <GoogleLogin render={renderProps => (
-                <button onClick={renderProps.onClick} style={customStyle}>This is my custom Google button</button>
-            )}
-                buttonText="Login" onSuccess={login} />
-        </div>
+        <GoogleLogin onSuccess={login} />
     );
 }
 
