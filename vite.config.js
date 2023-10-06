@@ -18,7 +18,7 @@ const manifestForPlugin = {
         sizes: '512x512',
       },
       {
-        src: 'https://res.cloudinary.com/diov69qe2/image/upload/v1696491836/xnx2shupccdjrdjnyy4h.png',
+        src: 'https://res.cloudinary.com/diov69qe2/image/upload/v1696569954/phusl965nwegcsaoykdx.png',
         type: 'image/png',
         sizes: '192x192',
       },
