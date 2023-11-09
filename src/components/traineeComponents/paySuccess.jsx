@@ -1,24 +1,43 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 function PaymentSuccess() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [countdown, setCountdown] = useState(5);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      if (countdown === 1) {
-        clearInterval(timer);
-        navigate('/myPlan');
-      } else {
-        setCountdown(countdown - 1);
-      }
-    }, 1000);
+    const searchParams = new URLSearchParams(location.search);
+    const userId = searchParams.get('userId');
+    const planId = searchParams.get('planId');
+    const startDate = searchParams.get('startDate');
 
-    return () => {
-      clearInterval(timer);
-    };
-  }, [countdown, navigate]);
+    if (!startDate || !userId || !planId) {
+      navigate('/myPlan');
+      return;
+    }
+
+    const currentTime = new Date();
+    const startTime = new Date(startDate);
+    const timeDifference = startTime - currentTime;
+
+    if (timeDifference <= 120000) {
+      const timer = setInterval(() => {
+        if (countdown === 1) {
+          clearInterval(timer);
+          navigate('/myPlan');
+        } else {
+          setCountdown(countdown - 1);
+        }
+      }, 1000);
+
+      return () => {
+        clearInterval(timer);
+      };
+    } else {
+      navigate('/myPlan');
+    }
+  }, [countdown, navigate, location]);
 
   return (
     <>
@@ -35,9 +54,14 @@ function PaymentSuccess() {
             <p className="text-gray-600 my-2">
               Thank you for completing your secure online payment.
             </p>
-            <p className='text-red-800'>Redirecting in {countdown} seconds...</p>
+            {countdown > 0 ? (
+              <p className='text-red-800'>Redirecting in {countdown} seconds...</p>
+            ) : (
+              <p className='text-red-800'>URL timeout. Redirecting to My Plan...</p>
+            )}
             <div className="py-10 text-center">
-              <p onClick={() => navigate('/myPlan')}
+              <p
+                onClick={() => navigate('/myPlan')}
                 className="px-12 cursor-pointer bg-black w3-animate-bottom hover:bg-gray-600 text-white font-semibold py-3 rounded-full inline-block"
               >
                 GO BACK
