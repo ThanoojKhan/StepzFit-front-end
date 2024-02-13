@@ -35,7 +35,7 @@ function ResetPassword() {
                 <div className="mt-7 w-full bg-white rounded-xl shadow-lg dark:bg-gray-800 dark:border-gray-700">
                     <div className="p-4 sm:p-7">
                         <div className="text-center">
-                            <h1 className="block text-2xl font-bold text-gray-800 dark:text-white">Enter new password</h1>
+                            <h1 className="block text-2xl font-bold text-gray-800 dark:text-white">Enter New Password</h1>
                         </div>
 
                         <div className="mt-5">
@@ -54,7 +54,7 @@ function ResetPassword() {
                                         </div>
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-bold ml-1 mb-2 dark:text-white">RePassword</label>
+                                        <label className="block text-sm font-bold ml-1 mb-2 dark:text-white">Confirm Password</label>
                                         <div className="relative">
                                             <input
                                                 type='password'
