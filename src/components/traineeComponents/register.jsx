@@ -26,9 +26,11 @@ function SignUp() {
     try {
       axiosInstance.post('/user/register', { name, email, phone, password }).then((res) => {
         if (res.data.message) {
-          toast.success(res.data.message)
-          navigate('/login')
-          setIsAdding(false)
+          toast.success(res.data.message);
+          setTimeout(() => {
+            navigate('/login');
+            setIsAdding(false);
+          }, 3000); 
         }
       }).catch((err) => {
         if (err) {
